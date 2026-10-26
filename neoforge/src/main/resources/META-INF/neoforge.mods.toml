@@ -7,7 +7,7 @@ license = "${mod_license}"
 modId = "${mod_id}"
 version = "${version}"
 displayName = "${mod_name}"
-authors = "ImBanana"
+authors = "ImBanana, Calicust"
 description = '''
 ${mod_description}
 '''

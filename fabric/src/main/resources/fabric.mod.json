@@ -5,7 +5,8 @@
     "name": "${mod_name}",
     "description": "${mod_description}",
     "authors": [
-        "ImBanana"
+        "ImBanana",
+        "Calicust"
     ],
     "contact": {
         "homepage": "https://modrinth.com/project/${modrinth_id}"
@@ -15,10 +16,10 @@
     "environment": "*",
     "entrypoints": {
         "main": [
-            "me.imbanana.modtemplate.fabric.ModtemplateFabric"
+            "me.imbanana.whatwemissed.fabric.WhatWeMissedFabric"
         ],
         "client": [
-            "me.imbanana.modtemplate.fabric.client.ModtemplateFabricClient"
+            "me.imbanana.whatwemissed.fabric.WhatWeMissedClientFabric"
         ]
     },
     "mixins": [
