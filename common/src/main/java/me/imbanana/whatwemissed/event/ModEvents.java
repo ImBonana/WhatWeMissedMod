@@ -26,7 +26,7 @@ public class ModEvents {
         if (itemInHand.is(Items.IRON_CHAIN) || Items.COPPER_CHAIN.asList().stream().anyMatch(itemInHand::is)) {
             if (firstCart != null && firstCart.isAlive()) {
                 if (!minecart.equals(firstCart)) {
-                    if (minecart.distanceTo(firstCart) < 2) {
+                    if (minecart.distanceTo(firstCart) < 3) {
                         boolean hasLinkFirst = firstCart.what_we_missed$hasLink();
                         boolean hasLinkMinecart = minecart.what_we_missed$hasLink();
 

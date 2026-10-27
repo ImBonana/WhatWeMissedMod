@@ -2,24 +2,31 @@ package me.imbanana.whatwemissed.mixin;
 
 import me.imbanana.whatwemissed.dataattachment.ModDataAttachmentTypes;
 import me.imbanana.whatwemissed.dataattachment.attachment.MinecartLinkData;
+import me.imbanana.whatwemissed.util.CustomMinecartBehavior;
 import me.imbanana.whatwemissed.util.IAbstractMinecart;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.vehicle.VehicleEntity;
 import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
+import net.minecraft.world.entity.vehicle.minecart.MinecartBehavior;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Optional;
 
 @Mixin(AbstractMinecart.class)
 public abstract class AbstractMinecartMixin extends VehicleEntity implements IAbstractMinecart {
+    @Mutable
+    @Shadow
+    @Final
+    private MinecartBehavior behavior;
+
     @Unique
     private static final double REST = 1.8;
     @Unique
@@ -35,9 +42,16 @@ public abstract class AbstractMinecartMixin extends VehicleEntity implements IAb
     @Unique
     private static final double BREAK_DIST = REST * 2.5;
 
-
     public AbstractMinecartMixin(EntityType<?> type, Level level) {
         super(type, level);
+    }
+
+    @Inject(
+            method = "<init>(Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/level/Level;)V",
+            at = @At("TAIL")
+    )
+    private void changeBehavior(EntityType type, Level level, CallbackInfo ci) {
+        this.behavior = new CustomMinecartBehavior((AbstractMinecart) (Object) this);
     }
 
     @Override
@@ -142,6 +156,16 @@ public abstract class AbstractMinecartMixin extends VehicleEntity implements IAb
         }
 
         cart.setDeltaMovement(vx, v.y, vz);
+    }
+
+    @Inject(method = "isFlipped", at = @At("HEAD"), cancellable = true)
+    private void what_we_missed$neverFlipped(CallbackInfoReturnable<Boolean> cir) {
+        cir.setReturnValue(false);
+    }
+
+    @Inject(method = "setFlipped", at = @At("HEAD"), cancellable = true)
+    private void what_we_missed$ignoreFlip(boolean flipped, CallbackInfo ci) {
+        ci.cancel();
     }
 }
 

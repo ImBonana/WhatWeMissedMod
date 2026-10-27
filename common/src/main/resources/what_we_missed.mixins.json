@@ -12,7 +12,8 @@
     ],
     "mixins": [
         "AbstractMinecartMixin",
-        "MinecartFurnaceMixin"
+        "MinecartFurnaceMixin",
+        "NewMinecartBehaviorMixin"
     ],
     "injectors": {
         "defaultRequire": 1

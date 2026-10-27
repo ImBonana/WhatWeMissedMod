@@ -1,7 +1,7 @@
 package me.imbanana.whatwemissed.mixin;
 
 import me.imbanana.whatwemissed.screen.minecartfurnace.MinecartFurnaceMenu;
-import me.imbanana.whatwemissed.util.FurnaceMinecartPushDirection;
+import me.imbanana.whatwemissed.util.MinecartMath;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
@@ -65,7 +65,7 @@ public abstract class MinecartFurnaceMixin extends AbstractMinecart implements C
     @Unique
     private boolean enabled = true;
     @Unique
-    private FurnaceMinecartPushDirection pushDirection = FurnaceMinecartPushDirection.FORWARD;
+    private Vec3 pushVector;
 
     @Unique
     private final ContainerData containerData = new ContainerData() {
@@ -75,7 +75,6 @@ public abstract class MinecartFurnaceMixin extends AbstractMinecart implements C
                 case 0 -> fuel;
                 case 1 -> totalFuel;
                 case 2 -> enabled ? 1 : 0;
-                case 3 -> pushDirection.getId();
                 default -> 0;
             };
         }
@@ -86,13 +85,12 @@ public abstract class MinecartFurnaceMixin extends AbstractMinecart implements C
                 case 0 -> fuel = value;
                 case 1 -> totalFuel = value;
                 case 2 -> enabled = value != 0;
-                case 3 -> pushDirection = FurnaceMinecartPushDirection.fromId(value);
             }
         }
 
         @Override
         public int getCount() {
-            return 4;
+            return 3;
         }
     };
 
@@ -163,7 +161,6 @@ public abstract class MinecartFurnaceMixin extends AbstractMinecart implements C
     private void addVehicleSavedData(ValueOutput output, CallbackInfo ci) {
         output.putShort("totalFuelTime", (short) this.totalFuel);
         output.putBoolean("isLit", this.enabled);
-        output.putInt("pushDirection", this.pushDirection.getId());
         this.addChestVehicleSaveData(output);
     }
 
@@ -174,7 +171,6 @@ public abstract class MinecartFurnaceMixin extends AbstractMinecart implements C
     private void readVehicleSavedData(ValueInput input, CallbackInfo ci) {
         this.totalFuel = input.getShortOr("totalFuelTime", (short) 0);
         this.enabled = input.getBooleanOr("isLit", true);
-        this.pushDirection = FurnaceMinecartPushDirection.fromId(input.getIntOr("pushDirection", FurnaceMinecartPushDirection.FORWARD.getId()));
         this.readChestVehicleSaveData(input);
     }
 
@@ -211,9 +207,7 @@ public abstract class MinecartFurnaceMixin extends AbstractMinecart implements C
             this.setHasFuel(isBurning);
 
             if (isBurning) {
-                this.push = Vec3.directionFromRotation(0f, this.getYRot() + 90f)
-                        .scale(this.pushDirection.getSign())
-                        .scale(0.1);
+                this.push = this.resolvePushVector().scale(0.1);
             } else {
                 this.push = Vec3.ZERO;
             }
@@ -266,5 +260,20 @@ public abstract class MinecartFurnaceMixin extends AbstractMinecart implements C
         ).create(Optional.empty());
 
         return ResolvableInt.getFromItem(fuelItem, DataComponents.COOKING_FUEL, CookingFuel::burnTime, lootContext, 0);
+    }
+
+    @Unique
+    private Vec3 resolvePushVector() {
+        Vec3 vel = this.getDeltaMovement().horizontal();
+
+        if (vel.lengthSqr() > 0.0009f) {
+            if (pushVector == null || pushVector.dot(vel) > 0) {
+                pushVector = vel.normalize();
+            }
+        } else {
+            pushVector = MinecartMath.forward(this).scale(-1);
+        }
+
+        return pushVector;
     }
 }

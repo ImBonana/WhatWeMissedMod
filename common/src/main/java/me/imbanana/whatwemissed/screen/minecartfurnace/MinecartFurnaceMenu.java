@@ -1,7 +1,6 @@
 package me.imbanana.whatwemissed.screen.minecartfurnace;
 
 import me.imbanana.whatwemissed.screen.ModMenuTypes;
-import me.imbanana.whatwemissed.util.FurnaceMinecartPushDirection;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -16,13 +15,13 @@ public class MinecartFurnaceMenu extends AbstractContainerMenu {
     private final ContainerData data;
 
     public MinecartFurnaceMenu(final int containerId, final Inventory inventory) {
-        this(containerId, inventory, new SimpleContainer(1), new SimpleContainerData(4));
+        this(containerId, inventory, new SimpleContainer(1), new SimpleContainerData(3));
     }
 
     public MinecartFurnaceMenu(final int containerId, final Inventory inventory, final Container container, final ContainerData data) {
         super(ModMenuTypes.MINECART_FURNACE.get(), containerId);
         checkContainerSize(container, 1);
-        checkContainerDataCount(data, 4);
+        checkContainerDataCount(data, 3);
         this.container = container;
         this.data = data;
 
@@ -41,14 +40,6 @@ public class MinecartFurnaceMenu extends AbstractContainerMenu {
         int currentFuel = this.data.get(0);
 
         return Math.clamp(currentFuel / (float) totalFuel, 0f, 1f);
-    }
-
-    public void setDirection(FurnaceMinecartPushDirection pushDirection) {
-        this.data.set(3, pushDirection.getId());
-    }
-
-    public FurnaceMinecartPushDirection getDirection() {
-        return FurnaceMinecartPushDirection.fromId(this.data.get(3));
     }
 
     @Override
