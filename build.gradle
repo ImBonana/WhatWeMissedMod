@@ -99,7 +99,7 @@ subprojects {
 
             inputs.properties projProperties
 
-            filesMatching(["META-INF/neoforge.mods.toml", "fabric.mod.json", "*.mixins.json", "architectury.common.json"]) {
+            filesMatching(["META-INF/neoforge.mods.toml", "fabric.mod.json", "*.mixins.json"]) {
                 expand projProperties
             }
         }

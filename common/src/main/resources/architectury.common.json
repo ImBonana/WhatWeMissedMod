@@ -1,6 +1,8 @@
 {
     "injected_interfaces": {
-
+        "net/minecraft/world/entity/vehicle/minecart/MinecartFurnace": [
+            "net/minecraft/world/entity/vehicle/ContainerEntity"
+        ]
     },
-    "accessWidener": "${mod_id}.accesswidener"
+    "accessWidener": "what_we_missed.accesswidener"
 }

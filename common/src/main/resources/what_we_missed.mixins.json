@@ -2,7 +2,6 @@
     "required": true,
     "package": "me.imbanana.whatwemissed.mixin",
     "compatibilityLevel": "JAVA_25",
-
     "minVersion": "0.8",
     "mixinextras": {
         "minVersion": "0.5.0"
@@ -10,6 +9,7 @@
     "client": [
     ],
     "mixins": [
+        "MinecartFurnaceMixin"
     ],
     "injectors": {
         "defaultRequire": 1
