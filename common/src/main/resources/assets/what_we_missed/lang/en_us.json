@@ -1,0 +1,7 @@
+{
+    "interaction.what_we_missed.minecart_select": "First minecart selected.",
+    "interaction.what_we_missed.minecart_deselect": "First minecart deselected.",
+    "interaction.what_we_missed.minecart_link": "Chained Minecarts.",
+    "interaction.what_we_missed.minecart_unlink": "Unchained Minecarts.",
+    "interaction.what_we_missed.minecart_distance": "The distance between minecarts is too large."
+}

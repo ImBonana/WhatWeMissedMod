@@ -213,7 +213,7 @@ public abstract class MinecartFurnaceMixin extends AbstractMinecart implements C
             if (isBurning) {
                 this.push = Vec3.directionFromRotation(0f, this.getYRot() + 90f)
                         .scale(this.pushDirection.getSign())
-                        .scale(0.25);
+                        .scale(0.1);
             } else {
                 this.push = Vec3.ZERO;
             }

@@ -1,16 +1,14 @@
 package me.imbanana.whatwemissed.fabric;
 
 import me.imbanana.whatwemissed.WhatWeMissed;
+import me.imbanana.whatwemissed.fabric.event.ModEventsFabric;
 import net.fabricmc.api.ModInitializer;
 
 public final class WhatWeMissedFabric implements ModInitializer {
     @Override
     public void onInitialize() {
-        // This code runs as soon as Minecraft is in a mod-load-ready state.
-        // However, some things (like resources) may still be uninitialized.
-        // Proceed with mild caution.
-
-        // Run our common setup.
         WhatWeMissed.init();
+
+        ModEventsFabric.init();
     }
 }

@@ -2,6 +2,12 @@
     "injected_interfaces": {
         "net/minecraft/world/entity/vehicle/minecart/MinecartFurnace": [
             "net/minecraft/world/entity/vehicle/ContainerEntity"
+        ],
+        "net/minecraft/world/entity/vehicle/minecart/AbstractMinecart:": [
+            "me/imbanana/whatwemissed/util/IAbstractMinecart"
+        ],
+        "net/minecraft/client/renderer/entity/state/MinecartRenderState": [
+            "me/imbanana/whatwemissed/util/IMinecartRenderState"
         ]
     },
     "accessWidener": "what_we_missed.accesswidener"

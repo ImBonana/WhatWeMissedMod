@@ -1,5 +1,7 @@
 package me.imbanana.whatwemissed;
 
+import me.imbanana.whatwemissed.dataattachment.ModAttachments;
+import me.imbanana.whatwemissed.dataattachment.ModDataAttachmentTypes;
 import me.imbanana.whatwemissed.network.ModNetwork;
 import me.imbanana.whatwemissed.screen.ModMenuTypes;
 import me.imbanana.whatwemissed.services.PlatformBootstrap;
@@ -20,9 +22,11 @@ public final class WhatWeMissed {
 
         ModNetwork.loadService(services.network());
         ModRegistry.loadService(services.registry());
+        ModAttachments.loadService(services.dataAttachment());
 
         ModNetwork.registerPayloads();
         ModMenuTypes.init();
+        ModDataAttachmentTypes.init();
     }
 
     public static Identifier ifOd(String path) {

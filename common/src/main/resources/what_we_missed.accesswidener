@@ -6,3 +6,5 @@ accessible class net/minecraft/client/gui/screens/MenuScreens$ScreenConstructor
 accessible method net/minecraft/world/inventory/MenuType <init> (Lnet/minecraft/world/inventory/MenuType$MenuSupplier;Lnet/minecraft/world/flag/FeatureFlagSet;)V
 
 inject-interface net/minecraft/world/entity/vehicle/minecart/MinecartFurnace net/minecraft/world/entity/vehicle/ContainerEntity
+inject-interface net/minecraft/world/entity/vehicle/minecart/AbstractMinecart me/imbanana/whatwemissed/util/IAbstractMinecart
+inject-interface net/minecraft/client/renderer/entity/state/MinecartRenderState me/imbanana/whatwemissed/util/IMinecartRenderState
