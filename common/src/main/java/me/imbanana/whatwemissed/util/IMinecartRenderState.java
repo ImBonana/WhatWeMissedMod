@@ -12,6 +12,6 @@ public interface IMinecartRenderState {
     default Vec3 what_we_missed$getLinkAnchorEnd() {
         return Vec3.ZERO;
     }
-    default void what_we_missed$setChainType(MinecartLinkManager.ChainType chainType) { };
-    default MinecartLinkManager.ChainType what_we_missed$getChainType() { return MinecartLinkManager.ChainType.IRON; };
+    default void what_we_missed$setChainType(MinecartLinkManager.ChainType chainType) { }
+    default MinecartLinkManager.ChainType what_we_missed$getChainType() { return MinecartLinkManager.ChainType.IRON; }
 }
