@@ -58,6 +58,9 @@ public abstract class MinecartFurnaceMixin extends AbstractMinecart implements C
     @Shadow
     protected abstract boolean hasFuel();
 
+    @Shadow
+    protected abstract Vec3 calculateNewPushAlong(Vec3 deltaMovement);
+
     private NonNullList<ItemStack> itemStacks = NonNullList.withSize(1, ItemStack.EMPTY);
 
     @Unique
@@ -65,7 +68,10 @@ public abstract class MinecartFurnaceMixin extends AbstractMinecart implements C
     @Unique
     private boolean enabled = true;
     @Unique
-    private Vec3 pushVector;
+    private double maxSpeed; // In b/t
+
+    @Unique
+    private AbstractMinecart cachedLinked;
 
     @Unique
     private final ContainerData containerData = new ContainerData() {
@@ -207,9 +213,11 @@ public abstract class MinecartFurnaceMixin extends AbstractMinecart implements C
             this.setHasFuel(isBurning);
 
             if (isBurning) {
-                this.push = this.resolvePushVector().scale(0.1);
+                this.push = this.getPushDirection();
+                this.maxSpeed = 1 / 20f;
             } else {
                 this.push = Vec3.ZERO;
+                this.maxSpeed = 0;
             }
         }
 
@@ -220,6 +228,77 @@ public abstract class MinecartFurnaceMixin extends AbstractMinecart implements C
         }
 
         ci.cancel();
+    }
+
+    @Unique
+    private Vec3 getPushDirection() {
+        Vec3 newPush = null;
+
+        Vec3 axis = MinecartMath.forward(this);
+
+        AbstractMinecart linkedCart = this.getLinkedCart();
+        if (linkedCart != null) {
+            Vec3 opposite = this.position().subtract(linkedCart.position());
+            double along = opposite.x() * opposite.x() + opposite.z() * opposite.z();
+
+            if (Math.abs(along) > 1.0E-3) {
+                newPush = axis.scale(Math.signum(along));
+            }
+        }
+
+        if (newPush == null && this.push.equals(Vec3.ZERO)) {
+            newPush = axis.scale(this.random.nextBoolean() ? 1 : -1);
+        }
+
+        return newPush == null ? this.push : newPush;
+    }
+
+    @Unique
+    private AbstractMinecart getLinkedCart() {
+        AbstractMinecart linked = this.what_we_missed$getLinkedEntity();
+        if (linked != null && linked.isAlive()) return linked;
+
+        if (cachedLinked == null || !cachedLinked.isAlive() || !cachedLinked.what_we_missed$isLinkedTo(this)) {
+            for (AbstractMinecart cart : this.level().getEntitiesOfClass(AbstractMinecart.class, this.getBoundingBox().inflate(8f))) {
+                if (!cart.equals(this) && cart.what_we_missed$isLinkedTo(cart)) {
+                    cachedLinked = cart;
+                    break;
+                }
+            }
+        }
+
+        return cachedLinked != null && cachedLinked.isAlive() && cachedLinked.what_we_missed$isLinkedTo(this) ? cachedLinked : null;
+    }
+
+    @Inject(
+            method = "applyNaturalSlowdown",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    private void applyMinecartSpeed(Vec3 deltaMovement, CallbackInfoReturnable<Vec3> cir) {
+        Vec3 newDeltaMovement;
+
+        if (push.length() > 1.0E-7) {
+            this.push = this.calculateNewPushAlong(deltaMovement);
+            newDeltaMovement = deltaMovement.multiply(1, 0.0, 1).add(this.push);
+
+            double before = deltaMovement.horizontalDistance();
+            double limit = Math.max(this.maxSpeed, before);
+            double after = newDeltaMovement.horizontalDistance();
+
+            if (after > limit) {
+                double s = limit / after;
+                newDeltaMovement = new Vec3(newDeltaMovement.x * s, 0.0, newDeltaMovement.z * s);
+            }
+
+            if (this.isInWater()) {
+                newDeltaMovement = newDeltaMovement.scale(0.1);
+            }
+        } else {
+            newDeltaMovement = deltaMovement.multiply(0.98, 0.0, 0.98);
+        }
+
+        cir.setReturnValue(super.applyNaturalSlowdown(newDeltaMovement));
     }
 
     @Unique
@@ -260,20 +339,5 @@ public abstract class MinecartFurnaceMixin extends AbstractMinecart implements C
         ).create(Optional.empty());
 
         return ResolvableInt.getFromItem(fuelItem, DataComponents.COOKING_FUEL, CookingFuel::burnTime, lootContext, 0);
-    }
-
-    @Unique
-    private Vec3 resolvePushVector() {
-        Vec3 vel = this.getDeltaMovement().horizontal();
-
-        if (vel.lengthSqr() > 0.0009f) {
-            if (pushVector == null || pushVector.dot(vel) > 0) {
-                pushVector = vel.normalize();
-            }
-        } else {
-            pushVector = MinecartMath.forward(this).scale(-1);
-        }
-
-        return pushVector;
     }
 }
