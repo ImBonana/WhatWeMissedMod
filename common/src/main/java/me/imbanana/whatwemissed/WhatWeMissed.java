@@ -3,6 +3,7 @@ package me.imbanana.whatwemissed;
 import me.imbanana.whatwemissed.dataattachment.ModAttachments;
 import me.imbanana.whatwemissed.dataattachment.ModDataAttachmentTypes;
 import me.imbanana.whatwemissed.network.ModNetwork;
+import me.imbanana.whatwemissed.registry.ModRegistry;
 import me.imbanana.whatwemissed.screen.ModMenuTypes;
 import me.imbanana.whatwemissed.services.PlatformBootstrap;
 import net.minecraft.resources.Identifier;

@@ -1,7 +1,15 @@
 package me.imbanana.whatwemissed.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import me.imbanana.whatwemissed.WhatWeMissed;
+import me.imbanana.whatwemissed.entity.ModEntityModelLayers;
+import me.imbanana.whatwemissed.entity.model.ModAbstractMinecartModel;
+import net.minecraft.client.model.Model;
+import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.AbstractMinecartRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -11,6 +19,7 @@ import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,14 +31,40 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(AbstractMinecartRenderer.class)
 public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, S extends MinecartRenderState> extends EntityRenderer<T, S> {
     @Unique
-    private static final double CART_HALF_LENGTH = 0.55;
+    private static final Identifier TEXTURE = WhatWeMissed.ifOd("textures/entity/minecart/minecart.png");
+
+    @Unique
+    private static final double CART_END_OFFSET = 0.55;
     @Unique
     private static final double HITCH_HEIGHT = 0.45;
     @Unique
     private static final float HALF_WIDTH = 1.5f / 16f;
 
+    @Unique
+    private ModAbstractMinecartModel newModel;
+
     protected AbstractMinecartRendererMixin(EntityRendererProvider.Context context) {
         super(context);
+    }
+
+    @Inject(
+            method = "<init>",
+            at = @At("TAIL")
+    )
+    private void createModel(EntityRendererProvider.Context context, ModelLayerLocation model, CallbackInfo ci) {
+        this.newModel = new ModAbstractMinecartModel(context.bakeLayer(ModEntityModelLayers.MINECART));
+    }
+
+    @WrapOperation(
+            method = "submit(Lnet/minecraft/client/renderer/entity/state/MinecartRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/level/CameraRenderState;)V",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/renderer/SubmitNodeCollector;submitModel(Lnet/minecraft/client/model/Model;Ljava/lang/Object;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/resources/Identifier;III)V"
+            )
+    )
+    private void changeMinecartModel(SubmitNodeCollector instance, Model model, Object o, PoseStack poseStack, Identifier identifier, int i, int j, int k, Operation<Void> original, @Local(argsOnly = true) S state) {
+        poseStack.translate(0, -1.211, 0);
+        instance.submitModel(this.newModel, state, poseStack, TEXTURE, state.lightCoords, OverlayTexture.NO_OVERLAY, state.outlineColor);
     }
 
     @Inject(
@@ -37,15 +72,15 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
             at = @At("TAIL")
     )
     private void renderLinkConnection(S state, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState camera, CallbackInfo ci) {
-        Vec3 offset = state.what_we_missed$getLinkPositionOffset();
-        if (offset == null) return;
+        Vec3 anchorStart = state.what_we_missed$getLinkAnchorStart();
+        Vec3 anchorEnd = state.what_we_missed$getLinkAnchorEnd();
+        if (anchorEnd == null || anchorStart == null) return;
 
-        double dist = offset.length();
-        double span = dist - CART_HALF_LENGTH * 2;
+        Vec3 delta = anchorEnd.subtract(anchorStart);
+        double span = delta.length();
         if (span <= 0.05) return;
 
-        Vec3 dir = offset.scale(1.0 / dist);
-        Vec3 start = dir.scale(CART_HALF_LENGTH).add(0, HITCH_HEIGHT, 0);
+        Vec3 dir = delta.scale(1f / span);
 
         Vec3 ref = Math.abs(dir.y) > 0.99 ? new Vec3(1, 0, 0) : new Vec3(0, 1, 0);
         Vec3 side1 = dir.cross(ref).normalize().scale(HALF_WIDTH);
@@ -59,8 +94,8 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
 
         collector.submitCustomGeometry(poseStack, RenderTypes.entityCutout(texture), (pose, buffer) -> {
             for (int i = 0; i < count; i++) {
-                Vec3 a = start.add(dir.scale(pieceLength * i));
-                Vec3 b = start.add(dir.scale(pieceLength * (i + 1)));
+                Vec3 a = anchorStart.add(dir.scale(pieceLength * i));
+                Vec3 b = anchorStart.add(dir.scale(pieceLength * (i + 1)));
 
                 quad(pose, buffer, a, b, side1, dir, 0f, 3f / 16f, light);
                 quad(pose, buffer, a, b, side2, dir, 0f, 3f / 16f, light);
@@ -100,9 +135,35 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
             at = @At("TAIL")
     )
     private void extractLinkRenderState(T entity, S state, float partialTicks, CallbackInfo ci) {
-        Vec3 otherPos = entity.what_we_missed$getLinkPosition(partialTicks);
+        if (entity.what_we_missed$hasLink()) {
+            AbstractMinecart other = entity.what_we_missed$getLinkedEntity();
 
-        state.what_we_missed$setLinkPositionOffset(otherPos != null ? otherPos.subtract(entity.getPosition(partialTicks)) : null);
+            Vec3 cartPos = entity.getPosition(partialTicks);
+            Vec3 otherPos = other.getPosition(partialTicks);
+
+            Vec3 cartAnchor = calculateAnchor(entity, otherPos.subtract(cartPos), partialTicks, CART_END_OFFSET);
+            Vec3 otherAnchor = calculateAnchor(other, cartPos.subtract(otherPos), partialTicks, CART_END_OFFSET);
+
+            state.what_we_missed$setLinkAnchorStart(cartAnchor.subtract(cartPos));
+            state.what_we_missed$setLinkAnchorEnd(otherAnchor.subtract(cartPos));
+        } else {
+            state.what_we_missed$setLinkAnchorStart(null);
+            state.what_we_missed$setLinkAnchorEnd(null);
+        }
+
         state.what_we_missed$setChainType(entity.what_we_missed$getChainType());
+    }
+
+    @Unique
+    private Vec3 calculateAnchor(AbstractMinecart minecart, Vec3 toward, float partialTick, double endOffset) {
+        float yRot = minecart.getYRot(partialTick);
+        double rads = Math.toRadians(yRot);
+        Vec3 forward = new Vec3(-Math.cos(rads), 0f, Math.sin(rads));
+
+        double sign = forward.dot(new Vec3(toward.x(), 0f, toward.z())) >= 0 ? 1 : -1;
+
+        return minecart.getPosition(partialTick)
+                .add(forward.scale(sign * endOffset))
+                .add(0, HITCH_HEIGHT, 0);
     }
 }

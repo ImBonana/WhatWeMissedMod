@@ -2,14 +2,17 @@ package me.imbanana.whatwemissed.mixin;
 
 import me.imbanana.whatwemissed.dataattachment.ModDataAttachmentTypes;
 import me.imbanana.whatwemissed.dataattachment.attachment.MinecartLinkData;
+import me.imbanana.whatwemissed.managers.minecart.MinecartLinkManager;
 import me.imbanana.whatwemissed.util.CustomMinecartBehavior;
 import me.imbanana.whatwemissed.util.IAbstractMinecart;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.vehicle.VehicleEntity;
 import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
 import net.minecraft.world.entity.vehicle.minecart.MinecartBehavior;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.*;
@@ -27,10 +30,13 @@ public abstract class AbstractMinecartMixin extends VehicleEntity implements IAb
     @Final
     private MinecartBehavior behavior;
 
+    @Shadow
+    public abstract void tick();
+
     @Unique
     private static final double REST = 1.8;
     @Unique
-    private static final double MIN_DIST = 1.4;
+    private static final double MIN_DIST = 2;
     @Unique
     private static final double STIFFNESS = 0.3;
     @Unique
@@ -55,12 +61,16 @@ public abstract class AbstractMinecartMixin extends VehicleEntity implements IAb
     }
 
     @Override
-    public void what_we_missed$link(AbstractMinecart minecart, MinecartLinkData.ChainType chainType) {
+    public void what_we_missed$link(AbstractMinecart minecart, MinecartLinkManager.ChainType chainType) {
         ModDataAttachmentTypes.MINECART_LINK.set(this, new MinecartLinkData(Optional.of(minecart.getUUID()), chainType));
     }
 
     @Override
     public void what_we_missed$unlink() {
+        if (this.level() instanceof ServerLevel level) {
+            this.spawnAtLocation(level, new ItemStack(what_we_missed$getChainType().getDropItem(), 1));
+        }
+
         ModDataAttachmentTypes.MINECART_LINK.remove(this);
     }
 
@@ -83,19 +93,13 @@ public abstract class AbstractMinecartMixin extends VehicleEntity implements IAb
     }
 
     @Override
-    public MinecartLinkData.ChainType what_we_missed$getChainType() {
+    public MinecartLinkManager.ChainType what_we_missed$getChainType() {
         return ModDataAttachmentTypes.MINECART_LINK.getOrCreate(this).chainType();
     }
 
     @Override
     public boolean what_we_missed$isLinkedTo(AbstractMinecart minecart) {
         return minecart.equals(this.what_we_missed$getLinkedEntity());
-    }
-
-    @Override
-    public Vec3 what_we_missed$getLinkPosition(float partialTick) {
-        AbstractMinecart minecart = this.what_we_missed$getLinkedEntity();
-        return minecart != null ? minecart.getPosition(partialTick) : null;
     }
 
     @Inject(

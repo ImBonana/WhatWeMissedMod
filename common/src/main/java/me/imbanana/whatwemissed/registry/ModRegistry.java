@@ -1,4 +1,4 @@
-package me.imbanana.whatwemissed;
+package me.imbanana.whatwemissed.registry;
 
 import me.imbanana.whatwemissed.services.RegistryService;
 import net.minecraft.core.Registry;

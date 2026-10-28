@@ -1,6 +1,6 @@
 package me.imbanana.whatwemissed.screen;
 
-import me.imbanana.whatwemissed.ModRegistry;
+import me.imbanana.whatwemissed.registry.ModRegistry;
 import me.imbanana.whatwemissed.WhatWeMissed;
 import me.imbanana.whatwemissed.screen.minecartfurnace.MinecartFurnaceMenu;
 import net.minecraft.core.registries.BuiltInRegistries;

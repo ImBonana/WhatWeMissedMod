@@ -1,7 +1,7 @@
 package me.imbanana.whatwemissed.neoforge.services.dataattchment;
 
 import com.mojang.serialization.Codec;
-import me.imbanana.whatwemissed.ModRegistry;
+import me.imbanana.whatwemissed.registry.ModRegistry;
 import me.imbanana.whatwemissed.services.dataattachment.DataAttachmentService;
 import me.imbanana.whatwemissed.services.dataattachment.EntityAttachment;
 import net.minecraft.network.RegistryFriendlyByteBuf;
