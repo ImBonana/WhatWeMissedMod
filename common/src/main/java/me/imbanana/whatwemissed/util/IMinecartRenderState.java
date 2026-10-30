@@ -1,6 +1,5 @@
 package me.imbanana.whatwemissed.util;
 
-import me.imbanana.whatwemissed.managers.minecart.MinecartLinkManager;
 import net.minecraft.world.phys.Vec3;
 
 public interface IMinecartRenderState {
@@ -12,6 +11,6 @@ public interface IMinecartRenderState {
     default Vec3 what_we_missed$getLinkAnchorEnd() {
         return Vec3.ZERO;
     }
-    default void what_we_missed$setChainType(MinecartLinkManager.ChainType chainType) { }
-    default MinecartLinkManager.ChainType what_we_missed$getChainType() { return MinecartLinkManager.ChainType.IRON; }
+    default void what_we_missed$setChainType(ChainType chainType) { }
+    default ChainType what_we_missed$getChainType() { return ChainType.IRON; }
 }

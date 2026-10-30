@@ -1,6 +1,6 @@
 package me.imbanana.whatwemissed.mixin;
 
-import me.imbanana.whatwemissed.managers.minecart.MinecartLinkManager;
+import me.imbanana.whatwemissed.util.ChainType;
 import me.imbanana.whatwemissed.util.IMinecartRenderState;
 import net.minecraft.client.renderer.entity.state.MinecartRenderState;
 import net.minecraft.world.phys.Vec3;
@@ -14,7 +14,7 @@ public abstract class MinecartRenderStateMixin implements IMinecartRenderState {
     @Unique
     private Vec3 what_we_missed$linkAnchorEnd;
     @Unique
-    private MinecartLinkManager.ChainType what_we_missed$chainType;
+    private ChainType what_we_missed$chainType;
 
     public void what_we_missed$setLinkAnchorStart(Vec3 position) {
         this.what_we_missed$linkAnchorStart = position;
@@ -35,12 +35,12 @@ public abstract class MinecartRenderStateMixin implements IMinecartRenderState {
     }
 
     @Override
-    public void what_we_missed$setChainType(MinecartLinkManager.ChainType chainType) {
+    public void what_we_missed$setChainType(ChainType chainType) {
         this.what_we_missed$chainType = chainType;
     }
 
     @Override
-    public MinecartLinkManager.ChainType what_we_missed$getChainType() {
+    public ChainType what_we_missed$getChainType() {
         return what_we_missed$chainType;
     }
 }

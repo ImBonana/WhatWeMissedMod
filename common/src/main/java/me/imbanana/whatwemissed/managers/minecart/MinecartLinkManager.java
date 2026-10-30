@@ -1,26 +1,18 @@
 package me.imbanana.whatwemissed.managers.minecart;
 
-import com.mojang.serialization.Codec;
-import io.netty.buffer.ByteBuf;
 import me.imbanana.whatwemissed.network.payload.LinkMinecartPayloadC2S;
 import me.imbanana.whatwemissed.network.payload.UnlinkMinecartPayloadC2S;
+import me.imbanana.whatwemissed.util.ChainType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.ByIdMap;
-import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-
-import java.util.Arrays;
 
 public class MinecartLinkManager {
     public static void handleLink(LinkMinecartPayloadC2S payload, ServerPlayer player) {
@@ -90,46 +82,4 @@ public class MinecartLinkManager {
         return null;
     }
 
-    public enum ChainType implements StringRepresentable {
-        IRON("iron", 0, Items.IRON_CHAIN),
-        COPPER("copper", 1, Items.COPPER_CHAIN.weathering().unaffected()),
-        COPPER_EXPOSED("exposed_copper", 2, Items.COPPER_CHAIN.weathering().exposed()),
-        COPPER_WEATHERED("weathered_copper", 3, Items.COPPER_CHAIN.weathering().weathered()),
-        COPPER_OXIDIZED("oxidized_copper", 4, Items.COPPER_CHAIN.weathering().oxidized());
-
-        public static final Codec<ChainType> CODEC = StringRepresentable.fromEnum(ChainType::values);
-        public static final StreamCodec<ByteBuf, ChainType> STREAM_CODEC = ByteBufCodecs.idMapper(
-                ByIdMap.continuous(
-                        ChainType::getId, values(), ByIdMap.OutOfBoundsStrategy.ZERO
-                ),
-                ChainType::getId
-        );
-
-        private final String name;
-        private final int id;
-        private final Item dropItem;
-
-        ChainType(String name, int id, Item dropItem) {
-            this.name = name;
-            this.id = id;
-            this.dropItem = dropItem;
-        }
-
-        @Override
-        public String getSerializedName() {
-            return this.name;
-        }
-
-        public Item getDropItem() {
-            return dropItem;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public static ChainType fromName(String name) {
-            return Arrays.stream(values()).filter(chainType -> chainType.name.equals(name)).findFirst().orElse(null);
-        }
-    }
 }

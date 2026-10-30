@@ -2,7 +2,7 @@ package me.imbanana.whatwemissed.mixin;
 
 import me.imbanana.whatwemissed.dataattachment.ModDataAttachmentTypes;
 import me.imbanana.whatwemissed.dataattachment.attachment.MinecartLinkData;
-import me.imbanana.whatwemissed.managers.minecart.MinecartLinkManager;
+import me.imbanana.whatwemissed.util.ChainType;
 import me.imbanana.whatwemissed.util.CustomMinecartBehavior;
 import me.imbanana.whatwemissed.util.IAbstractMinecart;
 import net.minecraft.server.level.ServerLevel;
@@ -61,7 +61,7 @@ public abstract class AbstractMinecartMixin extends VehicleEntity implements IAb
     }
 
     @Override
-    public void what_we_missed$link(AbstractMinecart minecart, MinecartLinkManager.ChainType chainType) {
+    public void what_we_missed$link(AbstractMinecart minecart, ChainType chainType) {
         ModDataAttachmentTypes.MINECART_LINK.set(this, new MinecartLinkData(Optional.of(minecart.getUUID()), chainType));
     }
 
@@ -93,7 +93,7 @@ public abstract class AbstractMinecartMixin extends VehicleEntity implements IAb
     }
 
     @Override
-    public MinecartLinkManager.ChainType what_we_missed$getChainType() {
+    public ChainType what_we_missed$getChainType() {
         return ModDataAttachmentTypes.MINECART_LINK.getOrCreate(this).chainType();
     }
 
