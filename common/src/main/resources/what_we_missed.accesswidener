@@ -4,7 +4,11 @@ accessible class net/minecraft/world/inventory/MenuType$MenuSupplier
 accessible class net/minecraft/client/gui/screens/MenuScreens$ScreenConstructor
 
 accessible method net/minecraft/world/inventory/MenuType <init> (Lnet/minecraft/world/inventory/MenuType$MenuSupplier;Lnet/minecraft/world/flag/FeatureFlagSet;)V
-accessible method net/minecraft/world/entity/vehicle/minecart/NewMinecartBehavior setRotation (FF)V
+accessible method net/minecraft/world/entity/vehicle/minecart/AbstractMinecart applyNaturalSlowdown (Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;
+accessible method net/minecraft/world/entity/vehicle/minecart/AbstractMinecart moveAlongTrack (Lnet/minecraft/server/level/ServerLevel;)V
+accessible method net/minecraft/world/entity/vehicle/minecart/AbstractMinecart makeStepAlongTrack (Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/properties/RailShape;D)D
+accessible method net/minecraft/world/entity/vehicle/minecart/AbstractMinecart comeOffTrack (Lnet/minecraft/server/level/ServerLevel;)V
+accessible method net/minecraft/world/entity/vehicle/minecart/AbstractMinecart getMaxSpeed (Lnet/minecraft/server/level/ServerLevel;)D
 
 inject-interface net/minecraft/world/entity/vehicle/minecart/MinecartFurnace net/minecraft/world/entity/vehicle/ContainerEntity
 inject-interface net/minecraft/world/entity/vehicle/minecart/AbstractMinecart me/imbanana/whatwemissed/util/IAbstractMinecart
