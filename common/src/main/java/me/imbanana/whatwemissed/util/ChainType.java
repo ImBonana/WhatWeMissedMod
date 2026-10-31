@@ -2,7 +2,6 @@ package me.imbanana.whatwemissed.util;
 
 import com.mojang.serialization.Codec;
 import io.netty.buffer.ByteBuf;
-import me.imbanana.whatwemissed.managers.minecart.MinecartLinkManager;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.ByIdMap;

@@ -1,7 +1,7 @@
 package me.imbanana.whatwemissed.screen.minecartfurnace;
 
+import me.imbanana.whatwemissed.item.ModDataComponents;
 import me.imbanana.whatwemissed.screen.ModMenuTypes;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -90,7 +90,7 @@ public class MinecartFurnaceMenu extends AbstractContainerMenu {
 
         @Override
         public boolean mayPlace(ItemStack itemStack) {
-            return itemStack.has(DataComponents.COOKING_FUEL);
+            return itemStack.has(ModDataComponents.MINECART_FURNACE_FUEL.get());
         }
 
         @Override
