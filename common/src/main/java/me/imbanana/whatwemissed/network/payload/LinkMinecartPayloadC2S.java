@@ -11,7 +11,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 
 public record LinkMinecartPayloadC2S(int firstCartId, int secondCartId, InteractionHand hand) implements CustomPacketPayload {
-    public static final Identifier ID = WhatWeMissed.ifOd("link_minecart");
+    public static final Identifier ID = WhatWeMissed.idOf("link_minecart");
     public static final Type<LinkMinecartPayloadC2S> TYPE = new Type<>(ID);
     public static final StreamCodec<FriendlyByteBuf, LinkMinecartPayloadC2S> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.VAR_INT,

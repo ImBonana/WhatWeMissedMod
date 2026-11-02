@@ -1,0 +1,12 @@
+{
+  "values": [
+    "what_we_missed:copper_rail",
+    "what_we_missed:exposed_copper_rail",
+    "what_we_missed:weathered_copper_rail",
+    "what_we_missed:oxidized_copper_rail",
+    "what_we_missed:waxed_copper_rail",
+    "what_we_missed:waxed_exposed_copper_rail",
+    "what_we_missed:waxed_weathered_copper_rail",
+    "what_we_missed:waxed_oxidized_copper_rail"
+  ]
+}

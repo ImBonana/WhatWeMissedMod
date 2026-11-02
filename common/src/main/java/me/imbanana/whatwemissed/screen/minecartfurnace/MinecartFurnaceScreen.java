@@ -10,7 +10,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 
 public class MinecartFurnaceScreen extends AbstractContainerScreen<MinecartFurnaceMenu> {
-    public static final Identifier CONTAINER_TEXTURE = WhatWeMissed.ifOd("textures/gui/container/minecart_furnace.png");
+    public static final Identifier CONTAINER_TEXTURE = WhatWeMissed.idOf("textures/gui/container/minecart_furnace.png");
     public static final Identifier LIT_PROGRESS_SPRITE = Identifier.withDefaultNamespace("container/furnace/lit_progress");
 
     public MinecartFurnaceScreen(MinecartFurnaceMenu menu, Inventory inventory, Component title) {

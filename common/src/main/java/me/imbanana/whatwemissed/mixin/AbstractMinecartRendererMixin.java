@@ -30,7 +30,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(AbstractMinecartRenderer.class)
 public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, S extends MinecartRenderState> extends EntityRenderer<T, S> {
     @Unique
-    private static final Identifier TEXTURE = WhatWeMissed.ifOd("textures/entity/minecart/minecart.png");
+    private static final Identifier TEXTURE = WhatWeMissed.idOf("textures/entity/minecart/minecart.png");
 
     @Unique
     private static final double CART_END_OFFSET = 0.55;

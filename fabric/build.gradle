@@ -6,6 +6,15 @@ architectury {
     fabric()
 }
 
+fabricApi {
+    configureDataGeneration() {
+        client = true
+        modId = project.mod_id
+        outputDirectory.set project(":common").file("src/main/generated")
+        addToResources = false
+    }
+}
+
 configurations {
     developmentFabric.extendsFrom common
 }

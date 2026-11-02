@@ -10,7 +10,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 
 public record UnlinkMinecartPayloadC2S(int cartId) implements CustomPacketPayload {
-    public static final Identifier ID = WhatWeMissed.ifOd("unlink_minecart");
+    public static final Identifier ID = WhatWeMissed.idOf("unlink_minecart");
     public static final Type<UnlinkMinecartPayloadC2S> TYPE = new Type<>(ID);
     public static final StreamCodec<FriendlyByteBuf, UnlinkMinecartPayloadC2S> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.VAR_INT,

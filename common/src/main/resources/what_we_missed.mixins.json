@@ -12,6 +12,7 @@
     ],
     "mixins": [
         "AbstractMinecartMixin",
+        "BaseRailBlockMixin",
         "MinecartFurnaceMixin"
     ],
     "injectors": {

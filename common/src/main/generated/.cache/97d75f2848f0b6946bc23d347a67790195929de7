@@ -1,0 +1,9 @@
+// 26.3	-999999999-01-01T00:00:00	What We Missed/Block Loot Tables
+fc384f222281ae99a252bd99dad59072a74fd195 data/what_we_missed/loot_table/blocks/copper_rail.json
+c93d3a6aff95ffdfde65fd7f6fd56f5a475d279b data/what_we_missed/loot_table/blocks/exposed_copper_rail.json
+4712eaf30cc501ba2da6b51117e10450627ba0ab data/what_we_missed/loot_table/blocks/oxidized_copper_rail.json
+f33a2da0dd5ff1a99ea56a93870c56b8c6a700dd data/what_we_missed/loot_table/blocks/waxed_copper_rail.json
+1a1865935fa3f38b407f4570b6196a1eb929722c data/what_we_missed/loot_table/blocks/waxed_exposed_copper_rail.json
+ef4dfba312f34b2c83a6218f99c29e7dfe28aaa8 data/what_we_missed/loot_table/blocks/waxed_oxidized_copper_rail.json
+17773121d6e6654c7cacc013bb2d632c9126ff3d data/what_we_missed/loot_table/blocks/waxed_weathered_copper_rail.json
+be1a00a003a0f4dff0490c3be114d35faf7f9cf1 data/what_we_missed/loot_table/blocks/weathered_copper_rail.json

@@ -18,7 +18,7 @@ public class ModDataComponents {
     );
 
     private static <T> Supplier<DataComponentType<T>> register(String name, Supplier<DataComponentType<T>> dataComponentType) {
-        return ModRegistry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, WhatWeMissed.ifOd(name), dataComponentType);
+        return ModRegistry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, WhatWeMissed.idOf(name), dataComponentType);
     }
 
     public static void init() { }

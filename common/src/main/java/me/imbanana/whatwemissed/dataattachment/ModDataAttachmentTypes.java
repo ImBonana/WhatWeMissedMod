@@ -7,7 +7,7 @@ import me.imbanana.whatwemissed.services.dataattachment.EntityAttachment;
 public class ModDataAttachmentTypes {
 
     public static final EntityAttachment<MinecartLinkData> MINECART_LINK = ModAttachments.syncedEntity(
-            WhatWeMissed.ifOd("minecart_link"),
+            WhatWeMissed.idOf("minecart_link"),
             MinecartLinkData.CODEC,
             MinecartLinkData.STREAM_CODEC,
             () -> MinecartLinkData.EMPTY

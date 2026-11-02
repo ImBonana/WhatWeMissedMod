@@ -1,0 +1,13 @@
+{
+    "values": {
+        "what_we_missed:copper_rail": {
+            "next_oxidation_stage": "what_we_missed:exposed_copper_rail"
+        },
+        "what_we_missed:exposed_copper_rail": {
+            "next_oxidation_stage": "what_we_missed:weathered_copper_rail"
+        },
+        "what_we_missed:weathered_copper_rail": {
+            "next_oxidation_stage": "what_we_missed:oxidized_copper_rail"
+        }
+    }
+}

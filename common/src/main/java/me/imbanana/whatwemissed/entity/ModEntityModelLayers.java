@@ -9,7 +9,7 @@ public class ModEntityModelLayers {
     public static final ModelLayerLocation MINECART = createMain("minecart");
 
     private static ModelLayerLocation createMain(String name) {
-        return new ModelLayerLocation(WhatWeMissed.ifOd(name), "main");
+        return new ModelLayerLocation(WhatWeMissed.idOf(name), "main");
     }
 
     public static void registerModelLayers() {

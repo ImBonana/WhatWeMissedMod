@@ -20,6 +20,9 @@
         ],
         "client": [
             "me.imbanana.whatwemissed.fabric.WhatWeMissedClientFabric"
+        ],
+        "fabric-datagen": [
+            "me.imbanana.whatwemissed.fabric.datagen.ModDataGenerator"
         ]
     },
     "mixins": [

@@ -17,7 +17,7 @@ public class ModMenuTypes {
             String name,
             MenuType.MenuSupplier<T> constructor
     ) {
-        return ModRegistry.register(BuiltInRegistries.MENU, WhatWeMissed.ifOd(name), () -> new MenuType<>(constructor, FeatureFlagSet.of()));
+        return ModRegistry.register(BuiltInRegistries.MENU, WhatWeMissed.idOf(name), () -> new MenuType<>(constructor, FeatureFlagSet.of()));
     }
 
     public static void init() { }

@@ -3,5 +3,16 @@
     "interaction.what_we_missed.minecart_deselect": "First minecart deselected.",
     "interaction.what_we_missed.minecart_link": "Chained Minecarts.",
     "interaction.what_we_missed.minecart_unlink": "Unchained Minecarts.",
-    "interaction.what_we_missed.minecart_distance": "The distance between minecarts is too large."
+    "interaction.what_we_missed.minecart_distance": "The distance between minecarts is too large.",
+
+    "creative_tab.what_we_missed": "What We Missed",
+
+    "block.what_we_missed.copper_rail": "Copper Rail",
+    "block.what_we_missed.exposed_copper_rail": "Exposed Copper Rail",
+    "block.what_we_missed.weathered_copper_rail": "Weathered Copper Rail",
+    "block.what_we_missed.oxidized_copper_rail": "Oxidized Copper Rail",
+    "block.what_we_missed.waxed_copper_rail": "Waxed Copper Rail",
+    "block.what_we_missed.waxed_exposed_copper_rail": "Waxed Exposed Copper Rail",
+    "block.what_we_missed.waxed_weathered_copper_rail": "Waxed Weathered Copper Rail",
+    "block.what_we_missed.waxed_oxidized_copper_rail": "Waxed Oxidized Copper Rail"
 }

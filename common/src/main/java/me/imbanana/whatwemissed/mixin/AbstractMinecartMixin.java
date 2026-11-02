@@ -1,5 +1,7 @@
 package me.imbanana.whatwemissed.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import me.imbanana.whatwemissed.dataattachment.ModDataAttachmentTypes;
 import me.imbanana.whatwemissed.dataattachment.attachment.MinecartLinkData;
 import me.imbanana.whatwemissed.util.ChainType;
@@ -170,6 +172,11 @@ public abstract class AbstractMinecartMixin extends VehicleEntity implements IAb
     @Inject(method = "setFlipped", at = @At("HEAD"), cancellable = true)
     private void what_we_missed$ignoreFlip(boolean flipped, CallbackInfo ci) {
         ci.cancel();
+    }
+
+    @WrapMethod(method = "useExperimentalMovement")
+    private static boolean useNewMovement(Level level, Operation<Boolean> original) {
+        return true;
     }
 }
 
