@@ -15,12 +15,13 @@ import java.util.function.Supplier;
 public class ModCreativeTabs {
     public static final ResourceKey<CreativeModeTab> MOD_TAB_KEY = createKey("what_we_missed");
 
-    public static final Supplier<CreativeModeTab> MOD_RAB = register(MOD_TAB_KEY, () -> CreativeModeTab.builder(null, -1)
+    public static final Supplier<CreativeModeTab> MOD_TAB = register(MOD_TAB_KEY, () -> CreativeModeTab.builder(null, -1)
             .icon(() -> new ItemStack(ModBlocks.COPPER_RAIL.waxed().unaffected()))
             .title(Component.translatable("creative_tab.what_we_missed"))
             .displayItems((parameters, output) -> {
                 ModBlocks.COPPER_RAIL.weathering().forEach(output::accept);
                 ModBlocks.COPPER_RAIL.waxed().forEach(output::accept);
+                output.accept(ModBlocks.RAIL_JUNCTION);
             })
             .build()
     );

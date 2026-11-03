@@ -1,6 +1,7 @@
 package me.imbanana.whatwemissed.fabric.datagen;
 
 import me.imbanana.whatwemissed.block.ModBlocks;
+import me.imbanana.whatwemissed.block.custom.RailJunctionBlock;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.client.data.models.BlockModelGenerators;
@@ -22,6 +23,7 @@ public class ModModelProvider extends FabricModelProvider {
     @Override
     public void generateBlockStateModels(BlockModelGenerators blockModelGenerators) {
         ModBlocks.COPPER_RAIL.zipUnwaxedWaxed((unwaxed, waxed) -> createCopperRail(blockModelGenerators, unwaxed, waxed));
+        createRailJunction(blockModelGenerators, ModBlocks.RAIL_JUNCTION);
     }
 
     @Override
@@ -53,5 +55,18 @@ public class ModModelProvider extends FabricModelProvider {
 
         blockModelGenerators.registerSimpleFlatItemModel(unwaxed);
         blockModelGenerators.itemModelOutput.copy(unwaxed.asItem(), waxed.asItem());
+    }
+
+    private static void createRailJunction(BlockModelGenerators blockModelGenerators, Block block) {
+        TextureMapping texture = TextureMapping.rail(block);
+        MultiVariant flat = BlockModelGenerators.plainVariant(ModelTemplates.RAIL_FLAT.create(block, texture, blockModelGenerators.modelOutput));
+
+        PropertyDispatch<MultiVariant> states = PropertyDispatch.initial(RailJunctionBlock.SHAPE)
+                .select(RailShape.NORTH_SOUTH, flat)
+                .select(RailShape.EAST_WEST, flat.with(BlockModelGenerators.Y_ROT_90));
+
+        blockModelGenerators.blockStateOutput.accept(MultiVariantGenerator.dispatch(block).with(states));
+
+        blockModelGenerators.registerSimpleFlatItemModel(block);
     }
 }

@@ -1,6 +1,7 @@
 package me.imbanana.whatwemissed.block;
 
 import me.imbanana.whatwemissed.block.custom.CopperRailBlock;
+import me.imbanana.whatwemissed.block.custom.RailJunctionBlock;
 import me.imbanana.whatwemissed.block.custom.WeatheringCopperRail;
 import me.imbanana.whatwemissed.registry.ModRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -12,13 +13,12 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 
-import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class ModBlocks {
     public static final WeatheringCopperCollection<Block> COPPER_RAIL = WeatheringCopperCollection.registerBlocks(
-            ModBlockItemIds.COPPER_RAIL, ModBlocks::registerEager, CopperRailBlock::new, WeatheringCopperRail::new, state -> {
+            ModBlockItemIds.COPPER_RAIL, ModBlocks::registerWithItem, CopperRailBlock::new, WeatheringCopperRail::new, state -> {
                 BlockBehaviour.Properties properties = BlockBehaviour.Properties.of();
                 MapColor mapColor = switch (state) {
                     case UNAFFECTED -> MapColor.COLOR_ORANGE;
@@ -34,32 +34,14 @@ public class ModBlocks {
                         .sound(SoundType.COPPER);
             }
     );
+    public static final Block RAIL_JUNCTION = registerWithItem(ModBlockItemIds.RAIL_JUNCTION, RailJunctionBlock::new, BlockBehaviour.Properties.of().noCollision().strength(0.7F).sound(SoundType.METAL));
 
-
-    public static List<WeatheringCopperCollection<Block>> registerWaxable() {
-        return List.of(
-                COPPER_RAIL
-        );
-    }
 
     private static Supplier<Block> register(ResourceKey<Block> id, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties properties) {
         return ModRegistry.register(BuiltInRegistries.BLOCK, id, () -> factory.apply(properties.setId(id)));
     }
 
-    private static Supplier<Block> register(BlockItemId id, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties properties) {
-        Supplier<Block> block = register(id.block(), factory, properties);
-        ModRegistry.register(BuiltInRegistries.ITEM, id.item(), () ->
-                new BlockItem(
-                        block.get(),
-                        new Item.Properties()
-                                .useBlockDescriptionPrefix()
-                                .setId(id.item())
-                )
-        );
-        return block;
-    }
-
-    private static Block registerEager(BlockItemId id, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties properties) {
+    private static Block registerWithItem(BlockItemId id, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties properties) {
         Block block = factory.apply(properties.setId(id.block()));
 
         ModRegistry.register(BuiltInRegistries.BLOCK, id.block(), () -> block);

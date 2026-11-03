@@ -1,10 +1,14 @@
 package me.imbanana.whatwemissed.util;
 
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
 import net.minecraft.world.entity.vehicle.minecart.NewMinecartBehavior;
+import net.minecraft.world.level.block.BaseRailBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.PoweredRailBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -14,6 +18,131 @@ import net.minecraft.world.phys.Vec3;
 public class CustomMinecartBehavior extends NewMinecartBehavior {
     public CustomMinecartBehavior(AbstractMinecart minecart) {
         super(minecart);
+    }
+
+    @Override
+    public void adjustToRails(final BlockPos targetBlockPos, final BlockState currentState, final boolean instant) {
+        if (BaseRailBlock.isRail(currentState)) {
+            RailShape shape = currentState.getValue(((BaseRailBlock)currentState.getBlock()).getShapeProperty());
+            Pair<Vec3i, Vec3i> exits = ((BaseRailBlock) currentState.getBlock()).getRailExits(this.getDeltaMovement(), shape);
+            Vec3 exit0 = new Vec3(exits.getFirst()).scale(0.5);
+            Vec3 exit1 = new Vec3(exits.getSecond()).scale(0.5);
+            Vec3 horizontalOutDirection = exit0.horizontal();
+            Vec3 horizontalInDirection = exit1.horizontal();
+            if (this.getDeltaMovement().length() > 1.0E-5F && this.getDeltaMovement().dot(horizontalOutDirection) < this.getDeltaMovement().dot(horizontalInDirection)
+                    || this.isDecending(horizontalInDirection, shape)) {
+                Vec3 swap = horizontalOutDirection;
+                horizontalOutDirection = horizontalInDirection;
+                horizontalInDirection = swap;
+            }
+
+            float yRot = 180.0F - (float)(Math.atan2(horizontalOutDirection.z, horizontalOutDirection.x) * 180.0 / Math.PI);
+            yRot += this.minecart.isFlipped() ? 180.0F : 0.0F;
+            Vec3 previousPosition = this.position();
+            boolean inCorner = exit0.x() != exit1.x() && exit0.z() != exit1.z();
+            Vec3 targetPosition;
+            if (inCorner) {
+                Vec3 from0to1 = exit1.subtract(exit0);
+                Vec3 from0toPos = previousPosition.subtract(Vec3.atBottomCenterOf(targetBlockPos)).subtract(exit0);
+                Vec3 travelVectorFrom0 = from0to1.scale(from0to1.dot(from0toPos) / from0to1.dot(from0to1));
+                targetPosition = Vec3.atBottomCenterOf(targetBlockPos).add(exit0).add(travelVectorFrom0);
+                yRot = 180.0F - (float)(Math.atan2(travelVectorFrom0.z, travelVectorFrom0.x) * 180.0 / Math.PI);
+                yRot += this.minecart.isFlipped() ? 180.0F : 0.0F;
+            } else {
+                boolean zSnap = exit0.subtract(exit1).x != 0.0;
+                boolean xSnap = exit0.subtract(exit1).z != 0.0;
+                targetPosition = new Vec3(
+                        xSnap ? Vec3.atCenterOf(targetBlockPos).x : previousPosition.x, targetBlockPos.getY(), zSnap ? Vec3.atCenterOf(targetBlockPos).z : previousPosition.z
+                );
+            }
+
+            Vec3 diffFromBlock = targetPosition.subtract(previousPosition);
+            this.setPos(previousPosition.add(diffFromBlock));
+            float xRot = 0.0F;
+            boolean inHill = exit0.y() != exit1.y();
+            if (inHill) {
+                Vec3 inPosition = Vec3.atBottomCenterOf(targetBlockPos).add(horizontalInDirection);
+                double horizontalDistanceFromIn = inPosition.distanceTo(this.position());
+                this.setPos(this.position().add(0.0, horizontalDistanceFromIn + 0.1, 0.0));
+                xRot = this.minecart.isFlipped() ? 45.0F : -45.0F;
+            } else {
+                this.setPos(this.position().add(0.0, 0.1, 0.0));
+            }
+
+            this.setRotation(yRot, xRot);
+            double adjustDistance = previousPosition.distanceTo(this.position());
+            if (adjustDistance > 0.0) {
+                this.lerpSteps
+                        .add(
+                                new NewMinecartBehavior.MinecartStep(this.position(), this.getDeltaMovement(), this.getYRot(), this.getXRot(), instant ? 0.0F : (float)adjustDistance)
+                        );
+            }
+        }
+    }
+
+    @Override
+    public double stepAlongTrack(final BlockPos pos, final RailShape shape, double movementLeft) {
+        if (movementLeft < 1.0E-5F) {
+            return 0.0;
+        }
+
+        Vec3 oldPosition = this.position();
+        BlockState railState = this.level().getBlockState(pos);
+        Pair<Vec3i, Vec3i> exits = ((BaseRailBlock) railState.getBlock()).getRailExits(this.getDeltaMovement(), shape);
+        Vec3i exit0 = exits.getFirst();
+        Vec3i exit1 = exits.getSecond();
+        Vec3 movement = this.getDeltaMovement().horizontal();
+        if (movement.length() < 1.0E-5F) {
+            this.setDeltaMovement(Vec3.ZERO);
+            return 0.0;
+        }
+
+        boolean inHill = exit0.getY() != exit1.getY();
+        Vec3 horizontalInDirection = new Vec3(exit1).scale(0.5).horizontal();
+        Vec3 horizontalOutDirection = new Vec3(exit0).scale(0.5).horizontal();
+        if (movement.dot(horizontalOutDirection) < movement.dot(horizontalInDirection)) {
+            horizontalOutDirection = horizontalInDirection;
+        }
+
+        Vec3 outPosition = Vec3.atBottomCenterOf(pos).add(horizontalOutDirection).add(0.0, 0.1, 0.0).add(horizontalOutDirection.normalize().scale(1.0E-5F));
+        if (inHill && !this.isDecending(movement, shape)) {
+            outPosition = outPosition.add(0.0, 1.0, 0.0);
+        }
+
+        Vec3 towardsOut = outPosition.subtract(this.position()).normalize();
+        movement = towardsOut.scale(movement.length() / towardsOut.horizontalDistance());
+        Vec3 newPosition = oldPosition.add(movement.normalize().scale(movementLeft * (inHill ? Mth.SQRT_OF_TWO : 1.0F)));
+        if (oldPosition.distanceToSqr(outPosition) <= oldPosition.distanceToSqr(newPosition)) {
+            movementLeft = outPosition.subtract(newPosition).horizontalDistance();
+            newPosition = outPosition;
+        } else {
+            movementLeft = 0.0;
+        }
+
+        this.minecart.move(MoverType.SELF, newPosition.subtract(oldPosition));
+        BlockState newBlockState = this.level().getBlockState(BlockPos.containing(newPosition));
+        if (inHill) {
+            if (BaseRailBlock.isRail(newBlockState)) {
+                RailShape newRailShape = newBlockState.getValue(((BaseRailBlock)newBlockState.getBlock()).getShapeProperty());
+                if (this.restAtVShape(shape, newRailShape)) {
+                    return 0.0;
+                }
+            }
+
+            double horizontalDistanceFromOut = outPosition.horizontal().distanceTo(this.position().horizontal());
+            double projectYPos = outPosition.y + (this.isDecending(movement, shape) ? horizontalDistanceFromOut : -horizontalDistanceFromOut);
+            if (this.position().y < projectYPos) {
+                this.setPos(this.position().x, projectYPos, this.position().z);
+            }
+        }
+
+        if (this.position().distanceTo(oldPosition) < 1.0E-5F && newPosition.distanceTo(oldPosition) > 1.0E-5F) {
+            this.setDeltaMovement(Vec3.ZERO);
+            return 0.0;
+        } else {
+            this.setDeltaMovement(movement);
+            return movementLeft;
+        }
     }
 
     @Override

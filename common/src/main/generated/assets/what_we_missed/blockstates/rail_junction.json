@@ -1,0 +1,11 @@
+{
+  "variants": {
+    "shape=east_west": {
+      "model": "what_we_missed:block/rail_junction",
+      "y": 90
+    },
+    "shape=north_south": {
+      "model": "what_we_missed:block/rail_junction"
+    }
+  }
+}
