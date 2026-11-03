@@ -2,7 +2,6 @@ package me.imbanana.whatwemissed.block.custom;
 
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.Vec3i;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
 import net.minecraft.world.level.block.BaseRailBlock;
 import net.minecraft.world.level.block.Block;

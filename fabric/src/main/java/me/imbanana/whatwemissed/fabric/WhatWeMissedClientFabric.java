@@ -1,7 +1,6 @@
 package me.imbanana.whatwemissed.fabric;
 
 import me.imbanana.whatwemissed.WhatWeMissedClient;
-import me.imbanana.whatwemissed.event.ModClientEvents;
 import me.imbanana.whatwemissed.fabric.event.ModClientEventsFabric;
 import me.imbanana.whatwemissed.screen.ModScreens;
 import net.fabricmc.api.ClientModInitializer;
