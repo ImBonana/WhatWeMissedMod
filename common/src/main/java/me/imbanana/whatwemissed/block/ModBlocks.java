@@ -1,7 +1,7 @@
 package me.imbanana.whatwemissed.block;
 
 import me.imbanana.whatwemissed.block.custom.CopperRailBlock;
-import me.imbanana.whatwemissed.block.custom.DirectionalPoweredRailBlock;
+import me.imbanana.whatwemissed.block.custom.DirectorRailBlock;
 import me.imbanana.whatwemissed.block.custom.RailJunctionBlock;
 import me.imbanana.whatwemissed.block.custom.WeatheringCopperRail;
 import me.imbanana.whatwemissed.registry.ModRegistry;
@@ -39,7 +39,7 @@ public class ModBlocks {
             ModBlockItemIds.RAIL_JUNCTION, RailJunctionBlock::new, BlockBehaviour.Properties.of().noCollision().strength(0.7F).sound(SoundType.METAL)
     );
     public static final Block DIRECTOR_RAIL = registerWithItem(
-            ModBlockItemIds.DIRECTOR_RAIL, DirectionalPoweredRailBlock::new, BlockBehaviour.Properties.of().noCollision().strength(0.7F).sound(SoundType.METAL)
+            ModBlockItemIds.DIRECTOR_RAIL, DirectorRailBlock::new, BlockBehaviour.Properties.of().noCollision().strength(0.7F).sound(SoundType.METAL)
     );
 
     private static Supplier<Block> register(ResourceKey<Block> id, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties properties) {
