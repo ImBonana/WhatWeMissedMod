@@ -1,6 +1,7 @@
 package me.imbanana.whatwemissed.block;
 
 import me.imbanana.whatwemissed.block.custom.CopperRailBlock;
+import me.imbanana.whatwemissed.block.custom.DirectionalPoweredRailBlock;
 import me.imbanana.whatwemissed.block.custom.RailJunctionBlock;
 import me.imbanana.whatwemissed.block.custom.WeatheringCopperRail;
 import me.imbanana.whatwemissed.registry.ModRegistry;
@@ -34,8 +35,12 @@ public class ModBlocks {
                         .sound(SoundType.COPPER);
             }
     );
-    public static final Block RAIL_JUNCTION = registerWithItem(ModBlockItemIds.RAIL_JUNCTION, RailJunctionBlock::new, BlockBehaviour.Properties.of().noCollision().strength(0.7F).sound(SoundType.METAL));
-
+    public static final Block RAIL_JUNCTION = registerWithItem(
+            ModBlockItemIds.RAIL_JUNCTION, RailJunctionBlock::new, BlockBehaviour.Properties.of().noCollision().strength(0.7F).sound(SoundType.METAL)
+    );
+    public static final Block DIRECTOR_RAIL = registerWithItem(
+            ModBlockItemIds.DIRECTOR_RAIL, DirectionalPoweredRailBlock::new, BlockBehaviour.Properties.of().noCollision().strength(0.7F).sound(SoundType.METAL)
+    );
 
     private static Supplier<Block> register(ResourceKey<Block> id, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties properties) {
         return ModRegistry.register(BuiltInRegistries.BLOCK, id, () -> factory.apply(properties.setId(id)));

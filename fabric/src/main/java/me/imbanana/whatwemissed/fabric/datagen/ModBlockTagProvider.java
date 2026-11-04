@@ -21,10 +21,12 @@ public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
     protected void addTags(HolderLookup.Provider registries) {
         this.builder(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(ModBlockItemIds.RAIL_JUNCTION)
+                .add(ModBlockItemIds.DIRECTOR_RAIL)
                 .addAll(toIds(ModBlockItemIds.COPPER_RAIL));
 
         this.builder(BlockTags.RAILS)
                 .add(ModBlockItemIds.RAIL_JUNCTION)
+                .add(ModBlockItemIds.DIRECTOR_RAIL)
                 .addAll(toIds(ModBlockItemIds.COPPER_RAIL));
     }
 

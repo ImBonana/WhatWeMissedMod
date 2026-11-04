@@ -16,5 +16,6 @@ public class ModBlockLootTableProvider extends FabricBlockLootSubProvider {
     public void generate() {
         ModBlocks.COPPER_RAIL.forEach(this::dropSelf);
         this.dropSelf(ModBlocks.RAIL_JUNCTION);
+        this.dropSelf(ModBlocks.DIRECTOR_RAIL);
     }
 }

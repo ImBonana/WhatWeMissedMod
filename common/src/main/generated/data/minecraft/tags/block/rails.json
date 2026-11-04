@@ -1,6 +1,7 @@
 {
   "values": [
     "what_we_missed:rail_junction",
+    "what_we_missed:director_rail",
     "what_we_missed:copper_rail",
     "what_we_missed:exposed_copper_rail",
     "what_we_missed:weathered_copper_rail",

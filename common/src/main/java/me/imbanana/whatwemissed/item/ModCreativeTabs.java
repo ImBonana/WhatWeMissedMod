@@ -22,6 +22,7 @@ public class ModCreativeTabs {
                 ModBlocks.COPPER_RAIL.weathering().forEach(output::accept);
                 ModBlocks.COPPER_RAIL.waxed().forEach(output::accept);
                 output.accept(ModBlocks.RAIL_JUNCTION);
+                output.accept(ModBlocks.DIRECTOR_RAIL);
             })
             .build()
     );

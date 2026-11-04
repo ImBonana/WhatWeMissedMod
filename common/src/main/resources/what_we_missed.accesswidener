@@ -10,6 +10,7 @@ accessible method net/minecraft/world/entity/vehicle/minecart/AbstractMinecart g
 accessible method net/minecraft/world/entity/vehicle/minecart/AbstractMinecart applyNaturalSlowdown (Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;
 accessible method net/minecraft/world/entity/vehicle/minecart/NewMinecartBehavior isDecending (Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/level/block/state/properties/RailShape;)Z
 accessible method net/minecraft/world/entity/vehicle/minecart/NewMinecartBehavior restAtVShape (Lnet/minecraft/world/level/block/state/properties/RailShape;Lnet/minecraft/world/level/block/state/properties/RailShape;)Z
+accessible method net/minecraft/world/level/block/PoweredRailBlock <init> (Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)V
 
 extendable method net/minecraft/world/entity/vehicle/minecart/NewMinecartBehavior setRotation (FF)V
 extendable method net/minecraft/world/entity/vehicle/minecart/NewMinecartBehavior calculateBoostTrackSpeed (Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)Lnet/minecraft/world/phys/Vec3;

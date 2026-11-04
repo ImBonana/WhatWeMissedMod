@@ -202,7 +202,19 @@ public class CustomMinecartBehavior extends NewMinecartBehavior {
             }
         }
 
+        if (trackIteration.firstIteration) {
+            newDeltaMovement = this.calculateTrackDirection(newDeltaMovement, currentState);
+        }
+
         return newDeltaMovement;
+    }
+
+    private Vec3 calculateTrackDirection(Vec3 deltaMovement, BlockState state) {
+        if (state.getBlock() instanceof IRailBlock railBlock && railBlock.getRailDirection(state).getDirection() != null) {
+            return railBlock.getRailDirection(state).getDirection().scale(deltaMovement.horizontalDistance()).add(0, deltaMovement.y(), 0);
+        }
+
+        return deltaMovement;
     }
 
     private Vec3 applyFriction(Vec3 deltaMovement, BlockState state) {
