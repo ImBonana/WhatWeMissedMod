@@ -82,4 +82,9 @@ public class DirectorRailBlock extends PoweredRailBlock implements IDirectionalR
         super.createBlockStateDefinition(builder);
         this.createDirectionBlockStateDefinition(builder);
     }
+
+    // Fixing the neoforge class
+    public boolean isActivatorRail() {
+        return false;
+    }
 }
