@@ -9,6 +9,7 @@ public class ModBlockItemIds {
     public static final WeatheringCopperCollection<BlockItemId> COPPER_RAIL = createSimpleCopper("copper_rail");
     public static final BlockItemId RAIL_JUNCTION = create("rail_junction");
     public static final BlockItemId DIRECTOR_RAIL = create("director_rail");
+    public static final BlockItemId CONVEYOR_RAIL = create("conveyor_rail");
 
     private static BlockItemId create(String name) {
         Identifier id = WhatWeMissed.idOf(name);

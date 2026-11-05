@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_rail_raised_ne",
+  "textures": {
+    "rail": "what_we_missed:block/conveyor_rail_12"
+  }
+}

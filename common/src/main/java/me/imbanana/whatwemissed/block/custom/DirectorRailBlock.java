@@ -9,8 +9,6 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.Property;
-import net.minecraft.world.level.block.state.properties.RailShape;
 
 public class DirectorRailBlock extends PoweredRailBlock implements IDirectionalRailBlock {
     public DirectorRailBlock(BlockBehaviour.Properties properties) {
@@ -40,7 +38,7 @@ public class DirectorRailBlock extends PoweredRailBlock implements IDirectionalR
     @Override
     protected void updateState(BlockState state, Level level, BlockPos pos, Block block) {
         super.updateState(state, level, pos, block);
-        this.realign(level, pos);
+        this.realign(this, level, pos);
     }
 
     @Override
@@ -57,10 +55,5 @@ public class DirectorRailBlock extends PoweredRailBlock implements IDirectionalR
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         this.createDirectionBlockStateDefinition(builder);
-    }
-
-    @Override
-    public Property<RailShape> shapeProperty() {
-        return this.getShapeProperty();
     }
 }

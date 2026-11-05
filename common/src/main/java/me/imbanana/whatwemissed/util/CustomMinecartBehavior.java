@@ -204,9 +204,18 @@ public class CustomMinecartBehavior extends NewMinecartBehavior {
 
         if (trackIteration.firstIteration) {
             newDeltaMovement = this.calculateTrackDirection(newDeltaMovement, currentState);
+            newDeltaMovement = this.calculateTrackDeltaMovementModifier(newDeltaMovement, currentState);
         }
 
         return newDeltaMovement;
+    }
+
+    private Vec3 calculateTrackDeltaMovementModifier(Vec3 deltaMovement, BlockState state) {
+        if (state.getBlock() instanceof IRailBlock railBlock) {
+            return railBlock.calculateDeltaMovement(deltaMovement, state);
+        }
+
+        return deltaMovement;
     }
 
     private Vec3 calculateTrackDirection(Vec3 deltaMovement, BlockState state) {

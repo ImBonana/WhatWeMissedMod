@@ -21,6 +21,10 @@ public interface IRailBlock {
         return RailDirection.FREESTYLE;
     }
 
+    default Vec3 calculateDeltaMovement(Vec3 deltaMovement, BlockState state) {
+        return deltaMovement;
+    }
+
     enum RailDirection {
         NORTH(Direction.Axis.Z.getPositive().getUnitVec3()),
         SOUTH(Direction.Axis.Z.getNegative().getUnitVec3()),

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/rail_flat",
+  "textures": {
+    "rail": "what_we_missed:block/conveyor_rail_12"
+  }
+}

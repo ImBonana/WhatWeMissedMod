@@ -1,0 +1,1380 @@
+{
+  "variants": {
+    "facing=east,shape=ascending_east,speed=0": {
+      "model": "what_we_missed:block/conveyor_rail_0_raised_ne",
+      "y": 90
+    },
+    "facing=east,shape=ascending_east,speed=1": {
+      "model": "what_we_missed:block/conveyor_rail_1_raised_ne",
+      "y": 90
+    },
+    "facing=east,shape=ascending_east,speed=10": {
+      "model": "what_we_missed:block/conveyor_rail_10_raised_ne",
+      "y": 90
+    },
+    "facing=east,shape=ascending_east,speed=11": {
+      "model": "what_we_missed:block/conveyor_rail_11_raised_ne",
+      "y": 90
+    },
+    "facing=east,shape=ascending_east,speed=12": {
+      "model": "what_we_missed:block/conveyor_rail_12_raised_ne",
+      "y": 90
+    },
+    "facing=east,shape=ascending_east,speed=13": {
+      "model": "what_we_missed:block/conveyor_rail_13_raised_ne",
+      "y": 90
+    },
+    "facing=east,shape=ascending_east,speed=14": {
+      "model": "what_we_missed:block/conveyor_rail_14_raised_ne",
+      "y": 90
+    },
+    "facing=east,shape=ascending_east,speed=15": {
+      "model": "what_we_missed:block/conveyor_rail_15_raised_ne",
+      "y": 90
+    },
+    "facing=east,shape=ascending_east,speed=2": {
+      "model": "what_we_missed:block/conveyor_rail_2_raised_ne",
+      "y": 90
+    },
+    "facing=east,shape=ascending_east,speed=3": {
+      "model": "what_we_missed:block/conveyor_rail_3_raised_ne",
+      "y": 90
+    },
+    "facing=east,shape=ascending_east,speed=4": {
+      "model": "what_we_missed:block/conveyor_rail_4_raised_ne",
+      "y": 90
+    },
+    "facing=east,shape=ascending_east,speed=5": {
+      "model": "what_we_missed:block/conveyor_rail_5_raised_ne",
+      "y": 90
+    },
+    "facing=east,shape=ascending_east,speed=6": {
+      "model": "what_we_missed:block/conveyor_rail_6_raised_ne",
+      "y": 90
+    },
+    "facing=east,shape=ascending_east,speed=7": {
+      "model": "what_we_missed:block/conveyor_rail_7_raised_ne",
+      "y": 90
+    },
+    "facing=east,shape=ascending_east,speed=8": {
+      "model": "what_we_missed:block/conveyor_rail_8_raised_ne",
+      "y": 90
+    },
+    "facing=east,shape=ascending_east,speed=9": {
+      "model": "what_we_missed:block/conveyor_rail_9_raised_ne",
+      "y": 90
+    },
+    "facing=east,shape=ascending_north,speed=0": {
+      "model": "what_we_missed:block/conveyor_rail_0_raised_ne"
+    },
+    "facing=east,shape=ascending_north,speed=1": {
+      "model": "what_we_missed:block/conveyor_rail_1_raised_ne"
+    },
+    "facing=east,shape=ascending_north,speed=10": {
+      "model": "what_we_missed:block/conveyor_rail_10_raised_ne"
+    },
+    "facing=east,shape=ascending_north,speed=11": {
+      "model": "what_we_missed:block/conveyor_rail_11_raised_ne"
+    },
+    "facing=east,shape=ascending_north,speed=12": {
+      "model": "what_we_missed:block/conveyor_rail_12_raised_ne"
+    },
+    "facing=east,shape=ascending_north,speed=13": {
+      "model": "what_we_missed:block/conveyor_rail_13_raised_ne"
+    },
+    "facing=east,shape=ascending_north,speed=14": {
+      "model": "what_we_missed:block/conveyor_rail_14_raised_ne"
+    },
+    "facing=east,shape=ascending_north,speed=15": {
+      "model": "what_we_missed:block/conveyor_rail_15_raised_ne"
+    },
+    "facing=east,shape=ascending_north,speed=2": {
+      "model": "what_we_missed:block/conveyor_rail_2_raised_ne"
+    },
+    "facing=east,shape=ascending_north,speed=3": {
+      "model": "what_we_missed:block/conveyor_rail_3_raised_ne"
+    },
+    "facing=east,shape=ascending_north,speed=4": {
+      "model": "what_we_missed:block/conveyor_rail_4_raised_ne"
+    },
+    "facing=east,shape=ascending_north,speed=5": {
+      "model": "what_we_missed:block/conveyor_rail_5_raised_ne"
+    },
+    "facing=east,shape=ascending_north,speed=6": {
+      "model": "what_we_missed:block/conveyor_rail_6_raised_ne"
+    },
+    "facing=east,shape=ascending_north,speed=7": {
+      "model": "what_we_missed:block/conveyor_rail_7_raised_ne"
+    },
+    "facing=east,shape=ascending_north,speed=8": {
+      "model": "what_we_missed:block/conveyor_rail_8_raised_ne"
+    },
+    "facing=east,shape=ascending_north,speed=9": {
+      "model": "what_we_missed:block/conveyor_rail_9_raised_ne"
+    },
+    "facing=east,shape=ascending_south,speed=0": {
+      "model": "what_we_missed:block/conveyor_rail_0_raised_sw"
+    },
+    "facing=east,shape=ascending_south,speed=1": {
+      "model": "what_we_missed:block/conveyor_rail_1_raised_sw"
+    },
+    "facing=east,shape=ascending_south,speed=10": {
+      "model": "what_we_missed:block/conveyor_rail_10_raised_sw"
+    },
+    "facing=east,shape=ascending_south,speed=11": {
+      "model": "what_we_missed:block/conveyor_rail_11_raised_sw"
+    },
+    "facing=east,shape=ascending_south,speed=12": {
+      "model": "what_we_missed:block/conveyor_rail_12_raised_sw"
+    },
+    "facing=east,shape=ascending_south,speed=13": {
+      "model": "what_we_missed:block/conveyor_rail_13_raised_sw"
+    },
+    "facing=east,shape=ascending_south,speed=14": {
+      "model": "what_we_missed:block/conveyor_rail_14_raised_sw"
+    },
+    "facing=east,shape=ascending_south,speed=15": {
+      "model": "what_we_missed:block/conveyor_rail_15_raised_sw"
+    },
+    "facing=east,shape=ascending_south,speed=2": {
+      "model": "what_we_missed:block/conveyor_rail_2_raised_sw"
+    },
+    "facing=east,shape=ascending_south,speed=3": {
+      "model": "what_we_missed:block/conveyor_rail_3_raised_sw"
+    },
+    "facing=east,shape=ascending_south,speed=4": {
+      "model": "what_we_missed:block/conveyor_rail_4_raised_sw"
+    },
+    "facing=east,shape=ascending_south,speed=5": {
+      "model": "what_we_missed:block/conveyor_rail_5_raised_sw"
+    },
+    "facing=east,shape=ascending_south,speed=6": {
+      "model": "what_we_missed:block/conveyor_rail_6_raised_sw"
+    },
+    "facing=east,shape=ascending_south,speed=7": {
+      "model": "what_we_missed:block/conveyor_rail_7_raised_sw"
+    },
+    "facing=east,shape=ascending_south,speed=8": {
+      "model": "what_we_missed:block/conveyor_rail_8_raised_sw"
+    },
+    "facing=east,shape=ascending_south,speed=9": {
+      "model": "what_we_missed:block/conveyor_rail_9_raised_sw"
+    },
+    "facing=east,shape=ascending_west,speed=0": {
+      "model": "what_we_missed:block/conveyor_rail_0_raised_sw",
+      "y": 90
+    },
+    "facing=east,shape=ascending_west,speed=1": {
+      "model": "what_we_missed:block/conveyor_rail_1_raised_sw",
+      "y": 90
+    },
+    "facing=east,shape=ascending_west,speed=10": {
+      "model": "what_we_missed:block/conveyor_rail_10_raised_sw",
+      "y": 90
+    },
+    "facing=east,shape=ascending_west,speed=11": {
+      "model": "what_we_missed:block/conveyor_rail_11_raised_sw",
+      "y": 90
+    },
+    "facing=east,shape=ascending_west,speed=12": {
+      "model": "what_we_missed:block/conveyor_rail_12_raised_sw",
+      "y": 90
+    },
+    "facing=east,shape=ascending_west,speed=13": {
+      "model": "what_we_missed:block/conveyor_rail_13_raised_sw",
+      "y": 90
+    },
+    "facing=east,shape=ascending_west,speed=14": {
+      "model": "what_we_missed:block/conveyor_rail_14_raised_sw",
+      "y": 90
+    },
+    "facing=east,shape=ascending_west,speed=15": {
+      "model": "what_we_missed:block/conveyor_rail_15_raised_sw",
+      "y": 90
+    },
+    "facing=east,shape=ascending_west,speed=2": {
+      "model": "what_we_missed:block/conveyor_rail_2_raised_sw",
+      "y": 90
+    },
+    "facing=east,shape=ascending_west,speed=3": {
+      "model": "what_we_missed:block/conveyor_rail_3_raised_sw",
+      "y": 90
+    },
+    "facing=east,shape=ascending_west,speed=4": {
+      "model": "what_we_missed:block/conveyor_rail_4_raised_sw",
+      "y": 90
+    },
+    "facing=east,shape=ascending_west,speed=5": {
+      "model": "what_we_missed:block/conveyor_rail_5_raised_sw",
+      "y": 90
+    },
+    "facing=east,shape=ascending_west,speed=6": {
+      "model": "what_we_missed:block/conveyor_rail_6_raised_sw",
+      "y": 90
+    },
+    "facing=east,shape=ascending_west,speed=7": {
+      "model": "what_we_missed:block/conveyor_rail_7_raised_sw",
+      "y": 90
+    },
+    "facing=east,shape=ascending_west,speed=8": {
+      "model": "what_we_missed:block/conveyor_rail_8_raised_sw",
+      "y": 90
+    },
+    "facing=east,shape=ascending_west,speed=9": {
+      "model": "what_we_missed:block/conveyor_rail_9_raised_sw",
+      "y": 90
+    },
+    "facing=east,shape=east_west,speed=0": {
+      "model": "what_we_missed:block/conveyor_rail_0",
+      "y": 90
+    },
+    "facing=east,shape=east_west,speed=1": {
+      "model": "what_we_missed:block/conveyor_rail_1",
+      "y": 90
+    },
+    "facing=east,shape=east_west,speed=10": {
+      "model": "what_we_missed:block/conveyor_rail_10",
+      "y": 90
+    },
+    "facing=east,shape=east_west,speed=11": {
+      "model": "what_we_missed:block/conveyor_rail_11",
+      "y": 90
+    },
+    "facing=east,shape=east_west,speed=12": {
+      "model": "what_we_missed:block/conveyor_rail_12",
+      "y": 90
+    },
+    "facing=east,shape=east_west,speed=13": {
+      "model": "what_we_missed:block/conveyor_rail_13",
+      "y": 90
+    },
+    "facing=east,shape=east_west,speed=14": {
+      "model": "what_we_missed:block/conveyor_rail_14",
+      "y": 90
+    },
+    "facing=east,shape=east_west,speed=15": {
+      "model": "what_we_missed:block/conveyor_rail_15",
+      "y": 90
+    },
+    "facing=east,shape=east_west,speed=2": {
+      "model": "what_we_missed:block/conveyor_rail_2",
+      "y": 90
+    },
+    "facing=east,shape=east_west,speed=3": {
+      "model": "what_we_missed:block/conveyor_rail_3",
+      "y": 90
+    },
+    "facing=east,shape=east_west,speed=4": {
+      "model": "what_we_missed:block/conveyor_rail_4",
+      "y": 90
+    },
+    "facing=east,shape=east_west,speed=5": {
+      "model": "what_we_missed:block/conveyor_rail_5",
+      "y": 90
+    },
+    "facing=east,shape=east_west,speed=6": {
+      "model": "what_we_missed:block/conveyor_rail_6",
+      "y": 90
+    },
+    "facing=east,shape=east_west,speed=7": {
+      "model": "what_we_missed:block/conveyor_rail_7",
+      "y": 90
+    },
+    "facing=east,shape=east_west,speed=8": {
+      "model": "what_we_missed:block/conveyor_rail_8",
+      "y": 90
+    },
+    "facing=east,shape=east_west,speed=9": {
+      "model": "what_we_missed:block/conveyor_rail_9",
+      "y": 90
+    },
+    "facing=east,shape=north_south,speed=0": {
+      "model": "what_we_missed:block/conveyor_rail_0",
+      "y": 90
+    },
+    "facing=east,shape=north_south,speed=1": {
+      "model": "what_we_missed:block/conveyor_rail_1",
+      "y": 90
+    },
+    "facing=east,shape=north_south,speed=10": {
+      "model": "what_we_missed:block/conveyor_rail_10",
+      "y": 90
+    },
+    "facing=east,shape=north_south,speed=11": {
+      "model": "what_we_missed:block/conveyor_rail_11",
+      "y": 90
+    },
+    "facing=east,shape=north_south,speed=12": {
+      "model": "what_we_missed:block/conveyor_rail_12",
+      "y": 90
+    },
+    "facing=east,shape=north_south,speed=13": {
+      "model": "what_we_missed:block/conveyor_rail_13",
+      "y": 90
+    },
+    "facing=east,shape=north_south,speed=14": {
+      "model": "what_we_missed:block/conveyor_rail_14",
+      "y": 90
+    },
+    "facing=east,shape=north_south,speed=15": {
+      "model": "what_we_missed:block/conveyor_rail_15",
+      "y": 90
+    },
+    "facing=east,shape=north_south,speed=2": {
+      "model": "what_we_missed:block/conveyor_rail_2",
+      "y": 90
+    },
+    "facing=east,shape=north_south,speed=3": {
+      "model": "what_we_missed:block/conveyor_rail_3",
+      "y": 90
+    },
+    "facing=east,shape=north_south,speed=4": {
+      "model": "what_we_missed:block/conveyor_rail_4",
+      "y": 90
+    },
+    "facing=east,shape=north_south,speed=5": {
+      "model": "what_we_missed:block/conveyor_rail_5",
+      "y": 90
+    },
+    "facing=east,shape=north_south,speed=6": {
+      "model": "what_we_missed:block/conveyor_rail_6",
+      "y": 90
+    },
+    "facing=east,shape=north_south,speed=7": {
+      "model": "what_we_missed:block/conveyor_rail_7",
+      "y": 90
+    },
+    "facing=east,shape=north_south,speed=8": {
+      "model": "what_we_missed:block/conveyor_rail_8",
+      "y": 90
+    },
+    "facing=east,shape=north_south,speed=9": {
+      "model": "what_we_missed:block/conveyor_rail_9",
+      "y": 90
+    },
+    "facing=north,shape=ascending_east,speed=0": {
+      "model": "what_we_missed:block/conveyor_rail_0_raised_ne",
+      "y": 90
+    },
+    "facing=north,shape=ascending_east,speed=1": {
+      "model": "what_we_missed:block/conveyor_rail_1_raised_ne",
+      "y": 90
+    },
+    "facing=north,shape=ascending_east,speed=10": {
+      "model": "what_we_missed:block/conveyor_rail_10_raised_ne",
+      "y": 90
+    },
+    "facing=north,shape=ascending_east,speed=11": {
+      "model": "what_we_missed:block/conveyor_rail_11_raised_ne",
+      "y": 90
+    },
+    "facing=north,shape=ascending_east,speed=12": {
+      "model": "what_we_missed:block/conveyor_rail_12_raised_ne",
+      "y": 90
+    },
+    "facing=north,shape=ascending_east,speed=13": {
+      "model": "what_we_missed:block/conveyor_rail_13_raised_ne",
+      "y": 90
+    },
+    "facing=north,shape=ascending_east,speed=14": {
+      "model": "what_we_missed:block/conveyor_rail_14_raised_ne",
+      "y": 90
+    },
+    "facing=north,shape=ascending_east,speed=15": {
+      "model": "what_we_missed:block/conveyor_rail_15_raised_ne",
+      "y": 90
+    },
+    "facing=north,shape=ascending_east,speed=2": {
+      "model": "what_we_missed:block/conveyor_rail_2_raised_ne",
+      "y": 90
+    },
+    "facing=north,shape=ascending_east,speed=3": {
+      "model": "what_we_missed:block/conveyor_rail_3_raised_ne",
+      "y": 90
+    },
+    "facing=north,shape=ascending_east,speed=4": {
+      "model": "what_we_missed:block/conveyor_rail_4_raised_ne",
+      "y": 90
+    },
+    "facing=north,shape=ascending_east,speed=5": {
+      "model": "what_we_missed:block/conveyor_rail_5_raised_ne",
+      "y": 90
+    },
+    "facing=north,shape=ascending_east,speed=6": {
+      "model": "what_we_missed:block/conveyor_rail_6_raised_ne",
+      "y": 90
+    },
+    "facing=north,shape=ascending_east,speed=7": {
+      "model": "what_we_missed:block/conveyor_rail_7_raised_ne",
+      "y": 90
+    },
+    "facing=north,shape=ascending_east,speed=8": {
+      "model": "what_we_missed:block/conveyor_rail_8_raised_ne",
+      "y": 90
+    },
+    "facing=north,shape=ascending_east,speed=9": {
+      "model": "what_we_missed:block/conveyor_rail_9_raised_ne",
+      "y": 90
+    },
+    "facing=north,shape=ascending_north,speed=0": {
+      "model": "what_we_missed:block/conveyor_rail_0_raised_ne"
+    },
+    "facing=north,shape=ascending_north,speed=1": {
+      "model": "what_we_missed:block/conveyor_rail_1_raised_ne"
+    },
+    "facing=north,shape=ascending_north,speed=10": {
+      "model": "what_we_missed:block/conveyor_rail_10_raised_ne"
+    },
+    "facing=north,shape=ascending_north,speed=11": {
+      "model": "what_we_missed:block/conveyor_rail_11_raised_ne"
+    },
+    "facing=north,shape=ascending_north,speed=12": {
+      "model": "what_we_missed:block/conveyor_rail_12_raised_ne"
+    },
+    "facing=north,shape=ascending_north,speed=13": {
+      "model": "what_we_missed:block/conveyor_rail_13_raised_ne"
+    },
+    "facing=north,shape=ascending_north,speed=14": {
+      "model": "what_we_missed:block/conveyor_rail_14_raised_ne"
+    },
+    "facing=north,shape=ascending_north,speed=15": {
+      "model": "what_we_missed:block/conveyor_rail_15_raised_ne"
+    },
+    "facing=north,shape=ascending_north,speed=2": {
+      "model": "what_we_missed:block/conveyor_rail_2_raised_ne"
+    },
+    "facing=north,shape=ascending_north,speed=3": {
+      "model": "what_we_missed:block/conveyor_rail_3_raised_ne"
+    },
+    "facing=north,shape=ascending_north,speed=4": {
+      "model": "what_we_missed:block/conveyor_rail_4_raised_ne"
+    },
+    "facing=north,shape=ascending_north,speed=5": {
+      "model": "what_we_missed:block/conveyor_rail_5_raised_ne"
+    },
+    "facing=north,shape=ascending_north,speed=6": {
+      "model": "what_we_missed:block/conveyor_rail_6_raised_ne"
+    },
+    "facing=north,shape=ascending_north,speed=7": {
+      "model": "what_we_missed:block/conveyor_rail_7_raised_ne"
+    },
+    "facing=north,shape=ascending_north,speed=8": {
+      "model": "what_we_missed:block/conveyor_rail_8_raised_ne"
+    },
+    "facing=north,shape=ascending_north,speed=9": {
+      "model": "what_we_missed:block/conveyor_rail_9_raised_ne"
+    },
+    "facing=north,shape=ascending_south,speed=0": {
+      "model": "what_we_missed:block/conveyor_rail_0_raised_sw"
+    },
+    "facing=north,shape=ascending_south,speed=1": {
+      "model": "what_we_missed:block/conveyor_rail_1_raised_sw"
+    },
+    "facing=north,shape=ascending_south,speed=10": {
+      "model": "what_we_missed:block/conveyor_rail_10_raised_sw"
+    },
+    "facing=north,shape=ascending_south,speed=11": {
+      "model": "what_we_missed:block/conveyor_rail_11_raised_sw"
+    },
+    "facing=north,shape=ascending_south,speed=12": {
+      "model": "what_we_missed:block/conveyor_rail_12_raised_sw"
+    },
+    "facing=north,shape=ascending_south,speed=13": {
+      "model": "what_we_missed:block/conveyor_rail_13_raised_sw"
+    },
+    "facing=north,shape=ascending_south,speed=14": {
+      "model": "what_we_missed:block/conveyor_rail_14_raised_sw"
+    },
+    "facing=north,shape=ascending_south,speed=15": {
+      "model": "what_we_missed:block/conveyor_rail_15_raised_sw"
+    },
+    "facing=north,shape=ascending_south,speed=2": {
+      "model": "what_we_missed:block/conveyor_rail_2_raised_sw"
+    },
+    "facing=north,shape=ascending_south,speed=3": {
+      "model": "what_we_missed:block/conveyor_rail_3_raised_sw"
+    },
+    "facing=north,shape=ascending_south,speed=4": {
+      "model": "what_we_missed:block/conveyor_rail_4_raised_sw"
+    },
+    "facing=north,shape=ascending_south,speed=5": {
+      "model": "what_we_missed:block/conveyor_rail_5_raised_sw"
+    },
+    "facing=north,shape=ascending_south,speed=6": {
+      "model": "what_we_missed:block/conveyor_rail_6_raised_sw"
+    },
+    "facing=north,shape=ascending_south,speed=7": {
+      "model": "what_we_missed:block/conveyor_rail_7_raised_sw"
+    },
+    "facing=north,shape=ascending_south,speed=8": {
+      "model": "what_we_missed:block/conveyor_rail_8_raised_sw"
+    },
+    "facing=north,shape=ascending_south,speed=9": {
+      "model": "what_we_missed:block/conveyor_rail_9_raised_sw"
+    },
+    "facing=north,shape=ascending_west,speed=0": {
+      "model": "what_we_missed:block/conveyor_rail_0_raised_sw",
+      "y": 90
+    },
+    "facing=north,shape=ascending_west,speed=1": {
+      "model": "what_we_missed:block/conveyor_rail_1_raised_sw",
+      "y": 90
+    },
+    "facing=north,shape=ascending_west,speed=10": {
+      "model": "what_we_missed:block/conveyor_rail_10_raised_sw",
+      "y": 90
+    },
+    "facing=north,shape=ascending_west,speed=11": {
+      "model": "what_we_missed:block/conveyor_rail_11_raised_sw",
+      "y": 90
+    },
+    "facing=north,shape=ascending_west,speed=12": {
+      "model": "what_we_missed:block/conveyor_rail_12_raised_sw",
+      "y": 90
+    },
+    "facing=north,shape=ascending_west,speed=13": {
+      "model": "what_we_missed:block/conveyor_rail_13_raised_sw",
+      "y": 90
+    },
+    "facing=north,shape=ascending_west,speed=14": {
+      "model": "what_we_missed:block/conveyor_rail_14_raised_sw",
+      "y": 90
+    },
+    "facing=north,shape=ascending_west,speed=15": {
+      "model": "what_we_missed:block/conveyor_rail_15_raised_sw",
+      "y": 90
+    },
+    "facing=north,shape=ascending_west,speed=2": {
+      "model": "what_we_missed:block/conveyor_rail_2_raised_sw",
+      "y": 90
+    },
+    "facing=north,shape=ascending_west,speed=3": {
+      "model": "what_we_missed:block/conveyor_rail_3_raised_sw",
+      "y": 90
+    },
+    "facing=north,shape=ascending_west,speed=4": {
+      "model": "what_we_missed:block/conveyor_rail_4_raised_sw",
+      "y": 90
+    },
+    "facing=north,shape=ascending_west,speed=5": {
+      "model": "what_we_missed:block/conveyor_rail_5_raised_sw",
+      "y": 90
+    },
+    "facing=north,shape=ascending_west,speed=6": {
+      "model": "what_we_missed:block/conveyor_rail_6_raised_sw",
+      "y": 90
+    },
+    "facing=north,shape=ascending_west,speed=7": {
+      "model": "what_we_missed:block/conveyor_rail_7_raised_sw",
+      "y": 90
+    },
+    "facing=north,shape=ascending_west,speed=8": {
+      "model": "what_we_missed:block/conveyor_rail_8_raised_sw",
+      "y": 90
+    },
+    "facing=north,shape=ascending_west,speed=9": {
+      "model": "what_we_missed:block/conveyor_rail_9_raised_sw",
+      "y": 90
+    },
+    "facing=north,shape=east_west,speed=0": {
+      "model": "what_we_missed:block/conveyor_rail_0"
+    },
+    "facing=north,shape=east_west,speed=1": {
+      "model": "what_we_missed:block/conveyor_rail_1"
+    },
+    "facing=north,shape=east_west,speed=10": {
+      "model": "what_we_missed:block/conveyor_rail_10"
+    },
+    "facing=north,shape=east_west,speed=11": {
+      "model": "what_we_missed:block/conveyor_rail_11"
+    },
+    "facing=north,shape=east_west,speed=12": {
+      "model": "what_we_missed:block/conveyor_rail_12"
+    },
+    "facing=north,shape=east_west,speed=13": {
+      "model": "what_we_missed:block/conveyor_rail_13"
+    },
+    "facing=north,shape=east_west,speed=14": {
+      "model": "what_we_missed:block/conveyor_rail_14"
+    },
+    "facing=north,shape=east_west,speed=15": {
+      "model": "what_we_missed:block/conveyor_rail_15"
+    },
+    "facing=north,shape=east_west,speed=2": {
+      "model": "what_we_missed:block/conveyor_rail_2"
+    },
+    "facing=north,shape=east_west,speed=3": {
+      "model": "what_we_missed:block/conveyor_rail_3"
+    },
+    "facing=north,shape=east_west,speed=4": {
+      "model": "what_we_missed:block/conveyor_rail_4"
+    },
+    "facing=north,shape=east_west,speed=5": {
+      "model": "what_we_missed:block/conveyor_rail_5"
+    },
+    "facing=north,shape=east_west,speed=6": {
+      "model": "what_we_missed:block/conveyor_rail_6"
+    },
+    "facing=north,shape=east_west,speed=7": {
+      "model": "what_we_missed:block/conveyor_rail_7"
+    },
+    "facing=north,shape=east_west,speed=8": {
+      "model": "what_we_missed:block/conveyor_rail_8"
+    },
+    "facing=north,shape=east_west,speed=9": {
+      "model": "what_we_missed:block/conveyor_rail_9"
+    },
+    "facing=north,shape=north_south,speed=0": {
+      "model": "what_we_missed:block/conveyor_rail_0"
+    },
+    "facing=north,shape=north_south,speed=1": {
+      "model": "what_we_missed:block/conveyor_rail_1"
+    },
+    "facing=north,shape=north_south,speed=10": {
+      "model": "what_we_missed:block/conveyor_rail_10"
+    },
+    "facing=north,shape=north_south,speed=11": {
+      "model": "what_we_missed:block/conveyor_rail_11"
+    },
+    "facing=north,shape=north_south,speed=12": {
+      "model": "what_we_missed:block/conveyor_rail_12"
+    },
+    "facing=north,shape=north_south,speed=13": {
+      "model": "what_we_missed:block/conveyor_rail_13"
+    },
+    "facing=north,shape=north_south,speed=14": {
+      "model": "what_we_missed:block/conveyor_rail_14"
+    },
+    "facing=north,shape=north_south,speed=15": {
+      "model": "what_we_missed:block/conveyor_rail_15"
+    },
+    "facing=north,shape=north_south,speed=2": {
+      "model": "what_we_missed:block/conveyor_rail_2"
+    },
+    "facing=north,shape=north_south,speed=3": {
+      "model": "what_we_missed:block/conveyor_rail_3"
+    },
+    "facing=north,shape=north_south,speed=4": {
+      "model": "what_we_missed:block/conveyor_rail_4"
+    },
+    "facing=north,shape=north_south,speed=5": {
+      "model": "what_we_missed:block/conveyor_rail_5"
+    },
+    "facing=north,shape=north_south,speed=6": {
+      "model": "what_we_missed:block/conveyor_rail_6"
+    },
+    "facing=north,shape=north_south,speed=7": {
+      "model": "what_we_missed:block/conveyor_rail_7"
+    },
+    "facing=north,shape=north_south,speed=8": {
+      "model": "what_we_missed:block/conveyor_rail_8"
+    },
+    "facing=north,shape=north_south,speed=9": {
+      "model": "what_we_missed:block/conveyor_rail_9"
+    },
+    "facing=south,shape=ascending_east,speed=0": {
+      "model": "what_we_missed:block/conveyor_rail_0_raised_ne",
+      "y": 90
+    },
+    "facing=south,shape=ascending_east,speed=1": {
+      "model": "what_we_missed:block/conveyor_rail_1_raised_ne",
+      "y": 90
+    },
+    "facing=south,shape=ascending_east,speed=10": {
+      "model": "what_we_missed:block/conveyor_rail_10_raised_ne",
+      "y": 90
+    },
+    "facing=south,shape=ascending_east,speed=11": {
+      "model": "what_we_missed:block/conveyor_rail_11_raised_ne",
+      "y": 90
+    },
+    "facing=south,shape=ascending_east,speed=12": {
+      "model": "what_we_missed:block/conveyor_rail_12_raised_ne",
+      "y": 90
+    },
+    "facing=south,shape=ascending_east,speed=13": {
+      "model": "what_we_missed:block/conveyor_rail_13_raised_ne",
+      "y": 90
+    },
+    "facing=south,shape=ascending_east,speed=14": {
+      "model": "what_we_missed:block/conveyor_rail_14_raised_ne",
+      "y": 90
+    },
+    "facing=south,shape=ascending_east,speed=15": {
+      "model": "what_we_missed:block/conveyor_rail_15_raised_ne",
+      "y": 90
+    },
+    "facing=south,shape=ascending_east,speed=2": {
+      "model": "what_we_missed:block/conveyor_rail_2_raised_ne",
+      "y": 90
+    },
+    "facing=south,shape=ascending_east,speed=3": {
+      "model": "what_we_missed:block/conveyor_rail_3_raised_ne",
+      "y": 90
+    },
+    "facing=south,shape=ascending_east,speed=4": {
+      "model": "what_we_missed:block/conveyor_rail_4_raised_ne",
+      "y": 90
+    },
+    "facing=south,shape=ascending_east,speed=5": {
+      "model": "what_we_missed:block/conveyor_rail_5_raised_ne",
+      "y": 90
+    },
+    "facing=south,shape=ascending_east,speed=6": {
+      "model": "what_we_missed:block/conveyor_rail_6_raised_ne",
+      "y": 90
+    },
+    "facing=south,shape=ascending_east,speed=7": {
+      "model": "what_we_missed:block/conveyor_rail_7_raised_ne",
+      "y": 90
+    },
+    "facing=south,shape=ascending_east,speed=8": {
+      "model": "what_we_missed:block/conveyor_rail_8_raised_ne",
+      "y": 90
+    },
+    "facing=south,shape=ascending_east,speed=9": {
+      "model": "what_we_missed:block/conveyor_rail_9_raised_ne",
+      "y": 90
+    },
+    "facing=south,shape=ascending_north,speed=0": {
+      "model": "what_we_missed:block/conveyor_rail_0_raised_ne_flipped"
+    },
+    "facing=south,shape=ascending_north,speed=1": {
+      "model": "what_we_missed:block/conveyor_rail_1_raised_ne_flipped"
+    },
+    "facing=south,shape=ascending_north,speed=10": {
+      "model": "what_we_missed:block/conveyor_rail_10_raised_ne_flipped"
+    },
+    "facing=south,shape=ascending_north,speed=11": {
+      "model": "what_we_missed:block/conveyor_rail_11_raised_ne_flipped"
+    },
+    "facing=south,shape=ascending_north,speed=12": {
+      "model": "what_we_missed:block/conveyor_rail_12_raised_ne_flipped"
+    },
+    "facing=south,shape=ascending_north,speed=13": {
+      "model": "what_we_missed:block/conveyor_rail_13_raised_ne_flipped"
+    },
+    "facing=south,shape=ascending_north,speed=14": {
+      "model": "what_we_missed:block/conveyor_rail_14_raised_ne_flipped"
+    },
+    "facing=south,shape=ascending_north,speed=15": {
+      "model": "what_we_missed:block/conveyor_rail_15_raised_ne_flipped"
+    },
+    "facing=south,shape=ascending_north,speed=2": {
+      "model": "what_we_missed:block/conveyor_rail_2_raised_ne_flipped"
+    },
+    "facing=south,shape=ascending_north,speed=3": {
+      "model": "what_we_missed:block/conveyor_rail_3_raised_ne_flipped"
+    },
+    "facing=south,shape=ascending_north,speed=4": {
+      "model": "what_we_missed:block/conveyor_rail_4_raised_ne_flipped"
+    },
+    "facing=south,shape=ascending_north,speed=5": {
+      "model": "what_we_missed:block/conveyor_rail_5_raised_ne_flipped"
+    },
+    "facing=south,shape=ascending_north,speed=6": {
+      "model": "what_we_missed:block/conveyor_rail_6_raised_ne_flipped"
+    },
+    "facing=south,shape=ascending_north,speed=7": {
+      "model": "what_we_missed:block/conveyor_rail_7_raised_ne_flipped"
+    },
+    "facing=south,shape=ascending_north,speed=8": {
+      "model": "what_we_missed:block/conveyor_rail_8_raised_ne_flipped"
+    },
+    "facing=south,shape=ascending_north,speed=9": {
+      "model": "what_we_missed:block/conveyor_rail_9_raised_ne_flipped"
+    },
+    "facing=south,shape=ascending_south,speed=0": {
+      "model": "what_we_missed:block/conveyor_rail_0_raised_sw_flipped"
+    },
+    "facing=south,shape=ascending_south,speed=1": {
+      "model": "what_we_missed:block/conveyor_rail_1_raised_sw_flipped"
+    },
+    "facing=south,shape=ascending_south,speed=10": {
+      "model": "what_we_missed:block/conveyor_rail_10_raised_sw_flipped"
+    },
+    "facing=south,shape=ascending_south,speed=11": {
+      "model": "what_we_missed:block/conveyor_rail_11_raised_sw_flipped"
+    },
+    "facing=south,shape=ascending_south,speed=12": {
+      "model": "what_we_missed:block/conveyor_rail_12_raised_sw_flipped"
+    },
+    "facing=south,shape=ascending_south,speed=13": {
+      "model": "what_we_missed:block/conveyor_rail_13_raised_sw_flipped"
+    },
+    "facing=south,shape=ascending_south,speed=14": {
+      "model": "what_we_missed:block/conveyor_rail_14_raised_sw_flipped"
+    },
+    "facing=south,shape=ascending_south,speed=15": {
+      "model": "what_we_missed:block/conveyor_rail_15_raised_sw_flipped"
+    },
+    "facing=south,shape=ascending_south,speed=2": {
+      "model": "what_we_missed:block/conveyor_rail_2_raised_sw_flipped"
+    },
+    "facing=south,shape=ascending_south,speed=3": {
+      "model": "what_we_missed:block/conveyor_rail_3_raised_sw_flipped"
+    },
+    "facing=south,shape=ascending_south,speed=4": {
+      "model": "what_we_missed:block/conveyor_rail_4_raised_sw_flipped"
+    },
+    "facing=south,shape=ascending_south,speed=5": {
+      "model": "what_we_missed:block/conveyor_rail_5_raised_sw_flipped"
+    },
+    "facing=south,shape=ascending_south,speed=6": {
+      "model": "what_we_missed:block/conveyor_rail_6_raised_sw_flipped"
+    },
+    "facing=south,shape=ascending_south,speed=7": {
+      "model": "what_we_missed:block/conveyor_rail_7_raised_sw_flipped"
+    },
+    "facing=south,shape=ascending_south,speed=8": {
+      "model": "what_we_missed:block/conveyor_rail_8_raised_sw_flipped"
+    },
+    "facing=south,shape=ascending_south,speed=9": {
+      "model": "what_we_missed:block/conveyor_rail_9_raised_sw_flipped"
+    },
+    "facing=south,shape=ascending_west,speed=0": {
+      "model": "what_we_missed:block/conveyor_rail_0_raised_sw",
+      "y": 90
+    },
+    "facing=south,shape=ascending_west,speed=1": {
+      "model": "what_we_missed:block/conveyor_rail_1_raised_sw",
+      "y": 90
+    },
+    "facing=south,shape=ascending_west,speed=10": {
+      "model": "what_we_missed:block/conveyor_rail_10_raised_sw",
+      "y": 90
+    },
+    "facing=south,shape=ascending_west,speed=11": {
+      "model": "what_we_missed:block/conveyor_rail_11_raised_sw",
+      "y": 90
+    },
+    "facing=south,shape=ascending_west,speed=12": {
+      "model": "what_we_missed:block/conveyor_rail_12_raised_sw",
+      "y": 90
+    },
+    "facing=south,shape=ascending_west,speed=13": {
+      "model": "what_we_missed:block/conveyor_rail_13_raised_sw",
+      "y": 90
+    },
+    "facing=south,shape=ascending_west,speed=14": {
+      "model": "what_we_missed:block/conveyor_rail_14_raised_sw",
+      "y": 90
+    },
+    "facing=south,shape=ascending_west,speed=15": {
+      "model": "what_we_missed:block/conveyor_rail_15_raised_sw",
+      "y": 90
+    },
+    "facing=south,shape=ascending_west,speed=2": {
+      "model": "what_we_missed:block/conveyor_rail_2_raised_sw",
+      "y": 90
+    },
+    "facing=south,shape=ascending_west,speed=3": {
+      "model": "what_we_missed:block/conveyor_rail_3_raised_sw",
+      "y": 90
+    },
+    "facing=south,shape=ascending_west,speed=4": {
+      "model": "what_we_missed:block/conveyor_rail_4_raised_sw",
+      "y": 90
+    },
+    "facing=south,shape=ascending_west,speed=5": {
+      "model": "what_we_missed:block/conveyor_rail_5_raised_sw",
+      "y": 90
+    },
+    "facing=south,shape=ascending_west,speed=6": {
+      "model": "what_we_missed:block/conveyor_rail_6_raised_sw",
+      "y": 90
+    },
+    "facing=south,shape=ascending_west,speed=7": {
+      "model": "what_we_missed:block/conveyor_rail_7_raised_sw",
+      "y": 90
+    },
+    "facing=south,shape=ascending_west,speed=8": {
+      "model": "what_we_missed:block/conveyor_rail_8_raised_sw",
+      "y": 90
+    },
+    "facing=south,shape=ascending_west,speed=9": {
+      "model": "what_we_missed:block/conveyor_rail_9_raised_sw",
+      "y": 90
+    },
+    "facing=south,shape=east_west,speed=0": {
+      "model": "what_we_missed:block/conveyor_rail_0",
+      "y": 180
+    },
+    "facing=south,shape=east_west,speed=1": {
+      "model": "what_we_missed:block/conveyor_rail_1",
+      "y": 180
+    },
+    "facing=south,shape=east_west,speed=10": {
+      "model": "what_we_missed:block/conveyor_rail_10",
+      "y": 180
+    },
+    "facing=south,shape=east_west,speed=11": {
+      "model": "what_we_missed:block/conveyor_rail_11",
+      "y": 180
+    },
+    "facing=south,shape=east_west,speed=12": {
+      "model": "what_we_missed:block/conveyor_rail_12",
+      "y": 180
+    },
+    "facing=south,shape=east_west,speed=13": {
+      "model": "what_we_missed:block/conveyor_rail_13",
+      "y": 180
+    },
+    "facing=south,shape=east_west,speed=14": {
+      "model": "what_we_missed:block/conveyor_rail_14",
+      "y": 180
+    },
+    "facing=south,shape=east_west,speed=15": {
+      "model": "what_we_missed:block/conveyor_rail_15",
+      "y": 180
+    },
+    "facing=south,shape=east_west,speed=2": {
+      "model": "what_we_missed:block/conveyor_rail_2",
+      "y": 180
+    },
+    "facing=south,shape=east_west,speed=3": {
+      "model": "what_we_missed:block/conveyor_rail_3",
+      "y": 180
+    },
+    "facing=south,shape=east_west,speed=4": {
+      "model": "what_we_missed:block/conveyor_rail_4",
+      "y": 180
+    },
+    "facing=south,shape=east_west,speed=5": {
+      "model": "what_we_missed:block/conveyor_rail_5",
+      "y": 180
+    },
+    "facing=south,shape=east_west,speed=6": {
+      "model": "what_we_missed:block/conveyor_rail_6",
+      "y": 180
+    },
+    "facing=south,shape=east_west,speed=7": {
+      "model": "what_we_missed:block/conveyor_rail_7",
+      "y": 180
+    },
+    "facing=south,shape=east_west,speed=8": {
+      "model": "what_we_missed:block/conveyor_rail_8",
+      "y": 180
+    },
+    "facing=south,shape=east_west,speed=9": {
+      "model": "what_we_missed:block/conveyor_rail_9",
+      "y": 180
+    },
+    "facing=south,shape=north_south,speed=0": {
+      "model": "what_we_missed:block/conveyor_rail_0",
+      "y": 180
+    },
+    "facing=south,shape=north_south,speed=1": {
+      "model": "what_we_missed:block/conveyor_rail_1",
+      "y": 180
+    },
+    "facing=south,shape=north_south,speed=10": {
+      "model": "what_we_missed:block/conveyor_rail_10",
+      "y": 180
+    },
+    "facing=south,shape=north_south,speed=11": {
+      "model": "what_we_missed:block/conveyor_rail_11",
+      "y": 180
+    },
+    "facing=south,shape=north_south,speed=12": {
+      "model": "what_we_missed:block/conveyor_rail_12",
+      "y": 180
+    },
+    "facing=south,shape=north_south,speed=13": {
+      "model": "what_we_missed:block/conveyor_rail_13",
+      "y": 180
+    },
+    "facing=south,shape=north_south,speed=14": {
+      "model": "what_we_missed:block/conveyor_rail_14",
+      "y": 180
+    },
+    "facing=south,shape=north_south,speed=15": {
+      "model": "what_we_missed:block/conveyor_rail_15",
+      "y": 180
+    },
+    "facing=south,shape=north_south,speed=2": {
+      "model": "what_we_missed:block/conveyor_rail_2",
+      "y": 180
+    },
+    "facing=south,shape=north_south,speed=3": {
+      "model": "what_we_missed:block/conveyor_rail_3",
+      "y": 180
+    },
+    "facing=south,shape=north_south,speed=4": {
+      "model": "what_we_missed:block/conveyor_rail_4",
+      "y": 180
+    },
+    "facing=south,shape=north_south,speed=5": {
+      "model": "what_we_missed:block/conveyor_rail_5",
+      "y": 180
+    },
+    "facing=south,shape=north_south,speed=6": {
+      "model": "what_we_missed:block/conveyor_rail_6",
+      "y": 180
+    },
+    "facing=south,shape=north_south,speed=7": {
+      "model": "what_we_missed:block/conveyor_rail_7",
+      "y": 180
+    },
+    "facing=south,shape=north_south,speed=8": {
+      "model": "what_we_missed:block/conveyor_rail_8",
+      "y": 180
+    },
+    "facing=south,shape=north_south,speed=9": {
+      "model": "what_we_missed:block/conveyor_rail_9",
+      "y": 180
+    },
+    "facing=west,shape=ascending_east,speed=0": {
+      "model": "what_we_missed:block/conveyor_rail_0_raised_ne_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_east,speed=1": {
+      "model": "what_we_missed:block/conveyor_rail_1_raised_ne_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_east,speed=10": {
+      "model": "what_we_missed:block/conveyor_rail_10_raised_ne_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_east,speed=11": {
+      "model": "what_we_missed:block/conveyor_rail_11_raised_ne_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_east,speed=12": {
+      "model": "what_we_missed:block/conveyor_rail_12_raised_ne_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_east,speed=13": {
+      "model": "what_we_missed:block/conveyor_rail_13_raised_ne_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_east,speed=14": {
+      "model": "what_we_missed:block/conveyor_rail_14_raised_ne_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_east,speed=15": {
+      "model": "what_we_missed:block/conveyor_rail_15_raised_ne_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_east,speed=2": {
+      "model": "what_we_missed:block/conveyor_rail_2_raised_ne_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_east,speed=3": {
+      "model": "what_we_missed:block/conveyor_rail_3_raised_ne_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_east,speed=4": {
+      "model": "what_we_missed:block/conveyor_rail_4_raised_ne_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_east,speed=5": {
+      "model": "what_we_missed:block/conveyor_rail_5_raised_ne_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_east,speed=6": {
+      "model": "what_we_missed:block/conveyor_rail_6_raised_ne_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_east,speed=7": {
+      "model": "what_we_missed:block/conveyor_rail_7_raised_ne_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_east,speed=8": {
+      "model": "what_we_missed:block/conveyor_rail_8_raised_ne_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_east,speed=9": {
+      "model": "what_we_missed:block/conveyor_rail_9_raised_ne_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_north,speed=0": {
+      "model": "what_we_missed:block/conveyor_rail_0_raised_ne"
+    },
+    "facing=west,shape=ascending_north,speed=1": {
+      "model": "what_we_missed:block/conveyor_rail_1_raised_ne"
+    },
+    "facing=west,shape=ascending_north,speed=10": {
+      "model": "what_we_missed:block/conveyor_rail_10_raised_ne"
+    },
+    "facing=west,shape=ascending_north,speed=11": {
+      "model": "what_we_missed:block/conveyor_rail_11_raised_ne"
+    },
+    "facing=west,shape=ascending_north,speed=12": {
+      "model": "what_we_missed:block/conveyor_rail_12_raised_ne"
+    },
+    "facing=west,shape=ascending_north,speed=13": {
+      "model": "what_we_missed:block/conveyor_rail_13_raised_ne"
+    },
+    "facing=west,shape=ascending_north,speed=14": {
+      "model": "what_we_missed:block/conveyor_rail_14_raised_ne"
+    },
+    "facing=west,shape=ascending_north,speed=15": {
+      "model": "what_we_missed:block/conveyor_rail_15_raised_ne"
+    },
+    "facing=west,shape=ascending_north,speed=2": {
+      "model": "what_we_missed:block/conveyor_rail_2_raised_ne"
+    },
+    "facing=west,shape=ascending_north,speed=3": {
+      "model": "what_we_missed:block/conveyor_rail_3_raised_ne"
+    },
+    "facing=west,shape=ascending_north,speed=4": {
+      "model": "what_we_missed:block/conveyor_rail_4_raised_ne"
+    },
+    "facing=west,shape=ascending_north,speed=5": {
+      "model": "what_we_missed:block/conveyor_rail_5_raised_ne"
+    },
+    "facing=west,shape=ascending_north,speed=6": {
+      "model": "what_we_missed:block/conveyor_rail_6_raised_ne"
+    },
+    "facing=west,shape=ascending_north,speed=7": {
+      "model": "what_we_missed:block/conveyor_rail_7_raised_ne"
+    },
+    "facing=west,shape=ascending_north,speed=8": {
+      "model": "what_we_missed:block/conveyor_rail_8_raised_ne"
+    },
+    "facing=west,shape=ascending_north,speed=9": {
+      "model": "what_we_missed:block/conveyor_rail_9_raised_ne"
+    },
+    "facing=west,shape=ascending_south,speed=0": {
+      "model": "what_we_missed:block/conveyor_rail_0_raised_sw"
+    },
+    "facing=west,shape=ascending_south,speed=1": {
+      "model": "what_we_missed:block/conveyor_rail_1_raised_sw"
+    },
+    "facing=west,shape=ascending_south,speed=10": {
+      "model": "what_we_missed:block/conveyor_rail_10_raised_sw"
+    },
+    "facing=west,shape=ascending_south,speed=11": {
+      "model": "what_we_missed:block/conveyor_rail_11_raised_sw"
+    },
+    "facing=west,shape=ascending_south,speed=12": {
+      "model": "what_we_missed:block/conveyor_rail_12_raised_sw"
+    },
+    "facing=west,shape=ascending_south,speed=13": {
+      "model": "what_we_missed:block/conveyor_rail_13_raised_sw"
+    },
+    "facing=west,shape=ascending_south,speed=14": {
+      "model": "what_we_missed:block/conveyor_rail_14_raised_sw"
+    },
+    "facing=west,shape=ascending_south,speed=15": {
+      "model": "what_we_missed:block/conveyor_rail_15_raised_sw"
+    },
+    "facing=west,shape=ascending_south,speed=2": {
+      "model": "what_we_missed:block/conveyor_rail_2_raised_sw"
+    },
+    "facing=west,shape=ascending_south,speed=3": {
+      "model": "what_we_missed:block/conveyor_rail_3_raised_sw"
+    },
+    "facing=west,shape=ascending_south,speed=4": {
+      "model": "what_we_missed:block/conveyor_rail_4_raised_sw"
+    },
+    "facing=west,shape=ascending_south,speed=5": {
+      "model": "what_we_missed:block/conveyor_rail_5_raised_sw"
+    },
+    "facing=west,shape=ascending_south,speed=6": {
+      "model": "what_we_missed:block/conveyor_rail_6_raised_sw"
+    },
+    "facing=west,shape=ascending_south,speed=7": {
+      "model": "what_we_missed:block/conveyor_rail_7_raised_sw"
+    },
+    "facing=west,shape=ascending_south,speed=8": {
+      "model": "what_we_missed:block/conveyor_rail_8_raised_sw"
+    },
+    "facing=west,shape=ascending_south,speed=9": {
+      "model": "what_we_missed:block/conveyor_rail_9_raised_sw"
+    },
+    "facing=west,shape=ascending_west,speed=0": {
+      "model": "what_we_missed:block/conveyor_rail_0_raised_sw_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_west,speed=1": {
+      "model": "what_we_missed:block/conveyor_rail_1_raised_sw_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_west,speed=10": {
+      "model": "what_we_missed:block/conveyor_rail_10_raised_sw_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_west,speed=11": {
+      "model": "what_we_missed:block/conveyor_rail_11_raised_sw_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_west,speed=12": {
+      "model": "what_we_missed:block/conveyor_rail_12_raised_sw_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_west,speed=13": {
+      "model": "what_we_missed:block/conveyor_rail_13_raised_sw_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_west,speed=14": {
+      "model": "what_we_missed:block/conveyor_rail_14_raised_sw_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_west,speed=15": {
+      "model": "what_we_missed:block/conveyor_rail_15_raised_sw_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_west,speed=2": {
+      "model": "what_we_missed:block/conveyor_rail_2_raised_sw_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_west,speed=3": {
+      "model": "what_we_missed:block/conveyor_rail_3_raised_sw_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_west,speed=4": {
+      "model": "what_we_missed:block/conveyor_rail_4_raised_sw_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_west,speed=5": {
+      "model": "what_we_missed:block/conveyor_rail_5_raised_sw_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_west,speed=6": {
+      "model": "what_we_missed:block/conveyor_rail_6_raised_sw_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_west,speed=7": {
+      "model": "what_we_missed:block/conveyor_rail_7_raised_sw_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_west,speed=8": {
+      "model": "what_we_missed:block/conveyor_rail_8_raised_sw_flipped",
+      "y": 90
+    },
+    "facing=west,shape=ascending_west,speed=9": {
+      "model": "what_we_missed:block/conveyor_rail_9_raised_sw_flipped",
+      "y": 90
+    },
+    "facing=west,shape=east_west,speed=0": {
+      "model": "what_we_missed:block/conveyor_rail_0",
+      "y": 270
+    },
+    "facing=west,shape=east_west,speed=1": {
+      "model": "what_we_missed:block/conveyor_rail_1",
+      "y": 270
+    },
+    "facing=west,shape=east_west,speed=10": {
+      "model": "what_we_missed:block/conveyor_rail_10",
+      "y": 270
+    },
+    "facing=west,shape=east_west,speed=11": {
+      "model": "what_we_missed:block/conveyor_rail_11",
+      "y": 270
+    },
+    "facing=west,shape=east_west,speed=12": {
+      "model": "what_we_missed:block/conveyor_rail_12",
+      "y": 270
+    },
+    "facing=west,shape=east_west,speed=13": {
+      "model": "what_we_missed:block/conveyor_rail_13",
+      "y": 270
+    },
+    "facing=west,shape=east_west,speed=14": {
+      "model": "what_we_missed:block/conveyor_rail_14",
+      "y": 270
+    },
+    "facing=west,shape=east_west,speed=15": {
+      "model": "what_we_missed:block/conveyor_rail_15",
+      "y": 270
+    },
+    "facing=west,shape=east_west,speed=2": {
+      "model": "what_we_missed:block/conveyor_rail_2",
+      "y": 270
+    },
+    "facing=west,shape=east_west,speed=3": {
+      "model": "what_we_missed:block/conveyor_rail_3",
+      "y": 270
+    },
+    "facing=west,shape=east_west,speed=4": {
+      "model": "what_we_missed:block/conveyor_rail_4",
+      "y": 270
+    },
+    "facing=west,shape=east_west,speed=5": {
+      "model": "what_we_missed:block/conveyor_rail_5",
+      "y": 270
+    },
+    "facing=west,shape=east_west,speed=6": {
+      "model": "what_we_missed:block/conveyor_rail_6",
+      "y": 270
+    },
+    "facing=west,shape=east_west,speed=7": {
+      "model": "what_we_missed:block/conveyor_rail_7",
+      "y": 270
+    },
+    "facing=west,shape=east_west,speed=8": {
+      "model": "what_we_missed:block/conveyor_rail_8",
+      "y": 270
+    },
+    "facing=west,shape=east_west,speed=9": {
+      "model": "what_we_missed:block/conveyor_rail_9",
+      "y": 270
+    },
+    "facing=west,shape=north_south,speed=0": {
+      "model": "what_we_missed:block/conveyor_rail_0",
+      "y": 270
+    },
+    "facing=west,shape=north_south,speed=1": {
+      "model": "what_we_missed:block/conveyor_rail_1",
+      "y": 270
+    },
+    "facing=west,shape=north_south,speed=10": {
+      "model": "what_we_missed:block/conveyor_rail_10",
+      "y": 270
+    },
+    "facing=west,shape=north_south,speed=11": {
+      "model": "what_we_missed:block/conveyor_rail_11",
+      "y": 270
+    },
+    "facing=west,shape=north_south,speed=12": {
+      "model": "what_we_missed:block/conveyor_rail_12",
+      "y": 270
+    },
+    "facing=west,shape=north_south,speed=13": {
+      "model": "what_we_missed:block/conveyor_rail_13",
+      "y": 270
+    },
+    "facing=west,shape=north_south,speed=14": {
+      "model": "what_we_missed:block/conveyor_rail_14",
+      "y": 270
+    },
+    "facing=west,shape=north_south,speed=15": {
+      "model": "what_we_missed:block/conveyor_rail_15",
+      "y": 270
+    },
+    "facing=west,shape=north_south,speed=2": {
+      "model": "what_we_missed:block/conveyor_rail_2",
+      "y": 270
+    },
+    "facing=west,shape=north_south,speed=3": {
+      "model": "what_we_missed:block/conveyor_rail_3",
+      "y": 270
+    },
+    "facing=west,shape=north_south,speed=4": {
+      "model": "what_we_missed:block/conveyor_rail_4",
+      "y": 270
+    },
+    "facing=west,shape=north_south,speed=5": {
+      "model": "what_we_missed:block/conveyor_rail_5",
+      "y": 270
+    },
+    "facing=west,shape=north_south,speed=6": {
+      "model": "what_we_missed:block/conveyor_rail_6",
+      "y": 270
+    },
+    "facing=west,shape=north_south,speed=7": {
+      "model": "what_we_missed:block/conveyor_rail_7",
+      "y": 270
+    },
+    "facing=west,shape=north_south,speed=8": {
+      "model": "what_we_missed:block/conveyor_rail_8",
+      "y": 270
+    },
+    "facing=west,shape=north_south,speed=9": {
+      "model": "what_we_missed:block/conveyor_rail_9",
+      "y": 270
+    }
+  }
+}

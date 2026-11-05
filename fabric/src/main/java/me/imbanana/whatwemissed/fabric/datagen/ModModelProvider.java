@@ -2,7 +2,9 @@ package me.imbanana.whatwemissed.fabric.datagen;
 
 import me.imbanana.whatwemissed.WhatWeMissed;
 import me.imbanana.whatwemissed.block.ModBlocks;
+import me.imbanana.whatwemissed.block.custom.ConveyorRailBlock;
 import me.imbanana.whatwemissed.block.custom.RailJunctionBlock;
+import me.imbanana.whatwemissed.util.IDirectionalRailBlock;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.client.data.models.BlockModelGenerators;
@@ -14,11 +16,14 @@ import net.minecraft.client.data.models.model.ModelTemplate;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.RailShape;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class ModModelProvider extends FabricModelProvider {
@@ -34,6 +39,7 @@ public class ModModelProvider extends FabricModelProvider {
         ModBlocks.COPPER_RAIL.zipUnwaxedWaxed((unwaxed, waxed) -> createCopperRail(blockModelGenerators, unwaxed, waxed));
         createRailJunction(blockModelGenerators, ModBlocks.RAIL_JUNCTION);
         createDirectionalActiveRail(blockModelGenerators, ModBlocks.DIRECTOR_RAIL);
+        createConveyorRail(blockModelGenerators, ModBlocks.CONVEYOR_RAIL);
     }
 
     @Override
@@ -99,7 +105,7 @@ public class ModModelProvider extends FabricModelProvider {
                                 .with(PropertyDispatch.initial(
                                         BlockStateProperties.POWERED,
                                         BlockStateProperties.RAIL_SHAPE_STRAIGHT,
-                                        BlockStateProperties.HORIZONTAL_FACING
+                                        IDirectionalRailBlock.FACING
                                 ).generate((powered, railShape, facing) -> {
                                     boolean flip = switch (railShape) {
                                         case NORTH_SOUTH, ASCENDING_NORTH, ASCENDING_SOUTH -> facing == Direction.SOUTH;
@@ -111,6 +117,58 @@ public class ModModelProvider extends FabricModelProvider {
 
                                     return switch (railShape) {
                                         case NORTH_SOUTH, EAST_WEST -> rotate(powered ? flatOn : flat, facing);
+                                        case ASCENDING_NORTH -> ne;
+                                        case ASCENDING_SOUTH -> sw;
+                                        case ASCENDING_EAST -> ne.with(BlockModelGenerators.Y_ROT_90);
+                                        case ASCENDING_WEST -> sw.with(BlockModelGenerators.Y_ROT_90);
+                                        default -> throw new UnsupportedOperationException("Fix you generator!");
+                                    };
+                                }))
+                );
+    }
+
+    private static void createConveyorRail(BlockModelGenerators blockModelGenerators, Block block) {
+        blockModelGenerators.registerSimpleItemModel(block, blockModelGenerators.createFlatItemModel(block.asItem()));
+
+        Map<Integer, Map<DirectionalRailStates, MultiVariant>> speedVariants = new HashMap<>();
+
+        for (Integer speed : ConveyorRailBlock.SPEED.getPossibleValues()) {
+            Map<DirectionalRailStates, MultiVariant> variantMap = new HashMap<>();
+
+            variantMap.put(DirectionalRailStates.FLAT, getConveyorRailVariant(blockModelGenerators, block, ModelTemplates.RAIL_FLAT, speed));
+            variantMap.put(DirectionalRailStates.RISING_NE, getConveyorRailVariant(blockModelGenerators, block, ModelTemplates.RAIL_RAISED_NE, speed));
+            variantMap.put(DirectionalRailStates.RISING_SW, getConveyorRailVariant(blockModelGenerators, block, ModelTemplates.RAIL_RAISED_SW, speed));
+            variantMap.put(DirectionalRailStates.RISING_NE_FLIPPED, getConveyorRailVariant(blockModelGenerators, block, RAIL_RAISED_NE_FLIPPED, speed));
+            variantMap.put(DirectionalRailStates.RISING_SW_FLIPPED, getConveyorRailVariant(blockModelGenerators, block, RAIL_RAISED_SW_FLIPPED, speed));
+
+            speedVariants.put(speed, variantMap);
+        }
+
+        blockModelGenerators.blockStateOutput
+                .accept(
+                        MultiVariantGenerator.dispatch(block)
+                                .with(PropertyDispatch.initial(
+                                        ConveyorRailBlock.SPEED,
+                                        BlockStateProperties.RAIL_SHAPE_STRAIGHT,
+                                        IDirectionalRailBlock.FACING
+                                ).generate((speed, railShape, facing) -> {
+                                    Map<DirectionalRailStates, MultiVariant> variantMap = speedVariants.get(speed);
+                                    MultiVariant flat = variantMap.get(DirectionalRailStates.FLAT);
+                                    MultiVariant risingNE = variantMap.get(DirectionalRailStates.RISING_NE);
+                                    MultiVariant risingSW = variantMap.get(DirectionalRailStates.RISING_SW);
+                                    MultiVariant risingNEFlip = variantMap.get(DirectionalRailStates.RISING_NE_FLIPPED);
+                                    MultiVariant risingSWFlip = variantMap.get(DirectionalRailStates.RISING_SW_FLIPPED);
+
+                                    boolean flip = switch (railShape) {
+                                        case NORTH_SOUTH, ASCENDING_NORTH, ASCENDING_SOUTH -> facing == Direction.SOUTH;
+                                        default -> facing == Direction.WEST;
+                                    };
+
+                                    MultiVariant ne = flip ? risingNEFlip : risingNE;
+                                    MultiVariant sw = flip ? risingSWFlip : risingSW;
+
+                                    return switch (railShape) {
+                                        case NORTH_SOUTH, EAST_WEST -> rotate(flat, facing);
                                         case ASCENDING_NORTH -> ne;
                                         case ASCENDING_SOUTH -> sw;
                                         case ASCENDING_EAST -> ne.with(BlockModelGenerators.Y_ROT_90);
@@ -138,4 +196,15 @@ public class ModModelProvider extends FabricModelProvider {
         );
     }
 
+    private static MultiVariant getConveyorRailVariant(BlockModelGenerators blockModelGenerators, Block block, ModelTemplate template, int speed) {
+        return BlockModelGenerators.plainVariant(blockModelGenerators.createSuffixedVariant(block, "_" + speed, template, material -> TextureMapping.rail(new Material(WhatWeMissed.idOf("block/conveyor_rail_" + speed)))));
+    }
+
+    private enum DirectionalRailStates {
+        FLAT,
+        RISING_NE,
+        RISING_SW,
+        RISING_NE_FLIPPED,
+        RISING_SW_FLIPPED
+    }
 }

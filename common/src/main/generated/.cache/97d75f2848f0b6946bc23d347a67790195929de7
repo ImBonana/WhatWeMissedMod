@@ -1,4 +1,5 @@
 // 26.3	-999999999-01-01T00:00:00	What We Missed/Block Loot Tables
+7f29a57711d3778836afbef7ae1da70b15d10e50 data/what_we_missed/loot_table/blocks/conveyor_rail.json
 fc384f222281ae99a252bd99dad59072a74fd195 data/what_we_missed/loot_table/blocks/copper_rail.json
 0d55c84258c0376ea9debed15fd4fdf103b3ca00 data/what_we_missed/loot_table/blocks/director_rail.json
 c93d3a6aff95ffdfde65fd7f6fd56f5a475d279b data/what_we_missed/loot_table/blocks/exposed_copper_rail.json

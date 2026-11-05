@@ -1,0 +1,6 @@
+{
+  "parent": "what_we_missed:block/template_rail_raised_ne_flipped",
+  "textures": {
+    "rail": "what_we_missed:block/conveyor_rail_11"
+  }
+}

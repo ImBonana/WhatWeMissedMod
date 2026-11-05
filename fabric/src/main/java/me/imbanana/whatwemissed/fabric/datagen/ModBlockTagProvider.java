@@ -22,11 +22,13 @@ public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
         this.builder(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(ModBlockItemIds.RAIL_JUNCTION)
                 .add(ModBlockItemIds.DIRECTOR_RAIL)
+                .add(ModBlockItemIds.CONVEYOR_RAIL)
                 .addAll(toIds(ModBlockItemIds.COPPER_RAIL));
 
         this.builder(BlockTags.RAILS)
                 .add(ModBlockItemIds.RAIL_JUNCTION)
                 .add(ModBlockItemIds.DIRECTOR_RAIL)
+                .add(ModBlockItemIds.CONVEYOR_RAIL)
                 .addAll(toIds(ModBlockItemIds.COPPER_RAIL));
     }
 

@@ -1,6 +1,5 @@
 package me.imbanana.whatwemissed.util;
 
-import me.imbanana.whatwemissed.block.custom.DirectorRailBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
@@ -17,13 +16,13 @@ import net.minecraft.world.level.block.state.properties.RailShape;
 public interface IDirectionalRailBlock {
     EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-    Property<RailShape> shapeProperty();
+    Property<RailShape> getShapeProperty();
 
-    default void realign(Level level, BlockPos pos) {
+    default void realign(Block block, Level level, BlockPos pos) {
         BlockState current = level.getBlockState(pos);
         BlockState fixed = current;
 
-        RailShape shape = current.getValue(shapeProperty());
+        RailShape shape = current.getValue(getShapeProperty());
         boolean shapeIsX = shape == RailShape.EAST_WEST || shape == RailShape.ASCENDING_EAST || shape == RailShape.ASCENDING_WEST;
         boolean facingIsX = current.getValue(FACING).getAxis() == Direction.Axis.X;
         if (shapeIsX != facingIsX) {
@@ -34,11 +33,11 @@ public interface IDirectionalRailBlock {
 
             BlockState sideBlock = level.getBlockState(firstPos);
 
-            if (!(sideBlock.getBlock() instanceof DirectorRailBlock)) {
+            if (!(sideBlock.getBlock() instanceof IDirectionalRailBlock) || !sideBlock.is(block)) {
                 sideBlock = level.getBlockState(secondPos);
             }
 
-            if (sideBlock.getBlock() instanceof DirectorRailBlock) {
+            if (sideBlock.getBlock() instanceof IDirectionalRailBlock && sideBlock.is(block)) {
                 direction = sideBlock.getValue(FACING);
             }
 
@@ -49,7 +48,7 @@ public interface IDirectionalRailBlock {
     }
 
     default BlockState getPlacementState(BlockState base, Direction facing) {
-        return base.setValue(FACING, facing).setValue(shapeProperty(), facing.getAxis() == Direction.Axis.X ? RailShape.EAST_WEST : RailShape.NORTH_SOUTH);
+        return base.setValue(FACING, facing).setValue(getShapeProperty(), facing.getAxis() == Direction.Axis.X ? RailShape.EAST_WEST : RailShape.NORTH_SOUTH);
     }
 
     default void createDirectionBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {

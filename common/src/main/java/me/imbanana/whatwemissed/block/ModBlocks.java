@@ -1,9 +1,6 @@
 package me.imbanana.whatwemissed.block;
 
-import me.imbanana.whatwemissed.block.custom.CopperRailBlock;
-import me.imbanana.whatwemissed.block.custom.DirectorRailBlock;
-import me.imbanana.whatwemissed.block.custom.RailJunctionBlock;
-import me.imbanana.whatwemissed.block.custom.WeatheringCopperRail;
+import me.imbanana.whatwemissed.block.custom.*;
 import me.imbanana.whatwemissed.registry.ModRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.references.BlockItemId;
@@ -40,6 +37,9 @@ public class ModBlocks {
     );
     public static final Block DIRECTOR_RAIL = registerWithItem(
             ModBlockItemIds.DIRECTOR_RAIL, DirectorRailBlock::new, BlockBehaviour.Properties.of().noCollision().strength(0.7F).sound(SoundType.METAL)
+    );
+    public static final Block CONVEYOR_RAIL = registerWithItem(
+            ModBlockItemIds.CONVEYOR_RAIL, ConveyorRailBlock::new, BlockBehaviour.Properties.of().noCollision().strength(0.7F).sound(SoundType.METAL)
     );
 
     private static Supplier<Block> register(ResourceKey<Block> id, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties properties) {
