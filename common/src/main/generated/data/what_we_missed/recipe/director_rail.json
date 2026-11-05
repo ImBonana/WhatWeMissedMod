@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "i": "minecraft:iron_ingot",
+    "r": "minecraft:redstone",
+    "s": "minecraft:stick"
+  },
+  "pattern": [
+    "iri",
+    "isi",
+    "iri"
+  ],
+  "result": {
+    "count": 8,
+    "id": "what_we_missed:director_rail"
+  }
+}

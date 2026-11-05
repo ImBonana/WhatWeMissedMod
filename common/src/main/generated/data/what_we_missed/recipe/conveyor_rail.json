@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "i": "minecraft:iron_ingot",
+    "n": "minecraft:iron_nugget",
+    "r": "minecraft:redstone",
+    "s": "minecraft:stick"
+  },
+  "pattern": [
+    "nrn",
+    "isi",
+    "nrn"
+  ],
+  "result": {
+    "count": 8,
+    "id": "what_we_missed:conveyor_rail"
+  }
+}

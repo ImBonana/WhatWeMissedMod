@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": "minecraft:copper_ingot",
+    "s": "minecraft:stick"
+  },
+  "pattern": [
+    "c c",
+    "csc",
+    "c c"
+  ],
+  "result": {
+    "count": 8,
+    "id": "what_we_missed:copper_rail"
+  }
+}
