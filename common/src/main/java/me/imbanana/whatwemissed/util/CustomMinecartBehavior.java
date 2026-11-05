@@ -72,10 +72,83 @@ public class CustomMinecartBehavior extends NewMinecartBehavior {
             this.setRotation(yRot, xRot);
             double adjustDistance = previousPosition.distanceTo(this.position());
             if (adjustDistance > 0.0) {
+                float weight = instant ? 0.0F : (float) Math.min(adjustDistance, this.getMaxSpeed((ServerLevel) level()));
                 this.lerpSteps
                         .add(
-                                new NewMinecartBehavior.MinecartStep(this.position(), this.getDeltaMovement(), this.getYRot(), this.getXRot(), instant ? 0.0F : (float)adjustDistance)
+                                new NewMinecartBehavior.MinecartStep(this.position(), this.getDeltaMovement(), this.getYRot(), this.getXRot(), weight)
                         );
+            }
+        }
+    }
+
+    @Override
+    public void moveAlongTrack(ServerLevel level) {
+        for (NewMinecartBehavior.TrackIteration trackIteration = new NewMinecartBehavior.TrackIteration();
+             trackIteration.shouldIterate() && this.minecart.isAlive();
+             trackIteration.firstIteration = false
+        ) {
+            Vec3 initialStepDeltaMovement = this.getDeltaMovement();
+            BlockPos currentPos = this.minecart.getCurrentBlockPosOrRailBelow();
+            BlockState currentState = this.level().getBlockState(currentPos);
+            boolean onRails = BaseRailBlock.isRail(currentState);
+            if (this.minecart.isOnRails() != onRails) {
+                this.minecart.setOnRails(onRails);
+                this.adjustToRails(currentPos, currentState, false);
+            }
+
+            if (onRails) {
+                this.minecart.resetFallDistance();
+                this.minecart.setOldPosAndRot();
+                if (currentState.is(Blocks.ACTIVATOR_RAIL)) {
+                    this.minecart.activateMinecart(level, currentPos.getX(), currentPos.getY(), currentPos.getZ(), currentState.getValue(PoweredRailBlock.POWERED));
+                }
+
+                RailShape shape = currentState.getValue(((BaseRailBlock)currentState.getBlock()).getShapeProperty());
+                Vec3 newDeltaMovement = this.calculateTrackSpeed(level, initialStepDeltaMovement.horizontal(), trackIteration, currentPos, currentState, shape);
+                if (trackIteration.firstIteration) {
+                    trackIteration.movementLeft = newDeltaMovement.horizontalDistance();
+                } else {
+                    trackIteration.movementLeft = trackIteration.movementLeft + (newDeltaMovement.horizontalDistance() - initialStepDeltaMovement.horizontalDistance());
+                }
+
+                this.setDeltaMovement(newDeltaMovement);
+                trackIteration.movementLeft = this.minecart.makeStepAlongTrack(currentPos, shape, trackIteration.movementLeft);
+            } else {
+                this.minecart.comeOffTrack(level);
+                trackIteration.movementLeft = 0.0;
+            }
+
+            Vec3 stepPosition = this.position();
+            Vec3 stepDelta = stepPosition.subtract(this.minecart.oldPosition());
+            double stepLength = stepDelta.length();
+            if (stepLength > 1.0E-5F) {
+                if (!(stepDelta.horizontalDistanceSqr() > 1.0E-5F)) {
+                    if (!this.minecart.isOnRails()) {
+                        this.setXRot(this.minecart.onGround() ? 0.0F : Mth.rotLerp(0.2F, this.getXRot(), 0.0F));
+                    }
+                } else {
+                    float yRot = 180.0F - (float)(Math.atan2(stepDelta.z, stepDelta.x) * 180.0 / Math.PI);
+                    float xRot = this.minecart.onGround() && !this.minecart.isOnRails()
+                            ? 0.0F
+                            : 90.0F - (float)(Math.atan2(stepDelta.horizontalDistance(), stepDelta.y) * 180.0 / Math.PI);
+                    yRot += this.minecart.isFlipped() ? 180.0F : 0.0F;
+                    xRot *= this.minecart.isFlipped() ? -1.0F : 1.0F;
+                    this.setRotation(yRot, xRot);
+                }
+
+                this.lerpSteps
+                        .add(
+                                new NewMinecartBehavior.MinecartStep(
+                                        stepPosition, this.getDeltaMovement(), this.getYRot(), this.getXRot(), (float)Math.min(stepLength, this.getMaxSpeed(level))
+                                )
+                        );
+            } else if (trackIteration.firstIteration && initialStepDeltaMovement.horizontalDistanceSqr() > 0.0) {
+                this.lerpSteps.add(new MinecartStep(stepPosition, this.getDeltaMovement(), this.getYRot(), this.getXRot(), 1.0E-4F));
+            }
+
+            if (stepLength > 1.0E-5F || trackIteration.firstIteration) {
+                this.minecart.applyEffectsFromBlocks();
+                this.minecart.applyEffectsFromBlocks();
             }
         }
     }
