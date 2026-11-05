@@ -26,8 +26,8 @@ public interface IRailBlock {
     }
 
     enum RailDirection {
-        NORTH(Direction.Axis.Z.getPositive().getUnitVec3()),
-        SOUTH(Direction.Axis.Z.getNegative().getUnitVec3()),
+        NORTH(Direction.Axis.Z.getNegative().getUnitVec3()),
+        SOUTH(Direction.Axis.Z.getPositive().getUnitVec3()),
         EAST(Direction.Axis.X.getPositive().getUnitVec3()),
         WEST(Direction.Axis.X.getNegative().getUnitVec3()),
         FREESTYLE(null);
