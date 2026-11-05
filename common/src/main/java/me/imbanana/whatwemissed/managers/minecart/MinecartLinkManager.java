@@ -29,7 +29,6 @@ public class MinecartLinkManager {
         if (player.distanceTo(first) > playerReach || player.distanceTo(second) > playerReach) return;
 
         if (first.distanceTo(second) > 3) {
-            sendStatus(player, "minecart_distance", TextColor.RED);
             return;
         }
 
@@ -47,7 +46,6 @@ public class MinecartLinkManager {
         }
 
         if (!player.hasInfiniteMaterials()) stack.shrink(1);
-        sendStatus(player, "minecart_link", TextColor.GREEN);
         level.playSound(null, second.blockPosition(), SoundEvents.CHAIN_PLACE, SoundSource.PLAYERS, 1f, 1f);
     }
 
@@ -61,12 +59,7 @@ public class MinecartLinkManager {
         if (!cart.what_we_missed$hasLink()) return;
 
         cart.what_we_missed$unlink();
-        sendStatus(player, "minecart_unlink", TextColor.RED);
         level.playSound(null, cart.blockPosition(), SoundEvents.CHAIN_BREAK, SoundSource.PLAYERS, 1f, 1f);
-    }
-
-    private static void sendStatus(ServerPlayer player, String key, TextColor color) {
-        player.sendOverlayMessage(Component.translatable("interaction.what_we_missed." + key).withColor(color));
     }
 
     public static ChainType chainTypeOf(ItemStack s) {

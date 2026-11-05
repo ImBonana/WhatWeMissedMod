@@ -35,7 +35,6 @@ public class MinecartLinkManagerClient {
         Entity first = selectedId == -1 ? null : level.getEntity(selectedId);
         if (!(first instanceof AbstractMinecart) || !first.isAlive()) {
             selectedId = cart.getId();
-            player.sendOverlayMessage(Component.translatable("interaction.what_we_missed.minecart_select"));
             return InteractionResult.SUCCESS;
         }
 
