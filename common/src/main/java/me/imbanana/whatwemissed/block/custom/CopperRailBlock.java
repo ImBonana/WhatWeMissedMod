@@ -32,8 +32,8 @@ public class CopperRailBlock extends BaseRailBlock {
     public float getRailFrictionModifier() {
         return switch (this.weatherState) {
             case UNAFFECTED -> 0.4f;
-            case EXPOSED -> 0.8f;
-            case WEATHERED -> 1.2f;
+            case EXPOSED -> 0.7f;
+            case WEATHERED -> 1.3f;
             case OXIDIZED -> 1.6f;
         };
     }
