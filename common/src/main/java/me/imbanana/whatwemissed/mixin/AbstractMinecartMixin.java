@@ -7,6 +7,7 @@ import me.imbanana.whatwemissed.dataattachment.attachment.MinecartLinkData;
 import me.imbanana.whatwemissed.util.ChainType;
 import me.imbanana.whatwemissed.util.CustomMinecartBehavior;
 import me.imbanana.whatwemissed.util.IAbstractMinecart;
+import me.imbanana.whatwemissed.util.MinecartMath;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -36,19 +37,13 @@ public abstract class AbstractMinecartMixin extends VehicleEntity implements IAb
     public abstract void tick();
 
     @Unique
-    private static final double REST = 1.8;
+    private static final double REST = 2.2;
     @Unique
-    private static final double MIN_DIST = 2;
+    private static final double MAX_VEL_FIX = 0.3;
     @Unique
-    private static final double STIFFNESS = 0.3;
+    private static final double MAX_POS_FIX = 0.75;
     @Unique
-    private static final double DAMPING = 0.8;
-    @Unique
-    private static final double MAX_IMPULSE = 0.3;
-    @Unique
-    private static final double MAX_SPEED = 0.4;
-    @Unique
-    private static final double BREAK_DIST = REST * 2.5;
+    private static final double POS_SLOP = 0.002;
 
     public AbstractMinecartMixin(EntityType<?> type, Level level) {
         super(type, level);
@@ -120,48 +115,37 @@ public abstract class AbstractMinecartMixin extends VehicleEntity implements IAb
         double dist = Math.sqrt(dx * dx + dz * dz);
         if (dist < 1.0E-4) return;
 
-        if (dist > BREAK_DIST) {
-            this.what_we_missed$unlink();
-            return;
-        }
-
         double nx = dx / dist;
         double nz = dz / dist;
-        Vec3 va = this.getDeltaMovement();
-        Vec3 vb = other.getDeltaMovement();
-        double relSpeed = (vb.x - va.x) * nx + (vb.z - va.z) * nz;
 
-        double impulse = 0.0;
+        Vec3 ta = MinecartMath.forward(self);
+        Vec3 tb = MinecartMath.forward(other);
+        double gA = ta.x * nx + ta.z * nz;
+        double gB = tb.x * nx + tb.z * nz;
+        double denom = gA * gA + gB * gB;
+        if (denom < 1.0E-3) return;
 
-        if (dist > REST) {
-            impulse = (dist - REST) * STIFFNESS + relSpeed * DAMPING;
-            impulse = Mth.clamp(impulse, 0.0, MAX_IMPULSE);
-        } else if (dist < MIN_DIST && relSpeed < 0) {
-            impulse = Math.max(relSpeed, -MAX_IMPULSE * 2.0);
+        double error = REST - dist;
+        if (Math.abs(error) > POS_SLOP) {
+            double e = Mth.clamp(error, -MAX_POS_FIX, MAX_POS_FIX);
+            double lambda = e / denom;
+            double sA = -lambda * gA;
+            double sB = lambda * gB;
+            self.setPos(self.getX() + ta.x * sA, self.getY(), self.getZ() + ta.z * sA);
+            other.setPos(other.getX() + tb.x * sB, other.getY(), other.getZ() + tb.z * sB);
         }
 
-        if (impulse == 0.0) return;
-
-        double half = impulse * 0.5;
-        apply(self, va, nx * half, nz * half);
-        apply(other, vb, -nx * half, -nz * half);
-    }
-
-    @Unique
-    private static void apply(AbstractMinecart cart, Vec3 v, double ix, double iz) {
-        Vec3 axis = Vec3.directionFromRotation(0f, cart.getYRot() + 90f);
-        double along = ix * axis.x + iz * axis.z;
-
-        double vx = v.x + axis.x * along;
-        double vz = v.z + axis.z * along;
-
-        double h = Math.hypot(vx, vz);
-        if (h > MAX_SPEED) {
-            vx *= MAX_SPEED / h;
-            vz *= MAX_SPEED / h;
-        }
-
-        cart.setDeltaMovement(vx, v.y, vz);
+        Vec3 velA = this.getDeltaMovement();
+        Vec3 velB = other.getDeltaMovement();
+        double rel = (velB.x - velA.x) * nx + (velB.z - velA.z) * nz;
+        double delta = Mth.clamp(-rel, -MAX_VEL_FIX, MAX_VEL_FIX);
+        if (Math.abs(delta) > 1.0E-6) {
+            double lambda = delta / denom;
+            double dA = -lambda * gA;
+            double dB = lambda * gB;
+            self.setDeltaMovement(velA.x + ta.x * dA, velA.y, velA.z + ta.z * dA);
+            other.setDeltaMovement(velB.x + tb.x * dB, velB.y, velB.z + tb.z * dB);
+        };
     }
 
     @Inject(method = "isFlipped", at = @At("HEAD"), cancellable = true)
