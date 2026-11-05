@@ -3,17 +3,17 @@ package me.imbanana.whatwemissed.block.custom;
 import me.imbanana.whatwemissed.util.IDirectionalRailBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class DirectorRailBlock extends PoweredRailBlock implements IDirectionalRailBlock {
-    private boolean shouldGiveBoost = false;
-
     public DirectorRailBlock(BlockBehaviour.Properties properties) {
         super(properties);
         this.registerDefaultState(this.registerFacingState(this.defaultBlockState()));
@@ -34,37 +34,35 @@ public class DirectorRailBlock extends PoweredRailBlock implements IDirectionalR
     }
 
     @Override
-    public Vec3 calculateDeltaMovement(Vec3 deltaMovement, BlockState state) {
-        if (!shouldGiveBoost) return deltaMovement;
-        shouldGiveBoost = false;
-
-        Vec3 faceDir = this.getRailDirection(state).getDirection();
-        if (faceDir == null) return deltaMovement;
-
-        return deltaMovement.horizontalDistance() < 1.0E-3
-                ? faceDir.multiply(1, 0, 1).add(0, deltaMovement.y(), 0).normalize().scale(0.5)
-                : super.calculateDeltaMovement(deltaMovement, state);
-    }
-
-    @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         return this.getPlacementState(super.getStateForPlacement(context), context.getHorizontalDirection());
     }
 
     @Override
     protected void updateState(BlockState state, Level level, BlockPos pos, Block block) {
-        boolean isPowered = state.getValue(POWERED);
+        boolean wasPowered = state.getValue(POWERED);
 
         super.updateState(state, level, pos, block);
 
-        boolean isPoweredAfterUpdate = level.getBlockState(pos).getValue(POWERED);
-        if (!isPowered && isPoweredAfterUpdate) {
-            shouldGiveBoost = true;
-        } else if(isPowered && !isPoweredAfterUpdate) {
-            shouldGiveBoost = false;
+        BlockState current = level.getBlockState(pos);
+        if (!wasPowered && current.is(this) && current.getValue(POWERED)) {
+            giveInitialBoost(level, pos, current);
         }
 
         this.realign(this, level, pos);
+    }
+
+    private void giveInitialBoost(Level level, BlockPos pos, BlockState state) {
+        Vec3 dir = this.getRailDirection(state).getDirection();
+        if (dir == null) return;
+        Vec3 flat = dir.multiply(1, 0, 1);
+        if (flat.lengthSqr() < 1.0E-10) return;
+
+        for (AbstractMinecart cart : level.getEntitiesOfClass(AbstractMinecart.class, new AABB(pos))) {
+            if (cart.getDeltaMovement().horizontalDistanceSqr() < 1.0E-3) {
+                cart.setDeltaMovement(flat.normalize().scale(0.5).add(0, cart.getDeltaMovement().y(), 0));
+            }
+        }
     }
 
     @Override
