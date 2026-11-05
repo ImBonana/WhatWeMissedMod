@@ -4,6 +4,7 @@ import me.imbanana.whatwemissed.network.ModClientNetwork;
 import me.imbanana.whatwemissed.network.payload.LinkMinecartPayloadC2S;
 import me.imbanana.whatwemissed.network.payload.UnlinkMinecartPayloadC2S;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -16,15 +17,17 @@ public class MinecartLinkManagerClient {
     private static int selectedId = -1;
 
     public static InteractionResult onClientInteract(Player player, Level level, InteractionHand hand, Entity entity) {
-        if (!level.isClientSide()) return InteractionResult.PASS;
         if (!player.isShiftKeyDown()) return InteractionResult.PASS;
         if (!(entity instanceof AbstractMinecart cart)) return InteractionResult.PASS;
+        if (cart instanceof Container && !level.isClientSide()) return InteractionResult.SUCCESS;
 
         ItemStack stack = player.getItemInHand(hand);
         boolean isChain = MinecartLinkManager.chainTypeOf(stack) != null;
         boolean wantsUnlink = hand == InteractionHand.MAIN_HAND && stack.isEmpty() && cart.what_we_missed$hasLink();
 
         if (!isChain && !wantsUnlink) return InteractionResult.PASS;
+
+        if (!level.isClientSide()) return InteractionResult.SUCCESS;
 
         if (wantsUnlink) {
             clearSelection();
