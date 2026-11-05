@@ -329,7 +329,7 @@ public class CustomMinecartBehavior extends NewMinecartBehavior {
     public Vec3 calculateBoostTrackSpeed(final Vec3 deltaMovement, final BlockPos pos, final BlockState state) {
         if (state.is(Blocks.POWERED_RAIL) && state.getValue(PoweredRailBlock.POWERED)) {
             if (deltaMovement.length() > 0.01) {
-                return deltaMovement.normalize().scale(deltaMovement.length() + 0.0625);
+                return deltaMovement.normalize().scale(deltaMovement.length() + 0.8f / 20f);
             }
 
             Vec3 powerDirection = this.minecart.getRedstoneDirection(pos);
