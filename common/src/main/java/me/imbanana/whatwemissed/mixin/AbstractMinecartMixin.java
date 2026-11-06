@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.vehicle.VehicleEntity;
 import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
 import net.minecraft.world.entity.vehicle.minecart.MinecartBehavior;
@@ -24,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.Optional;
+import java.util.*;
 
 @Mixin(AbstractMinecart.class)
 public abstract class AbstractMinecartMixin extends VehicleEntity implements IAbstractMinecart {
@@ -39,11 +40,12 @@ public abstract class AbstractMinecartMixin extends VehicleEntity implements IAb
     @Unique
     private static final double REST = 2.2;
     @Unique
-    private static final double MAX_VEL_FIX = 0.3;
-    @Unique
-    private static final double MAX_POS_FIX = 0.75;
+    private static final int ITERATIONS = 8;
     @Unique
     private static final double POS_SLOP = 0.002;
+
+    @Unique
+    private long what_we_missed$lastSolveTick = -1;
 
     public AbstractMinecartMixin(EntityType<?> type, Level level) {
         super(type, level);
@@ -99,53 +101,96 @@ public abstract class AbstractMinecartMixin extends VehicleEntity implements IAb
         return minecart.equals(this.what_we_missed$getLinkedEntity());
     }
 
+    @Override
+    public long what_we_missed$getLastSolveTick() {
+        return what_we_missed$lastSolveTick;
+    }
+
+    @Override
+    public void what_we_missed$setLastSolveTick(long tick) {
+        what_we_missed$lastSolveTick = tick;
+    }
+
     @Inject(
             method = "tick",
             at = @At("TAIL")
     )
-    private void solveLink(CallbackInfo ci) {
+    private void solveTrain(CallbackInfo ci) {
         if (this.level().isClientSide()) return;
 
-        AbstractMinecart self = (AbstractMinecart) (Object) this;
-        AbstractMinecart other = this.what_we_missed$getLinkedEntity();
-        if (other == null) return;
+        long now = this.level().getGameTime();
+        if (what_we_missed$lastSolveTick == now) return;
 
-        double dx = other.getX() - this.getX();
-        double dz = other.getZ() - this.getZ();
+        List<AbstractMinecart> train = new ArrayList<>();
+        Set<AbstractMinecart> seen = new HashSet<>();
+        AbstractMinecart current = (AbstractMinecart) (Object) this;
+        while (current != null && seen.add(current)) {
+            train.add(current);
+            current = current.what_we_missed$getLinkedEntity();
+        }
+        if (train.size() < 2) return;
+        
+        for (AbstractMinecart cart : train) {
+            cart.what_we_missed$setLastSolveTick(now);
+        }
+
+        for (int iteration = 0; iteration < ITERATIONS; iteration++) {
+            for (int i = 0; i < train.size() - 1; i++) {
+                solveLink(train.get(i), train.get(i + 1));
+            }
+        }
+    }
+
+    @Unique
+    private static void solveLink(AbstractMinecart a, AbstractMinecart b) {
+        double dx = b.getX() - a.getX();
+        double dz = b.getZ() - a.getZ();
         double dist = Math.sqrt(dx * dx + dz * dz);
         if (dist < 1.0E-4) return;
 
-        double nx = dx / dist;
-        double nz = dz / dist;
+        double nx = dx / dist, nz = dz / dist;
 
-        Vec3 ta = MinecartMath.forward(self);
-        Vec3 tb = MinecartMath.forward(other);
+        Vec3 ta = MinecartMath.forward(a);
+        Vec3 tb = MinecartMath.forward(b);
         double gA = ta.x * nx + ta.z * nz;
         double gB = tb.x * nx + tb.z * nz;
         double denom = gA * gA + gB * gB;
         if (denom < 1.0E-3) return;
 
+        Vec3 va = a.getDeltaMovement();
+        Vec3 vb = b.getDeltaMovement();
+        double speed = Math.max(va.horizontalDistance(), vb.horizontalDistance());
+
         double error = REST - dist;
         if (Math.abs(error) > POS_SLOP) {
-            double e = Mth.clamp(error, -MAX_POS_FIX, MAX_POS_FIX);
-            double lambda = e / denom;
-            double sA = -lambda * gA;
-            double sB = lambda * gB;
-            self.setPos(self.getX() + ta.x * sA, self.getY(), self.getZ() + ta.z * sA);
-            other.setPos(other.getX() + tb.x * sB, other.getY(), other.getZ() + tb.z * sB);
+            double maxPosFix = Math.max(0.5, speed * 1.5);
+            double lambda = Mth.clamp(error, -maxPosFix, maxPosFix) / denom;
+
+            Vec3 moveA = ta.scale(-lambda * gA);
+            Vec3 moveB = tb.scale(lambda * gB);
+            Vec3 beforeA = a.position();
+            Vec3 beforeB = b.position();
+
+            a.move(MoverType.SELF, moveA);
+            b.move(MoverType.SELF, moveB);
+
+            boolean blockedA = moveA.subtract(a.position().subtract(beforeA)).lengthSqr() > 1.0E-8;
+            boolean blockedB = moveB.subtract(b.position().subtract(beforeB)).lengthSqr() > 1.0E-8;
+            if (blockedA) b.setDeltaMovement(0.0, b.getDeltaMovement().y, 0.0);
+            if (blockedB) a.setDeltaMovement(0.0, a.getDeltaMovement().y, 0.0);
+
+            va = a.getDeltaMovement();
+            vb = b.getDeltaMovement();
         }
 
-        Vec3 velA = this.getDeltaMovement();
-        Vec3 velB = other.getDeltaMovement();
-        double rel = (velB.x - velA.x) * nx + (velB.z - velA.z) * nz;
-        double delta = Mth.clamp(-rel, -MAX_VEL_FIX, MAX_VEL_FIX);
+        double rel = (vb.x - va.x) * nx + (vb.z - va.z) * nz;
+        double maxVelFix = Math.max(0.3, speed);
+        double delta = Mth.clamp(-rel, -maxVelFix, maxVelFix);
         if (Math.abs(delta) > 1.0E-6) {
             double lambda = delta / denom;
-            double dA = -lambda * gA;
-            double dB = lambda * gB;
-            self.setDeltaMovement(velA.x + ta.x * dA, velA.y, velA.z + ta.z * dA);
-            other.setDeltaMovement(velB.x + tb.x * dB, velB.y, velB.z + tb.z * dB);
-        };
+            a.setDeltaMovement(va.x - ta.x * lambda * gA, va.y, va.z - ta.z * lambda * gA);
+            b.setDeltaMovement(vb.x + tb.x * lambda * gB, vb.y, vb.z + tb.z * lambda * gB);
+        }
     }
 
     @Inject(method = "isFlipped", at = @At("HEAD"), cancellable = true)

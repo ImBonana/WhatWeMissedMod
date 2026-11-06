@@ -9,4 +9,6 @@ public interface IAbstractMinecart {
     default AbstractMinecart what_we_missed$getLinkedEntity() { return null; }
     default ChainType what_we_missed$getChainType() { return ChainType.IRON; }
     default boolean what_we_missed$isLinkedTo(AbstractMinecart minecart) { return false; }
+    long what_we_missed$getLastSolveTick();
+    void what_we_missed$setLastSolveTick(long tick);
 }

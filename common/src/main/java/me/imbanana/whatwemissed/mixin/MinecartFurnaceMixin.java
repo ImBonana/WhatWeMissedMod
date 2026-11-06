@@ -254,7 +254,7 @@ public abstract class MinecartFurnaceMixin extends AbstractMinecart implements C
 
         if (cachedLinked == null || !cachedLinked.isAlive() || !cachedLinked.what_we_missed$isLinkedTo(this)) {
             for (AbstractMinecart cart : this.level().getEntitiesOfClass(AbstractMinecart.class, this.getBoundingBox().inflate(8f))) {
-                if (!cart.equals(this) && cart.what_we_missed$isLinkedTo(cart)) {
+                if (!cart.equals(this) && cart.what_we_missed$isLinkedTo(this)) {
                     cachedLinked = cart;
                     break;
                 }
