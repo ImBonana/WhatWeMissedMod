@@ -193,6 +193,12 @@ public abstract class AbstractMinecartMixin extends VehicleEntity implements IAb
         }
     }
 
+    @Inject(method = "getDefaultGravity", at = @At("HEAD"), cancellable = true)
+    private void updateGravity(CallbackInfoReturnable<Double> cir) {
+        float base = 0.08f;
+        cir.setReturnValue(this.isInWater() ? base * 0.8 : base);
+    }
+
     @Inject(method = "isFlipped", at = @At("HEAD"), cancellable = true)
     private void what_we_missed$neverFlipped(CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(false);
