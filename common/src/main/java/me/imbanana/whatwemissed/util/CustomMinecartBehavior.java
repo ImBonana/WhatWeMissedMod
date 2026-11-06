@@ -300,7 +300,7 @@ public class CustomMinecartBehavior extends NewMinecartBehavior {
     }
 
     private Vec3 applyFriction(Vec3 deltaMovement, BlockState state) {
-        float friction = 0.11f;
+        float friction = 0.01f;
 
         if (state.getBlock() instanceof IRailBlock railBlock) {
             friction *= railBlock.getRailFrictionModifier();
