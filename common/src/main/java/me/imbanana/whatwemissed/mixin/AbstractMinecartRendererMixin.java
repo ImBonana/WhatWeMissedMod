@@ -33,6 +33,12 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
     private static final Identifier TEXTURE = WhatWeMissed.idOf("textures/entity/minecart/minecart.png");
 
     @Unique
+    private static final double CHAIN_LENGTH = 2.05f * 0.55f;
+    @Unique
+    private static final double MAX_SAG = 1.5;
+    @Unique
+    private static final int PIECES_PER_TILE = 8;
+    @Unique
     private static final double CART_END_OFFSET = 0.55;
     @Unique
     private static final double HITCH_HEIGHT = 0.45;
@@ -79,44 +85,92 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
         double span = delta.length();
         if (span <= 0.05) return;
 
-        Vec3 dir = delta.scale(1f / span);
+        double slack = CHAIN_LENGTH - span;
+        double sag = slack <= 0 ? 0 : Math.min(MAX_SAG, Math.sqrt(3f * Math.max(span, 0.3f) * slack / 8f));
 
-        Vec3 ref = Math.abs(dir.y) > 0.99 ? new Vec3(1, 0, 0) : new Vec3(0, 1, 0);
-        Vec3 side1 = dir.cross(ref).normalize().scale(HALF_WIDTH);
-        Vec3 side2 = dir.cross(side1).normalize().scale(HALF_WIDTH);
+        final int dense = 32;
+        Vec3[] curve = new Vec3[dense + 1];
+        double[] arcLengths = new double[dense + 1];
+        for (int i = 0; i <= dense; i++) {
+            double t = (double) i / dense;
+            curve[i] = anchorStart.add(delta.scale(t)).add(0, -sag * 4f * t * (1f - t), 0);
+            arcLengths[i] = i == 0 ? 0f : arcLengths[i - 1] + curve[i].distanceTo(curve[i - 1]);
+        }
 
-        int count = Math.max(1, (int) Math.ceil(span));
-        double pieceLength = span / count;
+        double totalLength = arcLengths[dense];
+
+        int tiles = Math.max(1, (int) Math.round(totalLength * 2.0));
+        int count = tiles * PIECES_PER_TILE;
+        double pieceLength = totalLength / count;
+
+        Vec3[] points = new Vec3[count + 1];
+        for (int i = 0; i <= count; i++) {
+            points[i] = pointAt(curve, arcLengths, i * pieceLength);
+        }
+
+        Vec3[] sides1 = new Vec3[count + 1];
+        Vec3[] sides2 = new Vec3[count + 1];
+        Vec3[] dirs = new Vec3[count + 1];
+        double r = Math.sqrt(0.5);
+        for (int k = 0; k <= count; k++) {
+            Vec3 prev = points[Math.max(k - 1, 0)];
+            Vec3 next = points[Math.min(k + 1, count)];
+            Vec3 tangent = next.subtract(prev);
+            if (tangent.lengthSqr() < 1.0E-12) tangent = delta;
+            Vec3 dir = tangent.normalize();
+
+            Vec3 ref = Math.abs(dir.y) > 0.99 ? new Vec3(1, 0, 0) : new Vec3(0, 1, 0);
+            Vec3 base1 = dir.cross(ref).normalize();
+            Vec3 base2 = dir.cross(base1).normalize();
+
+            dirs[k] = dir;
+            sides1[k] = base1.add(base2).scale(r * HALF_WIDTH);
+            sides2[k] = base2.subtract(base1).scale(r * HALF_WIDTH);
+        }
+
+
         int light = state.lightCoords;
-
         Identifier texture = Identifier.withDefaultNamespace("textures/block/%s_chain.png".formatted(state.what_we_missed$getChainType().getSerializedName()));
 
         collector.submitCustomGeometry(poseStack, RenderTypes.entityCutout(texture), (pose, buffer) -> {
             for (int i = 0; i < count; i++) {
-                Vec3 a = anchorStart.add(dir.scale(pieceLength * i));
-                Vec3 b = anchorStart.add(dir.scale(pieceLength * (i + 1)));
+                float tilePos = (float) (i % PIECES_PER_TILE) / PIECES_PER_TILE;
+                float vA = 1f - tilePos;
+                float vB = vA - 1f / PIECES_PER_TILE;
 
-                quad(pose, buffer, a, b, side1, dir, 0f, 3f / 16f, light);
-                quad(pose, buffer, a, b, side2, dir, 0f, 3f / 16f, light);
+                quad(pose, buffer, points[i], points[i + 1], sides1[i], sides1[i + 1], dirs[i], 0f, 3f / 16f, vA, vB, light);
+                quad(pose, buffer, points[i], points[i + 1], sides2[i], sides2[i + 1], dirs[i], 3f / 16f, 6f / 16f, vA, vB, light);
             }
         });
     }
 
     @Unique
-    private static void quad(PoseStack.Pose pose, VertexConsumer buffer, Vec3 a, Vec3 b, Vec3 side, Vec3 dir, float u0, float u1, int light) {
-        Vec3 push = dir.cross(side).normalize().scale(0.00001);
+    private static Vec3 pointAt(Vec3[] curve, double[] archLengths, double distance) {
+        for (int i = 1; i < archLengths.length; i++) {
+            if (distance <= archLengths[i]) {
+                double segmentLength = archLengths[i] - archLengths[i - 1];
+                double fraction = segmentLength < 1.0E-9 ? 0.0 : (distance - archLengths[i - 1]) / segmentLength;
+                return curve[i - 1].lerp(curve[i], fraction);
+            }
+        }
+        return curve[curve.length - 1];
+    }
+
+    @Unique
+    private static void quad(PoseStack.Pose pose, VertexConsumer buffer, Vec3 a, Vec3 b, Vec3 sideA, Vec3 sideB, Vec3 dir, float u0, float u1, float vA, float vB, int light) {
+        Vec3 push = dir.cross(sideA).normalize().scale(0.0001);
 
         Vec3 a1 = a.add(push), b1 = b.add(push);
-        vertex(pose, buffer, a1.subtract(side), u0, 1f, light);
-        vertex(pose, buffer, a1.add(side),      u1, 1f, light);
-        vertex(pose, buffer, b1.add(side),      u1, 0f, light);
-        vertex(pose, buffer, b1.subtract(side), u0, 0f, light);
+        vertex(pose, buffer, a1.subtract(sideA), u0, vA, light);
+        vertex(pose, buffer, a1.add(sideA),      u1, vA, light);
+        vertex(pose, buffer, b1.add(sideB),      u1, vB, light);
+        vertex(pose, buffer, b1.subtract(sideB), u0, vB, light);
 
         Vec3 a2 = a.subtract(push), b2 = b.subtract(push);
-        vertex(pose, buffer, b2.subtract(side), u0, 0f, light);
-        vertex(pose, buffer, b2.add(side),      u1, 0f, light);
-        vertex(pose, buffer, a2.add(side),      u1, 1f, light);
-        vertex(pose, buffer, a2.subtract(side), u0, 1f, light);
+        vertex(pose, buffer, b2.subtract(sideB), u0, vB, light);
+        vertex(pose, buffer, b2.add(sideB),      u1, vB, light);
+        vertex(pose, buffer, a2.add(sideA),      u1, vA, light);
+        vertex(pose, buffer, a2.subtract(sideA), u0, vA, light);
     }
 
     @Unique
