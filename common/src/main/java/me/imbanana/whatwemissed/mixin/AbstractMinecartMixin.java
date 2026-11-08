@@ -43,6 +43,8 @@ public abstract class AbstractMinecartMixin extends VehicleEntity implements IAb
     private static final int ITERATIONS = 8;
     @Unique
     private static final double POS_SLOP = 0.002;
+    @Unique
+    private static final double MIN_DENOM = 0.25;
 
     @Unique
     private long what_we_missed$lastSolveTick = -1;
@@ -129,20 +131,36 @@ public abstract class AbstractMinecartMixin extends VehicleEntity implements IAb
             current = current.what_we_missed$getLinkedEntity();
         }
         if (train.size() < 2) return;
-        
+
         for (AbstractMinecart cart : train) {
             cart.what_we_missed$setLastSolveTick(now);
         }
 
-        for (int iteration = 0; iteration < ITERATIONS; iteration++) {
+        double trainSpeed = 0.0;
+        for (AbstractMinecart cart : train) {
+            trainSpeed = Math.max(trainSpeed, cart.getDeltaMovement().horizontalDistance());
+        }
+        double speedCap = Math.max(trainSpeed, 0.05) * 1.02;
+
+        int iterations = Math.max(ITERATIONS, train.size());
+        for (int iteration = 0; iteration < iterations; iteration++) {
             for (int i = 0; i < train.size() - 1; i++) {
-                solveLink(train.get(i), train.get(i + 1));
+                solveLink(train.get(i), train.get(i + 1), speedCap);
+            }
+            for (int i = train.size() - 2; i >= 0; i--) {
+                solveLink(train.get(i), train.get(i + 1), speedCap);
             }
         }
     }
 
     @Unique
-    private static void solveLink(AbstractMinecart a, AbstractMinecart b) {
+    private static void solveLink(AbstractMinecart a, AbstractMinecart b, double speedCap) {
+        if (!a.isOnRails() || !b.isOnRails()) {
+            solveFreeLink(a, b, speedCap);
+            return;
+        }
+        if (Math.abs(b.getY() - a.getY()) > 3.0) return;
+
         double dx = b.getX() - a.getX();
         double dz = b.getZ() - a.getZ();
         double dist = Math.sqrt(dx * dx + dz * dz);
@@ -154,15 +172,16 @@ public abstract class AbstractMinecartMixin extends VehicleEntity implements IAb
         Vec3 tb = MinecartMath.forward(b);
         double gA = ta.x * nx + ta.z * nz;
         double gB = tb.x * nx + tb.z * nz;
-        double denom = gA * gA + gB * gB;
-        if (denom < 1.0E-3) return;
+        double denom = Math.max(gA * gA + gB * gB, MIN_DENOM);
 
         Vec3 va = a.getDeltaMovement();
         Vec3 vb = b.getDeltaMovement();
         double speed = Math.max(va.horizontalDistance(), vb.horizontalDistance());
 
+        if (dist < REST) return;
+
         double error = REST - dist;
-        if (Math.abs(error) > POS_SLOP) {
+        if (error < -POS_SLOP) {
             double maxPosFix = Math.max(0.5, speed * 1.5);
             double lambda = Mth.clamp(error, -maxPosFix, maxPosFix) / denom;
 
@@ -188,9 +207,59 @@ public abstract class AbstractMinecartMixin extends VehicleEntity implements IAb
         double delta = Mth.clamp(-rel, -maxVelFix, maxVelFix);
         if (Math.abs(delta) > 1.0E-6) {
             double lambda = delta / denom;
-            a.setDeltaMovement(va.x - ta.x * lambda * gA, va.y, va.z - ta.z * lambda * gA);
-            b.setDeltaMovement(vb.x + tb.x * lambda * gB, vb.y, vb.z + tb.z * lambda * gB);
+            a.setDeltaMovement(keepSlope(va, capHorizontalSpeed(new Vec3(va.x - ta.x * lambda * gA, va.y, va.z - ta.z * lambda * gA), speedCap)));
+            b.setDeltaMovement(keepSlope(vb, capHorizontalSpeed(new Vec3(vb.x + tb.x * lambda * gB, vb.y, vb.z + tb.z * lambda * gB), speedCap)));
         }
+    }
+
+    @Unique
+    private static void solveFreeLink(AbstractMinecart a, AbstractMinecart b, double speedCap) {
+        double wA = a.isOnRails() ? 0.0 : 1.0;
+        double wB = b.isOnRails() ? 0.0 : 1.0;
+        double wSum = wA + wB;
+        if (wSum == 0.0) return;
+
+        double dx = b.getX() - a.getX();
+        double dz = b.getZ() - a.getZ();
+        double dist = Math.sqrt(dx * dx + dz * dz);
+        if (dist < 1.0E-4) return;
+        double nx = dx / dist, nz = dz / dist;
+
+        Vec3 va = a.getDeltaMovement();
+        Vec3 vb = b.getDeltaMovement();
+
+        if (dist < REST) return;
+
+        double error = REST - dist;
+        if (error < -POS_SLOP) {
+            double fix = Mth.clamp(error, -0.5, 0.5);
+            a.move(MoverType.SELF, new Vec3(-nx * fix * wA / wSum, 0.0, -nz * fix * wA / wSum));
+            b.move(MoverType.SELF, new Vec3(nx * fix * wB / wSum, 0.0, nz * fix * wB / wSum));
+            va = a.getDeltaMovement();
+            vb = b.getDeltaMovement();
+        }
+
+        double rel = (vb.x - va.x) * nx + (vb.z - va.z) * nz;
+        if (rel > 1.0E-6) {
+            a.setDeltaMovement(capHorizontalSpeed(new Vec3(va.x + nx * rel * wA / wSum, va.y, va.z + nz * rel * wA / wSum), speedCap));
+            b.setDeltaMovement(capHorizontalSpeed(new Vec3(vb.x - nx * rel * wB / wSum, vb.y, vb.z - nz * rel * wB / wSum), speedCap));
+        }
+    }
+
+    @Unique
+    private static Vec3 capHorizontalSpeed(Vec3 v, double max) {
+        double horizontalSpeed = v.horizontalDistance();
+        if (horizontalSpeed <= max) return v;
+        double s = max / horizontalSpeed;
+        return new Vec3(v.x * s, v.y, v.z * s);
+    }
+
+    @Unique
+    private static Vec3 keepSlope(Vec3 old, Vec3 updated) {
+        double oldSq = old.x * old.x + old.z * old.z;
+        if (oldSq < 1.0E-8 || Math.abs(old.y) < 1.0E-6) return updated;
+        double ratio = Math.min(1.0, (updated.x * old.x + updated.z * old.z) / oldSq);
+        return new Vec3(updated.x, old.y * ratio, updated.z);
     }
 
     @Inject(method = "getDefaultGravity", at = @At("HEAD"), cancellable = true)

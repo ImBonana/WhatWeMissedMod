@@ -183,7 +183,18 @@ public class CustomMinecartBehavior extends NewMinecartBehavior {
         }
 
         Vec3 towardsOut = outPosition.subtract(this.position()).normalize();
-        movement = towardsOut.scale(movement.length() / towardsOut.horizontalDistance());
+        double horizontalSpeed = movement.length();
+        double towardsHorizontal = towardsOut.horizontalDistance();
+        if (towardsHorizontal > 1.0E-4) {
+            
+            double maxVertical = inHill ? horizontalSpeed : horizontalSpeed * 0.25;
+            double vertical = Mth.clamp(towardsOut.y / towardsHorizontal * horizontalSpeed, -maxVertical, maxVertical);
+            movement = new Vec3(
+                    towardsOut.x / towardsHorizontal * horizontalSpeed,
+                    vertical,
+                    towardsOut.z / towardsHorizontal * horizontalSpeed
+            );
+        }
         Vec3 newPosition = oldPosition.add(movement.normalize().scale(movementLeft * (inHill ? Mth.SQRT_OF_TWO : 1.0F)));
         if (oldPosition.distanceToSqr(outPosition) <= oldPosition.distanceToSqr(newPosition)) {
             movementLeft = outPosition.subtract(newPosition).horizontalDistance();
