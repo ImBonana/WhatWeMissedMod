@@ -3,16 +3,18 @@ package me.imbanana.whatwemissed.managers.minecart;
 import me.imbanana.whatwemissed.network.payload.LinkMinecartPayloadC2S;
 import me.imbanana.whatwemissed.network.payload.UnlinkMinecartPayloadC2S;
 import me.imbanana.whatwemissed.util.ChainType;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextColor;
+import me.imbanana.whatwemissed.util.ChainedCartLinkSide;
+import me.imbanana.whatwemissed.util.MinecartMath;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.phys.Vec3;
 
 public class MinecartLinkManager {
     public static void handleLink(LinkMinecartPayloadC2S payload, ServerPlayer player) {
@@ -36,13 +38,20 @@ public class MinecartLinkManager {
                 : second.what_we_missed$isLinkedTo(first) ? second
                 : null;
 
+        ChainedCartLinkSide firstSide = payload.firstSide();
+        ChainedCartLinkSide secondSide = payload.secondSide();
+
         if (owner != null) {
             owner.what_we_missed$unlink();
-            owner.what_we_missed$link(owner == first ? second : first, chainType);
+            if (owner == first) {
+                first.what_we_missed$link(second, chainType, firstSide, secondSide);
+            } else {
+                second.what_we_missed$link(first, chainType, secondSide, firstSide);
+            }
         } else if (!first.what_we_missed$hasLink()) {
-            first.what_we_missed$link(second, chainType);
+            first.what_we_missed$link(second, chainType, firstSide, secondSide);
         } else {
-            second.what_we_missed$link(first, chainType);
+            second.what_we_missed$link(first, chainType, secondSide, firstSide);
         }
 
         if (!player.hasInfiniteMaterials()) stack.shrink(1);
@@ -60,6 +69,17 @@ public class MinecartLinkManager {
 
         cart.what_we_missed$unlink();
         level.playSound(null, cart.blockPosition(), SoundEvents.CHAIN_BREAK, SoundSource.PLAYERS, 1f, 1f);
+    }
+
+    public static ChainedCartLinkSide clickedSide(Player player, AbstractMinecart cart) {
+        Vec3 eye = player.getEyePosition();
+        double reach = player.getAttributeValue(Attributes.ENTITY_INTERACTION_RANGE);
+        Vec3 end = eye.add(player.getViewVector(1.0F).scale(reach));
+        Vec3 hit = cart.getBoundingBox().clip(eye, end).orElse(cart.position());
+
+        Vec3 forward = MinecartMath.forward(cart);
+        Vec3 offset = hit.subtract(cart.position());
+        return offset.x * forward.x + offset.z * forward.z >= 0.0 ? ChainedCartLinkSide.FRONT : ChainedCartLinkSide.BACK;
     }
 
     public static ChainType chainTypeOf(ItemStack s) {

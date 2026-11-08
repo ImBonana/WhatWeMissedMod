@@ -3,6 +3,7 @@ package me.imbanana.whatwemissed.managers.minecart;
 import me.imbanana.whatwemissed.network.ModClientNetwork;
 import me.imbanana.whatwemissed.network.payload.LinkMinecartPayloadC2S;
 import me.imbanana.whatwemissed.network.payload.UnlinkMinecartPayloadC2S;
+import me.imbanana.whatwemissed.util.ChainedCartLinkSide;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
@@ -15,6 +16,7 @@ import net.minecraft.world.level.Level;
 
 public class MinecartLinkManagerClient {
     private static int selectedId = -1;
+    private static ChainedCartLinkSide selectedSide = ChainedCartLinkSide.FRONT;
 
     public static InteractionResult onClientInteract(Player player, Level level, InteractionHand hand, Entity entity) {
         if (!player.isShiftKeyDown()) return InteractionResult.PASS;
@@ -38,10 +40,12 @@ public class MinecartLinkManagerClient {
         Entity first = selectedId == -1 ? null : level.getEntity(selectedId);
         if (!(first instanceof AbstractMinecart) || !first.isAlive()) {
             selectedId = cart.getId();
+            selectedSide = MinecartLinkManager.clickedSide(player, cart);
             return InteractionResult.SUCCESS;
         }
 
-        ModClientNetwork.sendToServer(new LinkMinecartPayloadC2S(first.getId(), cart.getId(), hand));
+        ChainedCartLinkSide secondSide = MinecartLinkManager.clickedSide(player, cart);
+        ModClientNetwork.sendToServer(new LinkMinecartPayloadC2S(first.getId(), cart.getId(), hand, selectedSide, secondSide));
         clearSelection();
 
         return InteractionResult.SUCCESS;

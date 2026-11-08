@@ -2,6 +2,7 @@ package me.imbanana.whatwemissed.network.payload;
 
 import me.imbanana.whatwemissed.WhatWeMissed;
 import me.imbanana.whatwemissed.managers.minecart.MinecartLinkManager;
+import me.imbanana.whatwemissed.util.ChainedCartLinkSide;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -10,7 +11,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 
-public record LinkMinecartPayloadC2S(int firstCartId, int secondCartId, InteractionHand hand) implements CustomPacketPayload {
+public record LinkMinecartPayloadC2S(int firstCartId, int secondCartId, InteractionHand hand, ChainedCartLinkSide firstSide, ChainedCartLinkSide secondSide) implements CustomPacketPayload {
     public static final Identifier ID = WhatWeMissed.idOf("link_minecart");
     public static final Type<LinkMinecartPayloadC2S> TYPE = new Type<>(ID);
     public static final StreamCodec<FriendlyByteBuf, LinkMinecartPayloadC2S> STREAM_CODEC = StreamCodec.composite(
@@ -20,6 +21,10 @@ public record LinkMinecartPayloadC2S(int firstCartId, int secondCartId, Interact
             LinkMinecartPayloadC2S::secondCartId,
             InteractionHand.STREAM_CODEC,
             LinkMinecartPayloadC2S::hand,
+            ChainedCartLinkSide.STREAM_CODEC,
+            LinkMinecartPayloadC2S::firstSide,
+            ChainedCartLinkSide.STREAM_CODEC,
+            LinkMinecartPayloadC2S::secondSide,
             LinkMinecartPayloadC2S::new
     );
 

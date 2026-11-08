@@ -4,10 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import me.imbanana.whatwemissed.dataattachment.ModDataAttachmentTypes;
 import me.imbanana.whatwemissed.dataattachment.attachment.MinecartLinkData;
-import me.imbanana.whatwemissed.util.ChainType;
-import me.imbanana.whatwemissed.util.CustomMinecartBehavior;
-import me.imbanana.whatwemissed.util.IAbstractMinecart;
-import me.imbanana.whatwemissed.util.MinecartMath;
+import me.imbanana.whatwemissed.util.*;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -62,8 +59,8 @@ public abstract class AbstractMinecartMixin extends VehicleEntity implements IAb
     }
 
     @Override
-    public void what_we_missed$link(AbstractMinecart minecart, ChainType chainType) {
-        ModDataAttachmentTypes.MINECART_LINK.set(this, new MinecartLinkData(Optional.of(minecart.getUUID()), chainType));
+    public void what_we_missed$link(AbstractMinecart minecart, ChainType chainType, ChainedCartLinkSide thisSide, ChainedCartLinkSide otherSide) {
+        ModDataAttachmentTypes.MINECART_LINK.set(this, new MinecartLinkData(Optional.of(minecart.getUUID()), chainType, thisSide, otherSide));
     }
 
     @Override
@@ -96,6 +93,18 @@ public abstract class AbstractMinecartMixin extends VehicleEntity implements IAb
     @Override
     public ChainType what_we_missed$getChainType() {
         return ModDataAttachmentTypes.MINECART_LINK.getOrCreate(this).chainType();
+    }
+
+    @Override
+    public ChainedCartLinkSide what_we_missed$getThisLinkSide() {
+        MinecartLinkData data = ModDataAttachmentTypes.MINECART_LINK.get(this);
+        return data == null ? ChainedCartLinkSide.BACK : data.thisSide();
+    }
+
+    @Override
+    public ChainedCartLinkSide what_we_missed$getOtherLinkSide() {
+        MinecartLinkData data = ModDataAttachmentTypes.MINECART_LINK.get(this);
+        return data == null ? ChainedCartLinkSide.FRONT : data.otherSide();
     }
 
     @Override

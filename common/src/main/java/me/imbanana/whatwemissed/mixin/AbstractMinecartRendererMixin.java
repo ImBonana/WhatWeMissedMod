@@ -8,6 +8,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import me.imbanana.whatwemissed.WhatWeMissed;
 import me.imbanana.whatwemissed.entity.ModEntityModelLayers;
 import me.imbanana.whatwemissed.entity.model.ModAbstractMinecartModel;
+import me.imbanana.whatwemissed.util.ChainedCartLinkSide;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -191,11 +192,10 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
         if (entity.what_we_missed$hasLink()) {
             AbstractMinecart other = entity.what_we_missed$getLinkedEntity();
 
-            Vec3 cartPos = entity.getPosition(partialTicks);
-            Vec3 otherPos = other.getPosition(partialTicks);
+            Vec3 cartAnchor = calculateAnchor(entity, entity.what_we_missed$getThisLinkSide(), partialTicks, CART_END_OFFSET);
+            Vec3 otherAnchor = calculateAnchor(other, entity.what_we_missed$getOtherLinkSide(), partialTicks, CART_END_OFFSET);
 
-            Vec3 cartAnchor = calculateAnchor(entity, otherPos.subtract(cartPos), partialTicks, CART_END_OFFSET);
-            Vec3 otherAnchor = calculateAnchor(other, cartPos.subtract(otherPos), partialTicks, CART_END_OFFSET);
+            Vec3 cartPos = entity.getPosition(partialTicks);
 
             state.what_we_missed$setLinkAnchorStart(cartAnchor.subtract(cartPos));
             state.what_we_missed$setLinkAnchorEnd(otherAnchor.subtract(cartPos));
@@ -208,12 +208,12 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
     }
 
     @Unique
-    private Vec3 calculateAnchor(AbstractMinecart minecart, Vec3 toward, float partialTick, double endOffset) {
+    private Vec3 calculateAnchor(AbstractMinecart minecart, ChainedCartLinkSide side, float partialTick, double endOffset) {
         float yRot = minecart.getYRot(partialTick);
         double rads = Math.toRadians(yRot);
         Vec3 forward = new Vec3(-Math.cos(rads), 0f, Math.sin(rads));
 
-        double sign = forward.dot(new Vec3(toward.x(), 0f, toward.z())) >= 0 ? 1 : -1;
+        double sign = side == ChainedCartLinkSide.FRONT ? 1 : -1;
 
         return minecart.getPosition(partialTick)
                 .add(forward.scale(sign * endOffset))
