@@ -8,6 +8,7 @@
     },
     "client": [
         "AbstractMinecartRendererMixin",
+        "HudMixin",
         "MinecartRenderStateMixin"
     ],
     "mixins": [
