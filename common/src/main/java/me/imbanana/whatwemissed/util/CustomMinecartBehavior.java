@@ -5,6 +5,7 @@ import me.imbanana.whatwemissed.managers.minecart.train.TrainController;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
@@ -364,6 +365,23 @@ public class CustomMinecartBehavior extends NewMinecartBehavior {
         }
 
         return deltaMovement.scale(1 - friction);
+    }
+
+    @Override
+    public Vec3 calculatePlayerInputSpeed(final Vec3 deltaMovement) {
+        if (this.minecart.getFirstPassenger() instanceof ServerPlayer player) {
+            Vec3 moveIntent = player.getLastClientMoveIntent();
+            if (moveIntent.lengthSqr() > 0.0) {
+                Vec3 riderMovement = moveIntent.normalize();
+                double ownDist = deltaMovement.horizontalDistanceSqr();
+                if (riderMovement.lengthSqr() > 0.0 && ownDist < 0.01) {
+                    return deltaMovement.add(new Vec3(riderMovement.x, 0.0, riderMovement.z).normalize().scale(0.002));
+                }
+            }
+
+        }
+
+        return deltaMovement;
     }
 
     @Override
