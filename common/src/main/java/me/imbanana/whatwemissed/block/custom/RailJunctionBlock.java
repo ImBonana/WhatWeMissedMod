@@ -14,12 +14,18 @@ import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.block.state.properties.RailShape;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.List;
+
 public class RailJunctionBlock extends BaseRailBlock {
     public static final EnumProperty<RailShape> SHAPE = EnumProperty.create(
             "shape",
             RailShape.class,
             railShape -> railShape == RailShape.EAST_WEST || railShape == RailShape.NORTH_SOUTH
-    );;
+    );
+    private static final List<Pair<Vec3i, Vec3i>> ALL_EXITS = List.of(
+            AbstractMinecart.exits(RailShape.EAST_WEST),
+            AbstractMinecart.exits(RailShape.NORTH_SOUTH)
+    );
 
     public RailJunctionBlock(Properties properties) {
         super(true, properties);
@@ -33,6 +39,11 @@ public class RailJunctionBlock extends BaseRailBlock {
                 ? shape == RailShape.NORTH_SOUTH
                 : Math.abs(vel.z()) > Math.abs(vel.x());
         return AbstractMinecart.exits(isNorthSouth ? RailShape.NORTH_SOUTH : RailShape.EAST_WEST);
+    }
+
+    @Override
+    public List<Pair<Vec3i, Vec3i>> getAllRailExits(RailShape shape) {
+        return ALL_EXITS;
     }
 
     @Override

@@ -36,6 +36,11 @@ public class DataAttachmentServiceNeoForge implements DataAttachmentService {
             }
 
             @Override
+            public T getOrElse(Entity entity, T data) {
+                return entity.getExistingData(attachmentType).orElse(data);
+            }
+
+            @Override
             public T getOrCreate(Entity entity) {
                 return entity.getData(attachmentType);
             }

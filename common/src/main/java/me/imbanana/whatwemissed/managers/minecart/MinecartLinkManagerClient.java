@@ -25,7 +25,9 @@ public class MinecartLinkManagerClient {
 
         ItemStack stack = player.getItemInHand(hand);
         boolean isChain = MinecartLinkManager.chainTypeOf(stack) != null;
-        boolean wantsUnlink = hand == InteractionHand.MAIN_HAND && stack.isEmpty() && cart.what_we_missed$hasLink();
+        ChainedCartLinkSide clickedSide = MinecartLinkManager.clickedSide(player, cart);
+        ChainedCartLinkSide unlinkSide = cart.what_we_missed$hasLinkOn(clickedSide) ? clickedSide : clickedSide.opposite();
+        boolean wantsUnlink = hand == InteractionHand.MAIN_HAND && stack.isEmpty() && cart.what_we_missed$hasLinkOn(unlinkSide);
 
         if (!isChain && !wantsUnlink) return InteractionResult.PASS;
 
@@ -33,7 +35,7 @@ public class MinecartLinkManagerClient {
 
         if (wantsUnlink) {
             clearSelection();
-            ModClientNetwork.sendToServer(new UnlinkMinecartPayloadC2S(cart.getId()));
+            ModClientNetwork.sendToServer(new UnlinkMinecartPayloadC2S(cart.getId(), unlinkSide));
             return InteractionResult.SUCCESS;
         }
 

@@ -9,6 +9,7 @@ import me.imbanana.whatwemissed.WhatWeMissed;
 import me.imbanana.whatwemissed.entity.ModEntityModelLayers;
 import me.imbanana.whatwemissed.entity.model.ModAbstractMinecartModel;
 import me.imbanana.whatwemissed.util.ChainedCartLinkSide;
+import me.imbanana.whatwemissed.util.IMinecartRenderState;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -78,9 +79,14 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
             at = @At("TAIL")
     )
     private void renderLinkConnection(S state, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState camera, CallbackInfo ci) {
-        Vec3 anchorStart = state.what_we_missed$getLinkAnchorStart();
-        Vec3 anchorEnd = state.what_we_missed$getLinkAnchorEnd();
-        if (anchorEnd == null || anchorStart == null) return;
+        IMinecartRenderState.LinkRender link = state.what_we_missed$getLinkRender();
+        if (link != null) this.renderChain(link, state, poseStack, collector);
+    }
+
+    @Unique
+    private void renderChain(IMinecartRenderState.LinkRender link, S state, PoseStack poseStack, SubmitNodeCollector collector) {
+        Vec3 anchorStart = link.start();
+        Vec3 anchorEnd = link.end();
 
         Vec3 delta = anchorEnd.subtract(anchorStart);
         double span = delta.length();
@@ -131,7 +137,7 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
 
 
         int light = state.lightCoords;
-        Identifier texture = Identifier.withDefaultNamespace("textures/block/%s_chain.png".formatted(state.what_we_missed$getChainType().getSerializedName()));
+        Identifier texture = Identifier.withDefaultNamespace("textures/block/%s_chain.png".formatted(link.chainType().getSerializedName()));
 
         collector.submitCustomGeometry(poseStack, RenderTypes.entityCutout(texture), (pose, buffer) -> {
             for (int i = 0; i < count; i++) {
@@ -189,22 +195,16 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
             at = @At("TAIL")
     )
     private void extractLinkRenderState(T entity, S state, float partialTicks, CallbackInfo ci) {
-        if (entity.what_we_missed$hasLink()) {
-            AbstractMinecart other = entity.what_we_missed$getLinkedEntity();
-
-            Vec3 cartAnchor = calculateAnchor(entity, entity.what_we_missed$getThisLinkSide(), partialTicks, CART_END_OFFSET);
-            Vec3 otherAnchor = calculateAnchor(other, entity.what_we_missed$getOtherLinkSide(), partialTicks, CART_END_OFFSET);
-
-            Vec3 cartPos = entity.getPosition(partialTicks);
-
-            state.what_we_missed$setLinkAnchorStart(cartAnchor.subtract(cartPos));
-            state.what_we_missed$setLinkAnchorEnd(otherAnchor.subtract(cartPos));
-        } else {
-            state.what_we_missed$setLinkAnchorStart(null);
-            state.what_we_missed$setLinkAnchorEnd(null);
+        AbstractMinecart parent = entity.what_we_missed$getParent();
+        if (parent == null) {
+            state.what_we_missed$setLinkRender(null);
+            return;
         }
 
-        state.what_we_missed$setChainType(entity.what_we_missed$getChainType());
+        Vec3 cartPos = entity.getPosition(partialTicks);
+        Vec3 cartAnchor = calculateAnchor(entity, entity.what_we_missed$getParentSide(), partialTicks, CART_END_OFFSET);
+        Vec3 parentAnchor = calculateAnchor(parent, parent.what_we_missed$getChildSide(), partialTicks, CART_END_OFFSET);
+        state.what_we_missed$setLinkRender(new IMinecartRenderState.LinkRender(cartAnchor.subtract(cartPos), parentAnchor.subtract(cartPos), entity.what_we_missed$getParentChainType()));
     }
 
     @Unique

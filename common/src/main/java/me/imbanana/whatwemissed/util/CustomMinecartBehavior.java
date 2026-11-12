@@ -1,6 +1,7 @@
 package me.imbanana.whatwemissed.util;
 
 import com.mojang.datafixers.util.Pair;
+import me.imbanana.whatwemissed.managers.minecart.train.TrainController;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
@@ -15,7 +16,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.RailShape;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.List;
+
 public class CustomMinecartBehavior extends NewMinecartBehavior {
+    private List<Vec3> trainPath;
+    private boolean reversedFacing;
+
     public CustomMinecartBehavior(AbstractMinecart minecart) {
         super(minecart);
     }
@@ -83,6 +89,26 @@ public class CustomMinecartBehavior extends NewMinecartBehavior {
 
     @Override
     public void moveAlongTrack(ServerLevel level) {
+        if (this.minecart.what_we_missed$hasLink()) {
+            TrainController.moveAlongTrack(level, this.minecart);
+            return;
+        }
+
+        this.followTrack(level);
+    }
+
+    public void followTrackAsFront(ServerLevel level, List<Vec3> path, boolean reversedFacing) {
+        this.trainPath = path;
+        this.reversedFacing = reversedFacing;
+        this.followTrack(level);
+        this.trainPath = null;
+    }
+
+    public Vec3 evaluateForces(ServerLevel level, Vec3 deltaMovement, BlockPos pos, BlockState state, RailShape shape) {
+        return this.applyTrackForces(level, deltaMovement, new NewMinecartBehavior.TrackIteration(), pos, state, shape);
+    }
+
+    public void followTrack(ServerLevel level) {
         for (NewMinecartBehavior.TrackIteration trackIteration = new NewMinecartBehavior.TrackIteration();
              trackIteration.shouldIterate() && this.minecart.isAlive();
              trackIteration.firstIteration = false
@@ -99,8 +125,8 @@ public class CustomMinecartBehavior extends NewMinecartBehavior {
             if (onRails) {
                 this.minecart.resetFallDistance();
                 this.minecart.setOldPosAndRot();
-                if (currentState.is(Blocks.ACTIVATOR_RAIL)) {
-                    this.minecart.activateMinecart(level, currentPos.getX(), currentPos.getY(), currentPos.getZ(), currentState.getValue(PoweredRailBlock.POWERED));
+                if (currentState.getBlock() instanceof IRailBlock railBlock && railBlock.isActivatorRail(currentState)) {
+                    this.minecart.activateMinecart(level, currentPos.getX(), currentPos.getY(), currentPos.getZ(), railBlock.isActivated(currentState));
                 }
 
                 RailShape shape = currentState.getValue(((BaseRailBlock)currentState.getBlock()).getShapeProperty());
@@ -144,6 +170,10 @@ public class CustomMinecartBehavior extends NewMinecartBehavior {
                         );
             } else if (trackIteration.firstIteration && initialStepDeltaMovement.horizontalDistanceSqr() > 0.0) {
                 this.lerpSteps.add(new MinecartStep(stepPosition, this.getDeltaMovement(), this.getYRot(), this.getXRot(), 1.0E-4F));
+            }
+
+            if (this.trainPath != null) {
+                this.trainPath.add(this.position());
             }
 
             if (stepLength > 1.0E-5F || trackIteration.firstIteration) {
@@ -238,6 +268,27 @@ public class CustomMinecartBehavior extends NewMinecartBehavior {
             final BlockState currentState,
             final RailShape shape
     ) {
+        if (this.trainPath != null) {
+            return trackIteration.firstIteration ? this.calculateTrackDirection(deltaMovement, currentState) : deltaMovement;
+        }
+
+        Vec3 newDeltaMovement = this.applyTrackForces(level, deltaMovement, trackIteration, currentPos, currentState, shape);
+        if (trackIteration.firstIteration) {
+            newDeltaMovement = this.calculateTrackDirection(newDeltaMovement, currentState);
+            newDeltaMovement = this.calculateTrackDeltaMovementModifier(newDeltaMovement, currentState);
+        }
+
+        return newDeltaMovement;
+    }
+
+    private Vec3 applyTrackForces(
+            final ServerLevel level,
+            final Vec3 deltaMovement,
+            final NewMinecartBehavior.TrackIteration trackIteration,
+            final BlockPos currentPos,
+            final BlockState currentState,
+            final RailShape shape
+    ) {
         Vec3 newDeltaMovement = deltaMovement;
         if (!trackIteration.hasGainedSlopeSpeed) {
             Vec3 slopedDeltaMovement = this.calculateSlopeSpeed(newDeltaMovement, shape);
@@ -286,11 +337,6 @@ public class CustomMinecartBehavior extends NewMinecartBehavior {
             }
         }
 
-        if (trackIteration.firstIteration) {
-            newDeltaMovement = this.calculateTrackDirection(newDeltaMovement, currentState);
-            newDeltaMovement = this.calculateTrackDeltaMovementModifier(newDeltaMovement, currentState);
-        }
-
         return newDeltaMovement;
     }
 
@@ -322,6 +368,17 @@ public class CustomMinecartBehavior extends NewMinecartBehavior {
 
     @Override
     public void setRotation(float yRot, float xRot) {
+        if (this.trainPath != null) {
+            if (this.reversedFacing) {
+                yRot += 180.0F;
+                xRot = -xRot;
+            }
+
+            this.setXRot(Math.clamp(xRot, -45.0F, 45.0F) % 360.0F);
+            this.setYRot(yRot % 360.0F);
+            return;
+        }
+
         Vec3 movement = this.getDeltaMovement().horizontal();
 
         if (movement.lengthSqr() > 1) {

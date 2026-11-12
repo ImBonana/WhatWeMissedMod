@@ -40,16 +40,21 @@ public class ConveyorRailBlock extends BaseRailBlock implements IDirectionalRail
     }
 
     @Override
+    public double getFixedSpeed(BlockState state) {
+        int speed = state.getValue(SPEED);
+        return speed <= 0 ? -1 : 1.0 / (16 * (16 - speed));
+    }
+
+    @Override
     public Vec3 calculateDeltaMovement(Vec3 deltaMovement, BlockState state) {
         Vec3 faceDir = this.getRailDirection(state).getDirection();
         if (faceDir == null) return deltaMovement;
 
-        double speedFactor = 1f / (16 * (16 - state.getValue(SPEED)));
         Vec3 dir = deltaMovement.horizontalDistance() < 1.0E-5
                 ? faceDir.multiply(1, 0, 1).add(0, deltaMovement.y(), 0)
                 : deltaMovement.normalize();
 
-        return dir.scale(speedFactor);
+        return dir.scale(this.getFixedSpeed(state));
     }
 
     @Override

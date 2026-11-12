@@ -31,6 +31,10 @@ public enum ChainedCartLinkSide implements StringRepresentable {
         return id;
     }
 
+    public ChainedCartLinkSide opposite() {
+        return this == FRONT ? BACK : FRONT;
+    }
+
     @Override
     public String getSerializedName() {
         return name;

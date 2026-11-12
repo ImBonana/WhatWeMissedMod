@@ -12,26 +12,60 @@ import net.minecraft.network.codec.StreamCodec;
 import java.util.Optional;
 import java.util.UUID;
 
-public record MinecartLinkData(Optional<UUID> uuid, ChainType chainType, ChainedCartLinkSide thisSide, ChainedCartLinkSide otherSide) {
-    public static final MinecartLinkData EMPTY = new MinecartLinkData(Optional.empty(), ChainType.IRON, ChainedCartLinkSide.BACK, ChainedCartLinkSide.FRONT);
+public record MinecartLinkData(Optional<ParentLink> parent, Optional<UUID> child, ChainedCartLinkSide parentSide, ChainedCartLinkSide childSide) {
+    public static final MinecartLinkData EMPTY = new MinecartLinkData(Optional.empty(), Optional.empty(), ChainedCartLinkSide.FRONT, ChainedCartLinkSide.BACK);
+
+    public record ParentLink(UUID uuid, ChainType chainType) {
+        public static final Codec<ParentLink> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                UUIDUtil.CODEC.fieldOf("uuid").forGetter(ParentLink::uuid),
+                ChainType.CODEC.fieldOf("chainType").forGetter(ParentLink::chainType)
+        ).apply(instance, ParentLink::new));
+
+        public static final StreamCodec<ByteBuf, ParentLink> STREAM_CODEC = StreamCodec.composite(
+                UUIDUtil.STREAM_CODEC,
+                ParentLink::uuid,
+                ChainType.STREAM_CODEC,
+                ParentLink::chainType,
+                ParentLink::new
+        );
+    }
 
     public static final Codec<MinecartLinkData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            UUIDUtil.CODEC.optionalFieldOf("target").forGetter(MinecartLinkData::uuid),
-            ChainType.CODEC.fieldOf("chainType").forGetter(MinecartLinkData::chainType),
-            ChainedCartLinkSide.CODEC.fieldOf("thisSide").forGetter(MinecartLinkData::thisSide),
-            ChainedCartLinkSide.CODEC.fieldOf("otherSide").forGetter(MinecartLinkData::otherSide)
+            ParentLink.CODEC.optionalFieldOf("parent").forGetter(MinecartLinkData::parent),
+            UUIDUtil.CODEC.optionalFieldOf("child").forGetter(MinecartLinkData::child),
+            ChainedCartLinkSide.CODEC.optionalFieldOf("parentSide", ChainedCartLinkSide.FRONT).forGetter(MinecartLinkData::parentSide),
+            ChainedCartLinkSide.CODEC.optionalFieldOf("childSide", ChainedCartLinkSide.BACK).forGetter(MinecartLinkData::childSide)
     ).apply(instance, MinecartLinkData::new));
 
     public static final StreamCodec<ByteBuf, MinecartLinkData> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.optional(ParentLink.STREAM_CODEC),
+            MinecartLinkData::parent,
             ByteBufCodecs.optional(UUIDUtil.STREAM_CODEC),
-            MinecartLinkData::uuid,
-            ChainType.STREAM_CODEC,
-            MinecartLinkData::chainType,
+            MinecartLinkData::child,
             ChainedCartLinkSide.STREAM_CODEC,
-            MinecartLinkData::thisSide,
+            MinecartLinkData::parentSide,
             ChainedCartLinkSide.STREAM_CODEC,
-            MinecartLinkData::otherSide,
+            MinecartLinkData::childSide,
             MinecartLinkData::new
     );
-}
 
+    public MinecartLinkData withParent(ParentLink parent, ChainedCartLinkSide side) {
+        return new MinecartLinkData(Optional.of(parent), this.child, side, this.childSide);
+    }
+
+    public MinecartLinkData withoutParent() {
+        return new MinecartLinkData(Optional.empty(), this.child, this.parentSide, this.childSide);
+    }
+
+    public MinecartLinkData withChild(UUID child, ChainedCartLinkSide side) {
+        return new MinecartLinkData(this.parent, Optional.of(child), this.parentSide, side);
+    }
+
+    public MinecartLinkData withoutChild() {
+        return new MinecartLinkData(this.parent, Optional.empty(), this.parentSide, this.childSide);
+    }
+
+    public boolean isEmpty() {
+        return this.parent.isEmpty() && this.child.isEmpty();
+    }
+}

@@ -66,9 +66,6 @@ public abstract class MinecartFurnaceMixin extends AbstractMinecart implements C
     private double maxSpeed; // In b/t
 
     @Unique
-    private AbstractMinecart cachedLinked;
-
-    @Unique
     private final ContainerData containerData = new ContainerData() {
         @Override
         public int get(int dataId) {
@@ -249,19 +246,8 @@ public abstract class MinecartFurnaceMixin extends AbstractMinecart implements C
 
     @Unique
     private AbstractMinecart getLinkedCart() {
-        AbstractMinecart linked = this.what_we_missed$getLinkedEntity();
-        if (linked != null && linked.isAlive()) return linked;
-
-        if (cachedLinked == null || !cachedLinked.isAlive() || !cachedLinked.what_we_missed$isLinkedTo(this)) {
-            for (AbstractMinecart cart : this.level().getEntitiesOfClass(AbstractMinecart.class, this.getBoundingBox().inflate(8f))) {
-                if (!cart.equals(this) && cart.what_we_missed$isLinkedTo(this)) {
-                    cachedLinked = cart;
-                    break;
-                }
-            }
-        }
-
-        return cachedLinked != null && cachedLinked.isAlive() && cachedLinked.what_we_missed$isLinkedTo(this) ? cachedLinked : null;
+        AbstractMinecart parent = this.what_we_missed$getParent();
+        return parent != null ? parent : this.what_we_missed$getChild();
     }
 
     @Inject(

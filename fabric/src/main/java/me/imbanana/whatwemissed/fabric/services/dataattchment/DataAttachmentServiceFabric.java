@@ -30,7 +30,6 @@ public class DataAttachmentServiceFabric implements DataAttachmentService {
         );
 
         return new EntityAttachment<T>() {
-
             @Override
             public T get(Entity entity) {
                 return entity.getAttached(attachmentType);
@@ -39,6 +38,11 @@ public class DataAttachmentServiceFabric implements DataAttachmentService {
             @Override
             public T getOrCreate(Entity entity) {
                 return entity.getAttachedOrCreate(attachmentType);
+            }
+
+            @Override
+            public T getOrElse(Entity entity, T data) {
+                return entity.getAttachedOrElse(attachmentType, data);
             }
 
             @Override

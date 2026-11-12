@@ -2,6 +2,7 @@ package me.imbanana.whatwemissed.managers.minecart;
 
 import me.imbanana.whatwemissed.network.payload.LinkMinecartPayloadC2S;
 import me.imbanana.whatwemissed.network.payload.UnlinkMinecartPayloadC2S;
+import me.imbanana.whatwemissed.managers.minecart.train.TrainChain;
 import me.imbanana.whatwemissed.util.ChainType;
 import me.imbanana.whatwemissed.util.ChainedCartLinkSide;
 import me.imbanana.whatwemissed.util.MinecartMath;
@@ -34,28 +35,36 @@ public class MinecartLinkManager {
             return;
         }
 
-        AbstractMinecart owner = first.what_we_missed$isLinkedTo(second) ? first
-                : second.what_we_missed$isLinkedTo(first) ? second
-                : null;
-
-        ChainedCartLinkSide firstSide = payload.firstSide();
-        ChainedCartLinkSide secondSide = payload.secondSide();
-
-        if (owner != null) {
-            owner.what_we_missed$unlink();
-            if (owner == first) {
-                first.what_we_missed$link(second, chainType, firstSide, secondSide);
-            } else {
-                second.what_we_missed$link(first, chainType, secondSide, firstSide);
-            }
-        } else if (!first.what_we_missed$hasLink()) {
-            first.what_we_missed$link(second, chainType, firstSide, secondSide);
+        if (first.what_we_missed$isLinkedTo(second)) {
+            if (first.what_we_missed$getParent() == second) first.what_we_missed$unlinkParent();
+            else first.what_we_missed$unlinkChild();
         } else {
-            second.what_we_missed$link(first, chainType, secondSide, firstSide);
+            if (!canTakeLink(first) || !canTakeLink(second)) return;
+            if (TrainChain.headOf(first) == TrainChain.headOf(second)) return;
         }
+
+        if (!tryToLinkTogether(first, payload.firstSide(), second, payload.secondSide(), chainType)) return;
 
         if (!player.hasInfiniteMaterials()) stack.shrink(1);
         level.playSound(null, second.blockPosition(), SoundEvents.CHAIN_PLACE, SoundSource.PLAYERS, 1f, 1f);
+    }
+
+    private static boolean canTakeLink(AbstractMinecart cart) {
+        return cart.what_we_missed$getParent() == null || cart.what_we_missed$getChild() == null;
+    }
+
+    private static boolean tryToLinkTogether(AbstractMinecart a, ChainedCartLinkSide aSide, AbstractMinecart b, ChainedCartLinkSide bSide, ChainType chainType) {
+        if (!canBeParentOf(a, b) && !canBeParentOf(b, a)) {
+            AbstractMinecart shorter = TrainChain.of(a).size() <= TrainChain.of(b).size() ? a : b;
+            shorter.what_we_missed$turnTrainAround();
+        }
+
+        if (canBeParentOf(a, b)) return a.what_we_missed$linkChild(aSide, b, bSide, chainType);
+        return b.what_we_missed$linkChild(bSide, a, aSide, chainType);
+    }
+
+    private static boolean canBeParentOf(AbstractMinecart parent, AbstractMinecart child) {
+        return parent.what_we_missed$getChild() == null && child.what_we_missed$getParent() == null;
     }
 
     public static void handleUnlink(UnlinkMinecartPayloadC2S payload, ServerPlayer player) {
@@ -65,9 +74,10 @@ public class MinecartLinkManager {
         double playerReach = player.getAttributeValue(Attributes.ENTITY_INTERACTION_RANGE);
         if (player.distanceTo(cart) > playerReach) return;
 
-        if (!cart.what_we_missed$hasLink()) return;
+        ChainedCartLinkSide side = payload.side();
+        if (!cart.what_we_missed$hasLinkOn(side)) return;
 
-        cart.what_we_missed$unlink();
+        cart.what_we_missed$unlink(side);
         level.playSound(null, cart.blockPosition(), SoundEvents.CHAIN_BREAK, SoundSource.PLAYERS, 1f, 1f);
     }
 
@@ -84,14 +94,19 @@ public class MinecartLinkManager {
 
     public static ChainType chainTypeOf(ItemStack s) {
         if (s.is(Items.IRON_CHAIN)) return ChainType.IRON;
+
         if (s.is(Items.COPPER_CHAIN.weathering().unaffected()) || s.is(Items.COPPER_CHAIN.waxed().unaffected()))
             return ChainType.COPPER;
+
         if (s.is(Items.COPPER_CHAIN.weathering().exposed()) || s.is(Items.COPPER_CHAIN.waxed().exposed()))
             return ChainType.COPPER_EXPOSED;
+
         if (s.is(Items.COPPER_CHAIN.weathering().weathered()) || s.is(Items.COPPER_CHAIN.waxed().weathered()))
             return ChainType.COPPER_WEATHERED;
+
         if (s.is(Items.COPPER_CHAIN.weathering().oxidized()) || s.is(Items.COPPER_CHAIN.waxed().oxidized()))
             return ChainType.COPPER_OXIDIZED;
+
         return null;
     }
 
