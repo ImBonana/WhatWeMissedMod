@@ -9,7 +9,7 @@ import net.minecraft.world.inventory.MenuType;
 
 public class ModScreens {
     public static void registerAll(Registrar registrar) {
-        registrar.register(ModMenuTypes.MINECART_FURNACE.get(), MinecartFurnaceScreen::new);
+        registrar.register(ModMenuTypes.MINECART_FURNACE, MinecartFurnaceScreen::new);
     }
 
     @FunctionalInterface

@@ -29,13 +29,13 @@ public class ModCreativeTabs {
 
                 WeatheringCopperCollection.STATES.forEach(state -> {
                     ItemStack defaultStack = ModItems.COPPER_CHEST_MINECART.getDefaultInstance();
-                    defaultStack.set(ModDataComponents.COPPER_STATE.get(), new CopperStateDataComponent(state, false));
+                    defaultStack.set(ModDataComponents.COPPER_STATE, new CopperStateDataComponent(state, false));
                     output.accept(defaultStack);
                 });
 
                 WeatheringCopperCollection.STATES.forEach(state -> {
                     ItemStack defaultStack = ModItems.COPPER_CHEST_MINECART.getDefaultInstance();
-                    defaultStack.set(ModDataComponents.COPPER_STATE.get(), new CopperStateDataComponent(state, true));
+                    defaultStack.set(ModDataComponents.COPPER_STATE, new CopperStateDataComponent(state, true));
                     output.accept(defaultStack);
                 });
             })

@@ -32,10 +32,11 @@ public final class WhatWeMissed {
         ModAttachments.loadService(services.dataAttachment());
 
         ModNetwork.registerPayloads();
-        ModMenuTypes.init();
         ModDataAttachmentTypes.init();
-        ModDataComponents.init();
-        ModEntityTypes.init();
+
+        ModRegistry.whenRegistering(Registries.MENU, ModMenuTypes::init);
+        ModRegistry.whenRegistering(Registries.DATA_COMPONENT_TYPE, ModDataComponents::init);
+        ModRegistry.whenRegistering(Registries.ENTITY_TYPE, ModEntityTypes::init);
         ModRegistry.whenRegistering(Registries.ITEM, ModItems::init);
         ModRegistry.whenRegistering(Registries.BLOCK, ModBlocks::init);
         ModRegistry.whenRegistering(Registries.CREATIVE_MODE_TAB, ModCreativeTabs::init);

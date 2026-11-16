@@ -18,39 +18,39 @@ public class ModEvents {
                 || Items.WOOL_SLAB.asList().stream().anyMatch(testItem -> testItem == item)
                 || Items.WOOL_STAIRS.asList().stream().anyMatch(testItem -> testItem == item),
                 (builder, lookupProvider, item) -> {
-            builder.set(ModDataComponents.MINECART_FURNACE_FUEL.get(), new MinecartFurnaceFuelDataComponent(100, 1));
+            builder.set(ModDataComponents.MINECART_FURNACE_FUEL, new MinecartFurnaceFuelDataComponent(100, 1));
         });
 
         modifier.accept(item -> item == Items.BAMBOO, (builder, lookupProvider, item) -> {
-            builder.set(ModDataComponents.MINECART_FURNACE_FUEL.get(), new MinecartFurnaceFuelDataComponent(50, 2));
+            builder.set(ModDataComponents.MINECART_FURNACE_FUEL, new MinecartFurnaceFuelDataComponent(50, 2));
         });
 
         modifier.accept(item -> item == Items.PAPER, (builder, lookupProvider, item) -> {
-            builder.set(ModDataComponents.MINECART_FURNACE_FUEL.get(), new MinecartFurnaceFuelDataComponent(20, 4));
+            builder.set(ModDataComponents.MINECART_FURNACE_FUEL, new MinecartFurnaceFuelDataComponent(20, 4));
         });
 
         modifier.accept(item -> item == Items.DRIED_KELP_BLOCK, (builder, lookupProvider, item) -> {
-            builder.set(ModDataComponents.MINECART_FURNACE_FUEL.get(), new MinecartFurnaceFuelDataComponent(4000, 6));
+            builder.set(ModDataComponents.MINECART_FURNACE_FUEL, new MinecartFurnaceFuelDataComponent(4000, 6));
         });
 
         modifier.accept(ModEvents::isBurnableWood, (builder, lookupProvider, item) -> {
-            builder.set(ModDataComponents.MINECART_FURNACE_FUEL.get(), new MinecartFurnaceFuelDataComponent(300, 6));
+            builder.set(ModDataComponents.MINECART_FURNACE_FUEL, new MinecartFurnaceFuelDataComponent(300, 6));
         });
 
         modifier.accept(item -> item == Items.COAL, (builder, lookupProvider, item) -> {
-            builder.set(ModDataComponents.MINECART_FURNACE_FUEL.get(), new MinecartFurnaceFuelDataComponent(1600, 8));
+            builder.set(ModDataComponents.MINECART_FURNACE_FUEL, new MinecartFurnaceFuelDataComponent(1600, 8));
         });
 
         modifier.accept(item -> item == Items.COAL_BLOCK, (builder, lookupProvider, item) -> {
-            builder.set(ModDataComponents.MINECART_FURNACE_FUEL.get(), new MinecartFurnaceFuelDataComponent(4000, 12));
+            builder.set(ModDataComponents.MINECART_FURNACE_FUEL, new MinecartFurnaceFuelDataComponent(4000, 12));
         });
 
         modifier.accept(item -> item == Items.LAVA_BUCKET, (builder, lookupProvider, item) -> {
-            builder.set(ModDataComponents.MINECART_FURNACE_FUEL.get(), new MinecartFurnaceFuelDataComponent(20_000, 16));
+            builder.set(ModDataComponents.MINECART_FURNACE_FUEL, new MinecartFurnaceFuelDataComponent(20_000, 16));
         });
 
         modifier.accept(item -> item == Items.BLAZE_ROD, (builder, lookupProvider, item) -> {
-            builder.set(ModDataComponents.MINECART_FURNACE_FUEL.get(), new MinecartFurnaceFuelDataComponent(2400, 20));
+            builder.set(ModDataComponents.MINECART_FURNACE_FUEL, new MinecartFurnaceFuelDataComponent(2400, 20));
         });
     }
 

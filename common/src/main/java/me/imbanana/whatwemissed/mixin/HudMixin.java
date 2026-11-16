@@ -42,7 +42,7 @@ public abstract class HudMixin {
     }
 
     @WrapOperation(
-            method = "extractHotbarAndDecorations",
+            method = {"extractHotbarAndDecorations", "extractContextualInfoBarBackground"},
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/client/gui/contextualbar/ContextualBar;extractBackground(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/client/DeltaTracker;)V"
@@ -54,7 +54,7 @@ public abstract class HudMixin {
     }
 
     @WrapOperation(
-            method = "extractHotbarAndDecorations",
+            method = {"extractHotbarAndDecorations", "extractContextualInfoBar"},
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/client/gui/contextualbar/ContextualBar;extractRenderState(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/client/DeltaTracker;)V"

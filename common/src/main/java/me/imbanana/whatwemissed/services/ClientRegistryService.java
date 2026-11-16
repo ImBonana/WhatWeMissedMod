@@ -11,5 +11,7 @@ import java.util.function.Supplier;
 public interface ClientRegistryService {
     void registerEntityModelLayer(ModelLayerLocation layerLocation, Supplier<LayerDefinition> definitionSupplier);
 
-    <E extends Entity> void registerEntityRenderer(Supplier<? extends EntityType<? extends E>> entityType, EntityRendererProvider<E> rendererProvider);
+    <E extends Entity> void registerEntityRenderer(EntityType<? extends E> entityType, EntityRendererProvider<E> rendererProvider);
+
+    void whenRegisteringRenderers(Runnable action);
 }

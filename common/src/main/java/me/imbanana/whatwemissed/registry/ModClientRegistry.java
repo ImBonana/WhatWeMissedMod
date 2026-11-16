@@ -20,7 +20,11 @@ public class ModClientRegistry {
         service.registerEntityModelLayer(layerLocation, definitionSupplier);
     }
 
-    public static <E extends Entity> void registerEntityRenderer(Supplier<? extends EntityType<? extends E>> entityType, EntityRendererProvider<E> rendererProvider) {
+    public static <E extends Entity> void registerEntityRenderer(EntityType<? extends E> entityType, EntityRendererProvider<E> rendererProvider) {
         service.registerEntityRenderer(entityType, rendererProvider);
+    }
+
+    public static void whenRegisteringRenderers(Runnable action) {
+        service.whenRegisteringRenderers(action);
     }
 }

@@ -284,9 +284,9 @@ public abstract class MinecartFurnaceMixin extends AbstractMinecart implements C
     @Unique
     private void consumeFuel() {
         ItemStack fuelItemStack = this.getItem(0);
-        if (fuelItemStack.isEmpty() || !fuelItemStack.has(ModDataComponents.MINECART_FURNACE_FUEL.get())) return;
+        if (fuelItemStack.isEmpty() || !fuelItemStack.has(ModDataComponents.MINECART_FURNACE_FUEL)) return;
 
-        MinecartFurnaceFuelDataComponent fuelData = fuelItemStack.get(ModDataComponents.MINECART_FURNACE_FUEL.get());
+        MinecartFurnaceFuelDataComponent fuelData = fuelItemStack.get(ModDataComponents.MINECART_FURNACE_FUEL);
 
         this.startBurining(fuelData.burnTime(), fuelData.getSpeedInBlocksPerTick());
 

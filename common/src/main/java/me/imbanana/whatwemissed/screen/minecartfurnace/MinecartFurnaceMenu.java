@@ -19,7 +19,7 @@ public class MinecartFurnaceMenu extends AbstractContainerMenu {
     }
 
     public MinecartFurnaceMenu(final int containerId, final Inventory inventory, final Container container, final ContainerData data) {
-        super(ModMenuTypes.MINECART_FURNACE.get(), containerId);
+        super(ModMenuTypes.MINECART_FURNACE, containerId);
         checkContainerSize(container, 1);
         checkContainerDataCount(data, 3);
         this.container = container;
@@ -90,7 +90,7 @@ public class MinecartFurnaceMenu extends AbstractContainerMenu {
 
         @Override
         public boolean mayPlace(ItemStack itemStack) {
-            return itemStack.has(ModDataComponents.MINECART_FURNACE_FUEL.get());
+            return itemStack.has(ModDataComponents.MINECART_FURNACE_FUEL);
         }
 
         @Override

@@ -11,7 +11,7 @@ import net.minecraft.world.entity.MobCategory;
 import java.util.function.Supplier;
 
 public class ModEntityTypes {
-    public static final Supplier<EntityType<MinecartCopperChestEntity>> COPPER_CHEST_MINECART = register(
+    public static final EntityType<MinecartCopperChestEntity> COPPER_CHEST_MINECART = register(
             ModEntityTypeIds.COPPER_CHEST_MINECART,
             EntityType.Builder.of(MinecartCopperChestEntity::new, MobCategory.MISC)
                     .noLootTable()
@@ -20,8 +20,10 @@ public class ModEntityTypes {
                     .clientTrackingRange(8)
     );
 
-    private static <T extends Entity> Supplier<EntityType<T>> register(ResourceKey<EntityType<?>> key, EntityType.Builder<T> builder) {
-        return ModRegistry.register(BuiltInRegistries.ENTITY_TYPE, key, () ->  builder.build(key));
+    private static <T extends Entity> EntityType<T> register(ResourceKey<EntityType<?>> key, EntityType.Builder<T> builder) {
+        EntityType<T> entityType = builder.build(key);
+        ModRegistry.register(BuiltInRegistries.ENTITY_TYPE, key, () -> entityType);
+        return entityType;
     }
 
     public static void init() { }

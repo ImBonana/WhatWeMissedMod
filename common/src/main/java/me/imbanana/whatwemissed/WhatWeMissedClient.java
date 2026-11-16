@@ -19,6 +19,6 @@ public class WhatWeMissedClient {
 
         ModClientNetwork.registerClientHandlers();
         ModEntityModelLayers.registerModelLayers();
-        ModEntityRenderers.registerRenderers();
+        ModClientRegistry.whenRegisteringRenderers(ModEntityRenderers::registerRenderers);
     }
 }

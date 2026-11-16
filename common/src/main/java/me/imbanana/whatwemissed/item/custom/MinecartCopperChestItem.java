@@ -24,7 +24,7 @@ public class MinecartCopperChestItem extends MinecartItem {
         if (!Objects.equals(name, defaultName)) {
             return name;
         }
-        CopperStateDataComponent state = stack.getOrDefault(ModDataComponents.COPPER_STATE.get(), CopperStateDataComponent.DEFAULT);
+        CopperStateDataComponent state = stack.getOrDefault(ModDataComponents.COPPER_STATE, CopperStateDataComponent.DEFAULT);
         return Component.translatable(state.getTranslationKey(this.getDescriptionId()));
     }
 }

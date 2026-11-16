@@ -11,13 +11,15 @@ import net.minecraft.world.inventory.MenuType;
 import java.util.function.Supplier;
 
 public class ModMenuTypes {
-    public static final Supplier<MenuType<MinecartFurnaceMenu>> MINECART_FURNACE = register("minecart_furnace",MinecartFurnaceMenu::new);
+    public static final MenuType<MinecartFurnaceMenu> MINECART_FURNACE = register("minecart_furnace", MinecartFurnaceMenu::new);
 
-    public static <T extends AbstractContainerMenu> Supplier<MenuType<T>> register(
+    public static <T extends AbstractContainerMenu> MenuType<T> register(
             String name,
             MenuType.MenuSupplier<T> constructor
     ) {
-        return ModRegistry.register(BuiltInRegistries.MENU, WhatWeMissed.idOf(name), () -> new MenuType<>(constructor, FeatureFlagSet.of()));
+        MenuType<T> menuType = new MenuType<>(constructor, FeatureFlagSet.of());
+        ModRegistry.register(BuiltInRegistries.MENU, WhatWeMissed.idOf(name), () -> menuType);
+        return menuType;
     }
 
     public static void init() { }

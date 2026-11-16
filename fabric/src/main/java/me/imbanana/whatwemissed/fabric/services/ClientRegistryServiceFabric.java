@@ -18,7 +18,12 @@ public class ClientRegistryServiceFabric implements ClientRegistryService {
     }
 
     @Override
-    public <E extends Entity> void registerEntityRenderer(Supplier<? extends EntityType<? extends E>> entityType, EntityRendererProvider<E> rendererProvider) {
-        EntityRenderers.register(entityType.get(), rendererProvider);
+    public <E extends Entity> void registerEntityRenderer(EntityType<? extends E> entityType, EntityRendererProvider<E> rendererProvider) {
+        EntityRenderers.register(entityType, rendererProvider);
+    }
+
+    @Override
+    public void whenRegisteringRenderers(Runnable action) {
+        action.run();
     }
 }

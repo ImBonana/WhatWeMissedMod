@@ -194,7 +194,7 @@ public class MinecartCopperChestEntity extends MinecartChest {
         if (level.getGameRules().get(GameRules.ENTITY_DROPS)) {
             ItemStack itemStack = new ItemStack(dropItem);
             itemStack.set(DataComponents.CUSTOM_NAME, this.getCustomName());
-            itemStack.set(ModDataComponents.COPPER_STATE.get(), this.getCopperState());
+            itemStack.set(ModDataComponents.COPPER_STATE, this.getCopperState());
             this.spawnAtLocation(level, itemStack);
         }
     }
@@ -208,14 +208,14 @@ public class MinecartCopperChestEntity extends MinecartChest {
     @Override
     public ItemStack getPickResult() {
         ItemStack itemStack = new ItemStack(this.getDropItem());
-        itemStack.set(ModDataComponents.COPPER_STATE.get(), this.getCopperState());
+        itemStack.set(ModDataComponents.COPPER_STATE, this.getCopperState());
         return itemStack;
     }
 
     @Override
     protected void applyImplicitComponents(DataComponentGetter components) {
         super.applyImplicitComponents(components);
-        this.applyImplicitComponentIfPresent(components, ModDataComponents.COPPER_STATE.get());
+        this.applyImplicitComponentIfPresent(components, ModDataComponents.COPPER_STATE);
     }
 
     @Override
@@ -223,8 +223,8 @@ public class MinecartCopperChestEntity extends MinecartChest {
         boolean result = super.applyImplicitComponent(type, value);
         if (result) return result;
 
-        if (type == ModDataComponents.COPPER_STATE.get()) {
-            CopperStateDataComponent copperState = castComponentValue(ModDataComponents.COPPER_STATE.get(), value);
+        if (type == ModDataComponents.COPPER_STATE) {
+            CopperStateDataComponent copperState = castComponentValue(ModDataComponents.COPPER_STATE, value);
             this.setWeatherState(copperState.state());
             this.setWaxed(copperState.waxed());
             return true;

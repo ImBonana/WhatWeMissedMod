@@ -15,10 +15,10 @@ import java.util.function.Function;
 public class ModItems {
     public static final Item COPPER_CHEST_MINECART = register(
             ModItemIds.COPPER_CHEST_MINECART,
-            properties -> new MinecartCopperChestItem(ModEntityTypes.COPPER_CHEST_MINECART.get(), properties),
+            properties -> new MinecartCopperChestItem(ModEntityTypes.COPPER_CHEST_MINECART, properties),
             new Item.Properties()
                     .stacksTo(1)
-                    .component(ModDataComponents.COPPER_STATE.get(), CopperStateDataComponent.DEFAULT)
+                    .component(ModDataComponents.COPPER_STATE, CopperStateDataComponent.DEFAULT)
     );
 
     public static Item register(ResourceKey<Item> itemKey, Function<Item.Properties, Item> itemFactory, Item.Properties settings) {
@@ -28,6 +28,6 @@ public class ModItems {
     }
 
     public static void init() {
-        DispenserBlock.registerBehavior(COPPER_CHEST_MINECART, new MinecartDispenseItemBehavior(ModEntityTypes.COPPER_CHEST_MINECART.get()));
+        DispenserBlock.registerBehavior(COPPER_CHEST_MINECART, new MinecartDispenseItemBehavior(ModEntityTypes.COPPER_CHEST_MINECART));
     }
 }

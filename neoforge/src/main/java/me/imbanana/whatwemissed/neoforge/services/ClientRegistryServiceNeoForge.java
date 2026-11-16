@@ -21,6 +21,7 @@ import java.util.function.Supplier;
 public class ClientRegistryServiceNeoForge implements ClientRegistryService {
     private static final List<Consumer<EntityRenderersEvent.RegisterLayerDefinitions>> PENDING = new ArrayList<>();
     private static final List<Consumer<EntityRenderersEvent.RegisterRenderers>> PENDING_RENDERERS = new ArrayList<>();
+    private static final List<Runnable> RENDERER_HOOKS = new ArrayList<>();
 
     @Override
     public void registerEntityModelLayer(ModelLayerLocation layerLocation, Supplier<LayerDefinition> definitionSupplier) {
@@ -28,8 +29,13 @@ public class ClientRegistryServiceNeoForge implements ClientRegistryService {
     }
 
     @Override
-    public <E extends Entity> void registerEntityRenderer(Supplier<? extends EntityType<? extends E>> entityType, EntityRendererProvider<E> rendererProvider) {
-        PENDING_RENDERERS.add(registerRenderers -> registerRenderers.registerEntityRenderer(entityType.get(), rendererProvider));
+    public <E extends Entity> void registerEntityRenderer(EntityType<? extends E> entityType, EntityRendererProvider<E> rendererProvider) {
+        PENDING_RENDERERS.add(registerRenderers -> registerRenderers.registerEntityRenderer(entityType, rendererProvider));
+    }
+
+    @Override
+    public void whenRegisteringRenderers(Runnable action) {
+        RENDERER_HOOKS.add(action);
     }
 
     @SubscribeEvent
@@ -39,6 +45,10 @@ public class ClientRegistryServiceNeoForge implements ClientRegistryService {
 
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        List<Runnable> hooks = List.copyOf(RENDERER_HOOKS);
+        RENDERER_HOOKS.clear();
+        hooks.forEach(Runnable::run);
+
         PENDING_RENDERERS.forEach(registerRenderersConsumer -> registerRenderersConsumer.accept(event));
     }
 }
