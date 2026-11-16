@@ -8,6 +8,11 @@ public interface IMinecartRenderState {
         return null;
     }
 
+    default void what_we_missed$setChestLidOpenness(float openness) { }
+    default float what_we_missed$getChestLidOpenness() {
+        return 0.0F;
+    }
+
     record LinkRender(Vec3 start, Vec3 end, ChainType chainType) {
     }
 }

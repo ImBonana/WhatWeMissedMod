@@ -9,6 +9,18 @@ import org.spongepowered.asm.mixin.Unique;
 public abstract class MinecartRenderStateMixin implements IMinecartRenderState {
     @Unique
     private LinkRender what_we_missed$linkRender;
+    @Unique
+    private float what_we_missed$chestLidOpenness;
+
+    @Override
+    public void what_we_missed$setChestLidOpenness(float openness) {
+        this.what_we_missed$chestLidOpenness = openness;
+    }
+
+    @Override
+    public float what_we_missed$getChestLidOpenness() {
+        return this.what_we_missed$chestLidOpenness;
+    }
 
     @Override
     public void what_we_missed$setLinkRender(LinkRender link) {

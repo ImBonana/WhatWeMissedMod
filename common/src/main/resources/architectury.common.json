@@ -6,6 +6,9 @@
         "net/minecraft/world/entity/vehicle/minecart/AbstractMinecart:": [
             "me/imbanana/whatwemissed/util/IAbstractMinecart"
         ],
+        "net/minecraft/world/entity/vehicle/minecart/MinecartChest": [
+            "me/imbanana/whatwemissed/util/IChestMinecart"
+        ],
         "net/minecraft/client/renderer/entity/state/MinecartRenderState": [
             "me/imbanana/whatwemissed/util/IMinecartRenderState"
         ],

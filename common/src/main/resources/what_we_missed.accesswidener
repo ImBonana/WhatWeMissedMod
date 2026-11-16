@@ -25,5 +25,6 @@ extendable method net/minecraft/world/entity/vehicle/minecart/NewMinecartBehavio
 
 inject-interface net/minecraft/world/entity/vehicle/minecart/MinecartFurnace net/minecraft/world/entity/vehicle/ContainerEntity
 inject-interface net/minecraft/world/entity/vehicle/minecart/AbstractMinecart me/imbanana/whatwemissed/util/IAbstractMinecart
+inject-interface net/minecraft/world/entity/vehicle/minecart/MinecartChest me/imbanana/whatwemissed/util/IChestMinecart
 inject-interface net/minecraft/client/renderer/entity/state/MinecartRenderState me/imbanana/whatwemissed/util/IMinecartRenderState
 inject-interface net/minecraft/world/level/block/BaseRailBlock me/imbanana/whatwemissed/util/IRailBlock

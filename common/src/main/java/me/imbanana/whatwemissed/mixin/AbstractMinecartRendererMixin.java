@@ -9,10 +9,12 @@ import me.imbanana.whatwemissed.WhatWeMissed;
 import me.imbanana.whatwemissed.entity.ModEntityModelLayers;
 import me.imbanana.whatwemissed.entity.model.ModAbstractMinecartModel;
 import me.imbanana.whatwemissed.util.ChainedCartLinkSide;
+import me.imbanana.whatwemissed.util.ChestLidRenderContext;
 import me.imbanana.whatwemissed.util.IMinecartRenderState;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.BlockModelRenderState;
 import net.minecraft.client.renderer.entity.AbstractMinecartRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -22,6 +24,7 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
+import net.minecraft.world.entity.vehicle.minecart.MinecartChest;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -60,6 +63,29 @@ public abstract class AbstractMinecartRendererMixin<T extends AbstractMinecart, 
     )
     private void createModel(EntityRendererProvider.Context context, ModelLayerLocation model, CallbackInfo ci) {
         this.newModel = new ModAbstractMinecartModel(context.bakeLayer(ModEntityModelLayers.MINECART));
+    }
+
+    @Inject(
+            method = "extractRenderState(Lnet/minecraft/world/entity/vehicle/minecart/AbstractMinecart;Lnet/minecraft/client/renderer/entity/state/MinecartRenderState;F)V",
+            at = @At("TAIL")
+    )
+    private void extractChestLidRenderState(T entity, S state, float partialTicks, CallbackInfo ci) {
+        float openness = entity instanceof MinecartChest chestMinecart ? chestMinecart.what_we_missed$getLidOpenness(partialTicks) : 0.0F;
+        state.what_we_missed$setChestLidOpenness(openness);
+    }
+
+    @WrapOperation(
+            method = "submitMinecartContents",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/renderer/block/BlockModelRenderState;submit(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;III)V"
+            )
+    )
+    private void submitWithChestLid(BlockModelRenderState blockModel, PoseStack poseStack, SubmitNodeCollector collector, int lightCoords, int overlayCoords, int outlineColor, Operation<Void> original, @Local(argsOnly = true) S state) {
+        float open = 1.0F - state.what_we_missed$getChestLidOpenness();
+        ChestLidRenderContext.setOpenness(1.0F - open * open * open);
+        original.call(blockModel, poseStack, collector, lightCoords, overlayCoords, outlineColor);
+        ChestLidRenderContext.setOpenness(0.0F);
     }
 
     @WrapOperation(

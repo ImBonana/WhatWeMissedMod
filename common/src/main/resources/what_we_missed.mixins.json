@@ -8,12 +8,14 @@
     },
     "client": [
         "AbstractMinecartRendererMixin",
+        "ChestSpecialRendererMixin",
         "HudMixin",
         "MinecartRenderStateMixin"
     ],
     "mixins": [
         "AbstractMinecartMixin",
         "BaseRailBlockMixin",
+        "MinecartChestMixin",
         "MinecartFurnaceMixin"
     ],
     "injectors": {
