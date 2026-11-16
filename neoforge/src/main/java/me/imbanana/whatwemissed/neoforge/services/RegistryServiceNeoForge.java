@@ -67,7 +67,9 @@ public class RegistryServiceNeoForge implements RegistryService {
                 event.register(
                         registry.key(),
                         (helper) -> {
-                            helper.register(key, factory.get());
+                            R instance = factory.get();
+                            helper.register(key, instance);
+                            holder.set(instance);
                         }
                 );
             } else {
