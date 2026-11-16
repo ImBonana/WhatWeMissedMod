@@ -1,6 +1,7 @@
 package me.imbanana.whatwemissed.item;
 
 import me.imbanana.whatwemissed.WhatWeMissed;
+import me.imbanana.whatwemissed.item.components.CopperStateDataComponent;
 import me.imbanana.whatwemissed.item.components.MinecartFurnaceFuelDataComponent;
 import me.imbanana.whatwemissed.registry.ModRegistry;
 import net.minecraft.core.component.DataComponentType;
@@ -14,6 +15,14 @@ public class ModDataComponents {
             () -> DataComponentType.<MinecartFurnaceFuelDataComponent>builder()
                     .persistent(MinecartFurnaceFuelDataComponent.CODEC)
                     .networkSynchronized(MinecartFurnaceFuelDataComponent.STREAM_CODEC)
+                    .build()
+    );
+
+    public static final Supplier<DataComponentType<CopperStateDataComponent>> COPPER_STATE = register(
+            "copper_state",
+            () -> DataComponentType.<CopperStateDataComponent>builder()
+                    .persistent(CopperStateDataComponent.CODEC)
+                    .networkSynchronized(CopperStateDataComponent.STREAM_CODEC)
                     .build()
     );
 

@@ -2,6 +2,7 @@ package me.imbanana.whatwemissed.item;
 
 import me.imbanana.whatwemissed.WhatWeMissed;
 import me.imbanana.whatwemissed.block.ModBlocks;
+import me.imbanana.whatwemissed.item.components.CopperStateDataComponent;
 import me.imbanana.whatwemissed.registry.ModRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -9,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.WeatheringCopperCollection;
 
 import java.util.function.Supplier;
 
@@ -24,6 +26,18 @@ public class ModCreativeTabs {
                 output.accept(ModBlocks.RAIL_JUNCTION);
                 output.accept(ModBlocks.DIRECTOR_RAIL);
                 output.accept(ModBlocks.CONVEYOR_RAIL);
+
+                WeatheringCopperCollection.STATES.forEach(state -> {
+                    ItemStack defaultStack = ModItems.COPPER_CHEST_MINECART.getDefaultInstance();
+                    defaultStack.set(ModDataComponents.COPPER_STATE.get(), new CopperStateDataComponent(state, false));
+                    output.accept(defaultStack);
+                });
+
+                WeatheringCopperCollection.STATES.forEach(state -> {
+                    ItemStack defaultStack = ModItems.COPPER_CHEST_MINECART.getDefaultInstance();
+                    defaultStack.set(ModDataComponents.COPPER_STATE.get(), new CopperStateDataComponent(state, true));
+                    output.accept(defaultStack);
+                });
             })
             .build()
     );

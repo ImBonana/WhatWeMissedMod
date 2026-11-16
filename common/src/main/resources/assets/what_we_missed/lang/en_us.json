@@ -11,5 +11,23 @@
     "block.what_we_missed.waxed_oxidized_copper_rail": "Waxed Oxidized Copper Rail",
     "block.what_we_missed.rail_junction": "Rail Junction",
     "block.what_we_missed.director_rail": "Director Rail",
-    "block.what_we_missed.conveyor_rail": "Conveyor Rail"
+    "block.what_we_missed.conveyor_rail": "Conveyor Rail",
+
+    "item.what_we_missed.copper_chest_minecart": "Minecart with Copper Chest",
+    "item.what_we_missed.copper_chest_minecart.exposed": "Minecart with Exposed Copper Chest",
+    "item.what_we_missed.copper_chest_minecart.weathered": "Minecart with Weathered Copper Chest",
+    "item.what_we_missed.copper_chest_minecart.oxidized": "Minecart with Oxidized Copper Chest",
+    "item.what_we_missed.copper_chest_minecart.waxed": "Minecart with Waxed Copper Chest",
+    "item.what_we_missed.copper_chest_minecart.waxed_exposed": "Minecart with Waxed Exposed Copper Chest",
+    "item.what_we_missed.copper_chest_minecart.waxed_weathered": "Minecart with Waxed Weathered Copper Chest",
+    "item.what_we_missed.copper_chest_minecart.waxed_oxidized": "Minecart with Waxed Oxidized Copper Chest",
+
+    "entity.what_we_missed.copper_chest_minecart": "Minecart with Copper Chest",
+    "entity.what_we_missed.copper_chest_minecart.exposed": "Minecart with Exposed Copper Chest",
+    "entity.what_we_missed.copper_chest_minecart.weathered": "Minecart with Weathered Copper Chest",
+    "entity.what_we_missed.copper_chest_minecart.oxidized": "Minecart with Oxidized Copper Chest",
+    "entity.what_we_missed.copper_chest_minecart.waxed": "Minecart with Waxed Copper Chest",
+    "entity.what_we_missed.copper_chest_minecart.waxed_exposed": "Minecart with Waxed Exposed Copper Chest",
+    "entity.what_we_missed.copper_chest_minecart.waxed_weathered": "Minecart with Waxed Weathered Copper Chest",
+    "entity.what_we_missed.copper_chest_minecart.waxed_oxidized": "Minecart with Waxed Oxidized Copper Chest"
 }

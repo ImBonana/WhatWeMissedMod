@@ -1,6 +1,7 @@
 package me.imbanana.whatwemissed;
 
 import me.imbanana.whatwemissed.entity.ModEntityModelLayers;
+import me.imbanana.whatwemissed.entity.ModEntityRenderers;
 import me.imbanana.whatwemissed.network.ModClientNetwork;
 import me.imbanana.whatwemissed.registry.ModClientRegistry;
 import me.imbanana.whatwemissed.services.ClientPlatformBootstrap;
@@ -18,5 +19,6 @@ public class WhatWeMissedClient {
 
         ModClientNetwork.registerClientHandlers();
         ModEntityModelLayers.registerModelLayers();
+        ModEntityRenderers.registerRenderers();
     }
 }

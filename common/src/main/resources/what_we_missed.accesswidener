@@ -15,6 +15,7 @@ accessible method net/minecraft/world/level/block/PoweredRailBlock <init> (Lnet/
 accessible method net/minecraft/world/entity/vehicle/minecart/AbstractMinecart makeStepAlongTrack (Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/properties/RailShape;D)D
 accessible method net/minecraft/world/entity/vehicle/minecart/AbstractMinecart comeOffTrack (Lnet/minecraft/server/level/ServerLevel;)V
 accessible method net/minecraft/world/entity/vehicle/minecart/NewMinecartBehavior$TrackIteration <init> ()V
+accessible method net/minecraft/client/renderer/entity/EntityRenderers register (Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/client/renderer/entity/EntityRendererProvider;)V
 
 extendable method net/minecraft/world/entity/vehicle/minecart/NewMinecartBehavior setRotation (FF)V
 extendable method net/minecraft/world/entity/vehicle/minecart/NewMinecartBehavior calculateBoostTrackSpeed (Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)Lnet/minecraft/world/phys/Vec3;
