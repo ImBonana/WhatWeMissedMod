@@ -3,7 +3,7 @@
         "net/minecraft/world/entity/vehicle/minecart/MinecartFurnace": [
             "net/minecraft/world/entity/vehicle/ContainerEntity"
         ],
-        "net/minecraft/world/entity/vehicle/minecart/AbstractMinecart:": [
+        "net/minecraft/world/entity/vehicle/minecart/AbstractMinecart": [
             "me/imbanana/whatwemissed/util/IAbstractMinecart"
         ],
         "net/minecraft/world/entity/vehicle/minecart/MinecartChest": [
