@@ -26,6 +26,7 @@ import net.minecraft.world.entity.vehicle.minecart.MinecartChest;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.UseRemainder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
@@ -104,6 +105,7 @@ public class MinecartCopperChestEntity extends MinecartChest {
             level.levelEvent(this, 3003, pos, 0);
             level.playSound(null, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS, 1.0F, 1.0F);
             this.setWaxed(true);
+            this.usePlayerItem(player, hand, itemStack);
             return InteractionResult.SUCCESS_SERVER;
         }
 
@@ -129,6 +131,16 @@ public class MinecartCopperChestEntity extends MinecartChest {
         }
 
         return super.interact(player, hand, location);
+    }
+
+    protected void usePlayerItem(final Player player, final InteractionHand hand, final ItemStack itemStack) {
+        int beforeUseCount = itemStack.getCount();
+        UseRemainder useRemainder = itemStack.get(DataComponents.USE_REMAINDER);
+        itemStack.consume(1, player);
+        if (useRemainder != null) {
+            ItemStack newHandStack = useRemainder.convertIntoRemainder(itemStack, beforeUseCount, player.hasInfiniteMaterials(), player::handleExtraItemsCreatedOnUse);
+            player.setItemInHand(hand, newHandStack);
+        }
     }
 
     private void updateWeathering(final RandomSource random, final long gameTime) {
