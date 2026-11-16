@@ -53,7 +53,7 @@ public class TrainController {
         }
 
         Vec3[] towardsHead = directionsTowardsHead(chain, state);
-        double speed = nextSpeed(level, chain, towardsHead, currentSpeed(chain, towardsHead));
+        double speed = nextSpeed(level, chain, towardsHead, currentSpeed(level, chain, state, towardsHead));
 
         boolean frontIsHead = speed > 0 || (speed == 0 && state.isFrontIsHead());
         state.setFrontIsHead(frontIsHead);
@@ -145,7 +145,7 @@ public class TrainController {
         for (int j = 1; j < trainSize; j++) {
             AbstractMinecart cart = carts.get(j);
             boolean onPath = j < firstCross;
-            Vec3 movement = onPath ? movementAlong(towardsFront[j], finalSpeed) : targets[j].subtract(cart.position());
+            Vec3 movement = onPath ? movementOnPath(state, distances[j], towardsFront[j], finalSpeed) : targets[j].subtract(cart.position());
             placeFollower(level, cart, state, targets[j], distances[j], onPath ? advanced : 0.0, movement, towardsFront[j], isFacingFront(chain, cart, frontIsHead));
         }
 
@@ -186,11 +186,20 @@ public class TrainController {
         return direction.lengthSqr() < 0.05 * 0.05 ? null : direction.normalize();
     }
 
-    private static double currentSpeed(TrainChain chain, Vec3[] towardsHead) {
+    private static double currentSpeed(ServerLevel level, TrainChain chain, TrainState state, Vec3[] towardsHead) {
+        int front = state.isFrontIsHead() ? 0 : chain.size() - 1;
         double sum = 0;
         for (int i = 0; i < chain.size(); i++) {
-            Vec3 movement = chain.cart(i).getDeltaMovement();
-            sum += movement.x * towardsHead[i].x + movement.z * towardsHead[i].z;
+            AbstractMinecart cart = chain.cart(i);
+            Vec3 direction = towardsHead[i];
+            if (i == front) {
+                BlockPos rail = RailGeometry.railUnder(level, cart.position());
+                Vec3 alongRail = rail == null ? null : RailGeometry.directionAlongRail(level, rail, direction);
+                if (alongRail != null) direction = alongRail;
+            }
+
+            Vec3 movement = cart.getDeltaMovement();
+            sum += movement.x * direction.x + movement.z * direction.z;
         }
 
         double speed = sum / chain.size();
@@ -345,7 +354,7 @@ public class TrainController {
 
             if (from < distance) {
                 for (double at = from; at < distance; ) {
-                    double next = Math.min(at + SWEEP_STEP, distance);
+                    double next = state.firstPointBetween(at, Math.min(at + SWEEP_STEP, distance));
                     Vec3 start = at == from ? cart.position() : state.pointAt(at);
                     if (!canMove(level, cart, rail, sidewaysLimit, start, state.pointAt(next))) return Double.POSITIVE_INFINITY;
                     at = next;
@@ -354,7 +363,7 @@ public class TrainController {
             }
 
             for (double at = from; at > distance; ) {
-                double next = Math.max(at - SWEEP_STEP, distance);
+                double next = state.firstPointBetween(at, Math.max(at - SWEEP_STEP, distance));
                 Vec3 start = at == from ? cart.position() : state.pointAt(at);
                 if (!canMove(level, cart, rail, sidewaysLimit, start, state.pointAt(next))) {
                     rewind = Math.max(rewind, narrowDown(level, cart, rail, sidewaysLimit, state, start, at, next) - distance);
@@ -417,6 +426,14 @@ public class TrainController {
         }
 
         return box;
+    }
+
+    private static Vec3 movementOnPath(TrainState state, double distance, Vec3 towardsFront, double speed) {
+        Vec3 movement = movementAlong(towardsFront, speed);
+        Vec3 direction = pathDirection(state, distance);
+        if (direction == null) return movement;
+
+        return new Vec3(direction.x * speed, movement.y, direction.z * speed);
     }
 
     private static Vec3 movementAlong(Vec3 towardsFront, double speed) {

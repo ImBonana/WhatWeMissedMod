@@ -169,6 +169,22 @@ public final class TrainState {
         return this.spine.getLast();
     }
 
+    public double firstPointBetween(double from, double to) {
+        double nearer = Math.min(from, to);
+        double farther = Math.max(from, to);
+        double result = to;
+        double travelled = 0;
+        for (int i = 1; i < this.spine.size(); i++) {
+            travelled += this.spine.get(i).distanceTo(this.spine.get(i - 1));
+            if (travelled >= farther - 1.0E-6) break;
+            if (travelled <= nearer + 1.0E-6) continue;
+            if (from < to) return travelled;
+            result = travelled;
+        }
+
+        return result;
+    }
+
     public List<Vec3> pathBetween(double nearer, double farther) {
         List<Vec3> points = new ArrayList<>();
         points.add(this.pointAt(nearer));
