@@ -15,6 +15,7 @@
     "mixins": [
         "AbstractMinecartMixin",
         "BaseRailBlockMixin",
+        "CopperGolemAiMixin",
         "MinecartChestMixin",
         "MinecartFurnaceMixin"
     ],
