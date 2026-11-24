@@ -1,0 +1,61 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "what_we_missed:item/exposed_copper_chest_minecart"
+        },
+        "when": [
+          {
+            "state": "exposed",
+            "waxed": false
+          },
+          {
+            "state": "exposed",
+            "waxed": true
+          }
+        ]
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "what_we_missed:item/weathered_copper_chest_minecart"
+        },
+        "when": [
+          {
+            "state": "weathered",
+            "waxed": false
+          },
+          {
+            "state": "weathered",
+            "waxed": true
+          }
+        ]
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "what_we_missed:item/oxidized_copper_chest_minecart"
+        },
+        "when": [
+          {
+            "state": "oxidized",
+            "waxed": false
+          },
+          {
+            "state": "oxidized",
+            "waxed": true
+          }
+        ]
+      }
+    ],
+    "component": "what_we_missed:copper_state",
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "what_we_missed:item/copper_chest_minecart"
+    },
+    "property": "minecraft:component"
+  }
+}

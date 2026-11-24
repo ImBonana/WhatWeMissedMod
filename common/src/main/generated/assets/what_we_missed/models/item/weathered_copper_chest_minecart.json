@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "what_we_missed:item/weathered_copper_chest_minecart"
+  }
+}

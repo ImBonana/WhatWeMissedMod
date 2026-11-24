@@ -4,6 +4,9 @@ import me.imbanana.whatwemissed.WhatWeMissed;
 import me.imbanana.whatwemissed.block.ModBlocks;
 import me.imbanana.whatwemissed.block.custom.ConveyorRailBlock;
 import me.imbanana.whatwemissed.block.custom.RailJunctionBlock;
+import me.imbanana.whatwemissed.item.ModDataComponents;
+import me.imbanana.whatwemissed.item.ModItems;
+import me.imbanana.whatwemissed.item.components.CopperStateDataComponent;
 import me.imbanana.whatwemissed.util.IDirectionalRailBlock;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
@@ -12,19 +15,21 @@ import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.MultiVariant;
 import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
 import net.minecraft.client.data.models.blockstates.PropertyDispatch;
-import net.minecraft.client.data.models.model.ModelTemplate;
-import net.minecraft.client.data.models.model.ModelTemplates;
-import net.minecraft.client.data.models.model.TextureMapping;
-import net.minecraft.client.data.models.model.TextureSlot;
+import net.minecraft.client.data.models.model.*;
+import net.minecraft.client.renderer.item.ItemModel;
+import net.minecraft.client.renderer.item.RangeSelectItemModel;
+import net.minecraft.client.renderer.item.properties.select.ComponentContents;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.RailShape;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class ModModelProvider extends FabricModelProvider {
     private static final ModelTemplate RAIL_RAISED_NE_FLIPPED = flippedRailTemplate("template_rail_raised_ne_flipped", "_raised_ne_flipped");
@@ -44,7 +49,7 @@ public class ModModelProvider extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerators itemModelGenerators) {
-
+        createMinecartCopperChestItem(itemModelGenerators, ModItems.COPPER_CHEST_MINECART);
     }
 
     @Override
@@ -198,6 +203,59 @@ public class ModModelProvider extends FabricModelProvider {
 
     private static MultiVariant getConveyorRailVariant(BlockModelGenerators blockModelGenerators, Block block, ModelTemplate template, int speed) {
         return BlockModelGenerators.plainVariant(blockModelGenerators.createSuffixedVariant(block, "_" + speed, template, material -> TextureMapping.rail(new Material(WhatWeMissed.idOf("block/conveyor_rail_" + speed)))));
+    }
+
+    private static void createMinecartCopperChestItem(ItemModelGenerators itemModelGenerators, Item item) {
+        ItemModel.Unbaked base = ItemModelUtils.plainModel(itemModelGenerators.createFlatItemModel(item, ModelTemplates.FLAT_ITEM));
+        ItemModel.Unbaked exposed = ItemModelUtils.plainModel(createFlatItemModelWithPrefix(itemModelGenerators, item, "exposed_", ModelTemplates.FLAT_ITEM));
+        ItemModel.Unbaked weathered = ItemModelUtils.plainModel(createFlatItemModelWithPrefix(itemModelGenerators, item, "weathered_", ModelTemplates.FLAT_ITEM));
+        ItemModel.Unbaked oxidized = ItemModelUtils.plainModel(createFlatItemModelWithPrefix(itemModelGenerators, item, "oxidized_", ModelTemplates.FLAT_ITEM));
+
+        itemModelGenerators.itemModelOutput
+                .accept(
+                        item,
+                        ItemModelUtils.select(
+                                new ComponentContents<>(ModDataComponents.COPPER_STATE),
+                                base,
+                                ItemModelUtils.when(
+                                        List.of(
+                                                new CopperStateDataComponent(WeatheringCopper.WeatherState.EXPOSED, false),
+                                                new CopperStateDataComponent(WeatheringCopper.WeatherState.EXPOSED, true)
+                                        ),
+                                        exposed
+                                ),
+                                ItemModelUtils.when(
+                                        List.of(
+                                                new CopperStateDataComponent(WeatheringCopper.WeatherState.WEATHERED, false),
+                                                new CopperStateDataComponent(WeatheringCopper.WeatherState.WEATHERED, true)
+                                        ),
+                                        weathered
+                                ),
+                                ItemModelUtils.when(
+                                        List.of(
+                                                new CopperStateDataComponent(WeatheringCopper.WeatherState.OXIDIZED, false),
+                                                new CopperStateDataComponent(WeatheringCopper.WeatherState.OXIDIZED, true)
+                                        ),
+                                        oxidized
+                                )
+                        )
+                );
+    }
+
+    public static Identifier createFlatItemModelWithPrefix(ItemModelGenerators itemModelGenerators, final Item item, final String prefix, final ModelTemplate template) {
+        return template.create(
+                getItemModelLocationWithPrefix(item, prefix), TextureMapping.layer0(getItemTextureWithPrefix(item, prefix)), itemModelGenerators.modelOutput
+        );
+    }
+
+    public static Identifier getItemModelLocationWithPrefix(final Item item, final String prefix) {
+        Identifier key = BuiltInRegistries.ITEM.getKey(item);
+        return key.withPath(path -> "item/" + prefix + path);
+    }
+
+    public static Material getItemTextureWithPrefix(final Item item, final String prefix) {
+        Identifier id = BuiltInRegistries.ITEM.getKey(item);
+        return new Material(id.withPath(path -> "item/" + prefix + path));
     }
 
     private enum DirectionalRailStates {
