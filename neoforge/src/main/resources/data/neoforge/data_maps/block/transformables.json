@@ -1,0 +1,316 @@
+{
+    "values": {
+        "what_we_missed:oak_wall": {
+            "transformer": "minecraft:axe",
+            "transform_data": {
+                "block_state_provider": {
+                    "type": "minecraft:rule_based",
+                    "rules": [
+                        {
+                            "if_true": {
+                                "type": "minecraft:matching_blocks",
+                                "blocks": "what_we_missed:oak_wall"
+                            },
+                            "then": {
+                                "type": "minecraft:copy_properties",
+                                "source": {
+                                    "id": "what_we_missed:stripped_oak_wall"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "sound": "minecraft:item.axe.strip",
+                "item_damage_per_use": 1
+            }
+        },
+        "what_we_missed:spruce_wall": {
+            "transformer": "minecraft:axe",
+            "transform_data": {
+                "block_state_provider": {
+                    "type": "minecraft:rule_based",
+                    "rules": [
+                        {
+                            "if_true": {
+                                "type": "minecraft:matching_blocks",
+                                "blocks": "what_we_missed:spruce_wall"
+                            },
+                            "then": {
+                                "type": "minecraft:copy_properties",
+                                "source": {
+                                    "id": "what_we_missed:stripped_spruce_wall"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "sound": "minecraft:item.axe.strip",
+                "item_damage_per_use": 1
+            }
+        },
+        "what_we_missed:birch_wall": {
+            "transformer": "minecraft:axe",
+            "transform_data": {
+                "block_state_provider": {
+                    "type": "minecraft:rule_based",
+                    "rules": [
+                        {
+                            "if_true": {
+                                "type": "minecraft:matching_blocks",
+                                "blocks": "what_we_missed:birch_wall"
+                            },
+                            "then": {
+                                "type": "minecraft:copy_properties",
+                                "source": {
+                                    "id": "what_we_missed:stripped_birch_wall"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "sound": "minecraft:item.axe.strip",
+                "item_damage_per_use": 1
+            }
+        },
+        "what_we_missed:jungle_wall": {
+            "transformer": "minecraft:axe",
+            "transform_data": {
+                "block_state_provider": {
+                    "type": "minecraft:rule_based",
+                    "rules": [
+                        {
+                            "if_true": {
+                                "type": "minecraft:matching_blocks",
+                                "blocks": "what_we_missed:jungle_wall"
+                            },
+                            "then": {
+                                "type": "minecraft:copy_properties",
+                                "source": {
+                                    "id": "what_we_missed:stripped_jungle_wall"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "sound": "minecraft:item.axe.strip",
+                "item_damage_per_use": 1
+            }
+        },
+        "what_we_missed:acacia_wall": {
+            "transformer": "minecraft:axe",
+            "transform_data": {
+                "block_state_provider": {
+                    "type": "minecraft:rule_based",
+                    "rules": [
+                        {
+                            "if_true": {
+                                "type": "minecraft:matching_blocks",
+                                "blocks": "what_we_missed:acacia_wall"
+                            },
+                            "then": {
+                                "type": "minecraft:copy_properties",
+                                "source": {
+                                    "id": "what_we_missed:stripped_acacia_wall"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "sound": "minecraft:item.axe.strip",
+                "item_damage_per_use": 1
+            }
+        },
+        "what_we_missed:dark_oak_wall": {
+            "transformer": "minecraft:axe",
+            "transform_data": {
+                "block_state_provider": {
+                    "type": "minecraft:rule_based",
+                    "rules": [
+                        {
+                            "if_true": {
+                                "type": "minecraft:matching_blocks",
+                                "blocks": "what_we_missed:dark_oak_wall"
+                            },
+                            "then": {
+                                "type": "minecraft:copy_properties",
+                                "source": {
+                                    "id": "what_we_missed:stripped_dark_oak_wall"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "sound": "minecraft:item.axe.strip",
+                "item_damage_per_use": 1
+            }
+        },
+        "what_we_missed:mangrove_wall": {
+            "transformer": "minecraft:axe",
+            "transform_data": {
+                "block_state_provider": {
+                    "type": "minecraft:rule_based",
+                    "rules": [
+                        {
+                            "if_true": {
+                                "type": "minecraft:matching_blocks",
+                                "blocks": "what_we_missed:mangrove_wall"
+                            },
+                            "then": {
+                                "type": "minecraft:copy_properties",
+                                "source": {
+                                    "id": "what_we_missed:stripped_mangrove_wall"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "sound": "minecraft:item.axe.strip",
+                "item_damage_per_use": 1
+            }
+        },
+        "what_we_missed:cherry_wall": {
+            "transformer": "minecraft:axe",
+            "transform_data": {
+                "block_state_provider": {
+                    "type": "minecraft:rule_based",
+                    "rules": [
+                        {
+                            "if_true": {
+                                "type": "minecraft:matching_blocks",
+                                "blocks": "what_we_missed:cherry_wall"
+                            },
+                            "then": {
+                                "type": "minecraft:copy_properties",
+                                "source": {
+                                    "id": "what_we_missed:stripped_cherry_wall"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "sound": "minecraft:item.axe.strip",
+                "item_damage_per_use": 1
+            }
+        },
+        "what_we_missed:pale_oak_wall": {
+            "transformer": "minecraft:axe",
+            "transform_data": {
+                "block_state_provider": {
+                    "type": "minecraft:rule_based",
+                    "rules": [
+                        {
+                            "if_true": {
+                                "type": "minecraft:matching_blocks",
+                                "blocks": "what_we_missed:pale_oak_wall"
+                            },
+                            "then": {
+                                "type": "minecraft:copy_properties",
+                                "source": {
+                                    "id": "what_we_missed:stripped_pale_oak_wall"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "sound": "minecraft:item.axe.strip",
+                "item_damage_per_use": 1
+            }
+        },
+        "what_we_missed:poplar_wall": {
+            "transformer": "minecraft:axe",
+            "transform_data": {
+                "block_state_provider": {
+                    "type": "minecraft:rule_based",
+                    "rules": [
+                        {
+                            "if_true": {
+                                "type": "minecraft:matching_blocks",
+                                "blocks": "what_we_missed:poplar_wall"
+                            },
+                            "then": {
+                                "type": "minecraft:copy_properties",
+                                "source": {
+                                    "id": "what_we_missed:stripped_poplar_wall"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "sound": "minecraft:item.axe.strip",
+                "item_damage_per_use": 1
+            }
+        },
+        "what_we_missed:bamboo_wall": {
+            "transformer": "minecraft:axe",
+            "transform_data": {
+                "block_state_provider": {
+                    "type": "minecraft:rule_based",
+                    "rules": [
+                        {
+                            "if_true": {
+                                "type": "minecraft:matching_blocks",
+                                "blocks": "what_we_missed:bamboo_wall"
+                            },
+                            "then": {
+                                "type": "minecraft:copy_properties",
+                                "source": {
+                                    "id": "what_we_missed:stripped_bamboo_wall"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "sound": "minecraft:item.axe.strip",
+                "item_damage_per_use": 1
+            }
+        },
+        "what_we_missed:crimson_stem_wall": {
+            "transformer": "minecraft:axe",
+            "transform_data": {
+                "block_state_provider": {
+                    "type": "minecraft:rule_based",
+                    "rules": [
+                        {
+                            "if_true": {
+                                "type": "minecraft:matching_blocks",
+                                "blocks": "what_we_missed:crimson_stem_wall"
+                            },
+                            "then": {
+                                "type": "minecraft:copy_properties",
+                                "source": {
+                                    "id": "what_we_missed:stripped_crimson_stem_wall"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "sound": "minecraft:item.axe.strip",
+                "item_damage_per_use": 1
+            }
+        },
+        "what_we_missed:warped_stem_wall": {
+            "transformer": "minecraft:axe",
+            "transform_data": {
+                "block_state_provider": {
+                    "type": "minecraft:rule_based",
+                    "rules": [
+                        {
+                            "if_true": {
+                                "type": "minecraft:matching_blocks",
+                                "blocks": "what_we_missed:warped_stem_wall"
+                            },
+                            "then": {
+                                "type": "minecraft:copy_properties",
+                                "source": {
+                                    "id": "what_we_missed:stripped_warped_stem_wall"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "sound": "minecraft:item.axe.strip",
+                "item_damage_per_use": 1
+            }
+        }
+    }
+}
