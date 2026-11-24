@@ -18,6 +18,7 @@ import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.WeatheringCopperCollection;
@@ -72,6 +73,14 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .define('s', Items.STICK)
                         .unlockedBy("has_rail", this.has(Blocks.RAIL))
                         .save(output);
+
+                shaped(RecipeCategory.REDSTONE, ModBlocks.TACKY_PISTON)
+                        .define('P', Blocks.PISTON)
+                        .define('S', Ingredient.of(Items.HONEY_BOTTLE, Items.HONEYCOMB))
+                        .pattern("S")
+                        .pattern("P")
+                        .unlockedBy("has_slime_ball", this.has(Items.SLIME_BALL))
+                        .save(this.output);
 
                 ModBlocks.woodWalls().forEach((wall, base) -> wall(RecipeCategory.DECORATIONS, wall, base));
 
