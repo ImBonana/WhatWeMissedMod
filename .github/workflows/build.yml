@@ -2,7 +2,24 @@ name: build
 on: [workflow_dispatch]
 
 jobs:
+  version:
+    runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: gradle.properties
+          sparse-checkout-cone-mode: false
+
+      - name: read mod version
+        id: version
+        run: echo "version=$(grep '^mod_version=' gradle.properties | cut -d= -f2 | tr -d '[:space:]')" >> "$GITHUB_OUTPUT"
+
   build:
+    name: build ${{ needs.version.outputs.version }}
+    needs: version
     runs-on: ubuntu-24.04
     steps:
       - name: checkout repository
