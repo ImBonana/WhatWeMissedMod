@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "copper_chest_minecart",
+  "ingredients": [
+    "minecraft:weathered_copper_chest",
+    "minecraft:minecart"
+  ],
+  "result": {
+    "components": {
+      "what_we_missed:copper_state": {
+        "state": "weathered",
+        "waxed": false
+      }
+    },
+    "id": "what_we_missed:copper_chest_minecart"
+  }
+}

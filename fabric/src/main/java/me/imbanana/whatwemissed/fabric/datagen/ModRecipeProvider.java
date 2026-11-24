@@ -1,16 +1,26 @@
 package me.imbanana.whatwemissed.fabric.datagen;
 
+import me.imbanana.whatwemissed.WhatWeMissed;
 import me.imbanana.whatwemissed.block.ModBlocks;
+import me.imbanana.whatwemissed.item.ModDataComponents;
+import me.imbanana.whatwemissed.item.ModItems;
+import me.imbanana.whatwemissed.item.components.CopperStateDataComponent;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.WeatheringCopperCollection;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -64,6 +74,25 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .save(output);
 
                 ModBlocks.woodWalls().forEach((wall, base) -> wall(RecipeCategory.DECORATIONS, wall, base));
+
+                WeatheringCopperCollection<CopperStateDataComponent> copperStates = new WeatheringCopperCollection<>(
+                        WeatheringCopperCollection.STATES.map(state -> new CopperStateDataComponent(state, false)),
+                        WeatheringCopperCollection.STATES.map(state -> new CopperStateDataComponent(state, true))
+                );
+                WeatheringCopperCollection.zipApply(Items.COPPER_CHEST, copperStates, (chest, copperState) ->
+                        shapeless(
+                                RecipeCategory.TRANSPORTATION,
+                                new ItemStackTemplate(
+                                        ModItems.COPPER_CHEST_MINECART,
+                                        DataComponentPatch.builder().set(ModDataComponents.COPPER_STATE, copperState).build()
+                                )
+                        )
+                                .requires(chest)
+                                .requires(Items.MINECART)
+                                .group("copper_chest_minecart")
+                                .unlockedBy("has_minecart", this.has(Items.MINECART))
+                                .save(output, ResourceKey.create(Registries.RECIPE, WhatWeMissed.idOf(BuiltInRegistries.ITEM.getKey(chest).getPath() + "_minecart")))
+                );
             }
         };
     }
