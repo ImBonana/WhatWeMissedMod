@@ -15,6 +15,7 @@ accessible method net/minecraft/world/level/block/PoweredRailBlock <init> (Lnet/
 accessible method net/minecraft/world/entity/vehicle/minecart/AbstractMinecart makeStepAlongTrack (Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/properties/RailShape;D)D
 accessible method net/minecraft/world/entity/vehicle/minecart/AbstractMinecart comeOffTrack (Lnet/minecraft/server/level/ServerLevel;)V
 accessible method net/minecraft/world/entity/vehicle/minecart/NewMinecartBehavior$TrackIteration <init> ()V
+accessible method net/minecraft/world/level/block/Blocks pistonProperties ()Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;
 
 extendable method net/minecraft/world/entity/vehicle/minecart/NewMinecartBehavior setRotation (FF)V
 extendable method net/minecraft/world/entity/vehicle/minecart/NewMinecartBehavior calculateBoostTrackSpeed (Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)Lnet/minecraft/world/phys/Vec3;
@@ -22,6 +23,9 @@ extendable method net/minecraft/world/entity/vehicle/minecart/NewMinecartBehavio
 extendable method net/minecraft/world/entity/vehicle/minecart/NewMinecartBehavior calculateSlopeSpeed (Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/level/block/state/properties/RailShape;)Lnet/minecraft/world/phys/Vec3;
 extendable method net/minecraft/world/entity/vehicle/minecart/NewMinecartBehavior calculatePlayerInputSpeed (Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;
 extendable method net/minecraft/world/entity/vehicle/minecart/NewMinecartBehavior calculateHaltTrackSpeed (Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/level/block/state/BlockState;)Lnet/minecraft/world/phys/Vec3;
+extendable method net/minecraft/world/level/block/piston/PistonBaseBlock moveBlocks (Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;Z)Z
+
+extend-enum net/minecraft/world/level/block/state/properties/PistonType WHAT_WE_MISSED_TACKY
 
 inject-interface net/minecraft/world/entity/vehicle/minecart/MinecartFurnace net/minecraft/world/entity/vehicle/ContainerEntity
 inject-interface net/minecraft/world/entity/vehicle/minecart/AbstractMinecart me/imbanana/whatwemissed/util/IAbstractMinecart

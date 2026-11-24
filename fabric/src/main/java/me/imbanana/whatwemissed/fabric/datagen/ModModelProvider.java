@@ -17,7 +17,6 @@ import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
 import net.minecraft.client.data.models.blockstates.PropertyDispatch;
 import net.minecraft.client.data.models.model.*;
 import net.minecraft.client.renderer.item.ItemModel;
-import net.minecraft.client.renderer.item.RangeSelectItemModel;
 import net.minecraft.client.renderer.item.properties.select.ComponentContents;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.Direction;
@@ -25,8 +24,10 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.PistonType;
 import net.minecraft.world.level.block.state.properties.RailShape;
 
 import java.util.*;
@@ -45,6 +46,13 @@ public class ModModelProvider extends FabricModelProvider {
         createRailJunction(blockModelGenerators, ModBlocks.RAIL_JUNCTION);
         createDirectionalActiveRail(blockModelGenerators, ModBlocks.DIRECTOR_RAIL);
         createConveyorRail(blockModelGenerators, ModBlocks.CONVEYOR_RAIL);
+
+        createPistonVariant(blockModelGenerators, ModBlocks.TACKY_PISTON, "_tacky");
+        createPistonHeads(blockModelGenerators, List.of(
+                PistonHeadType.ofVanilla(PistonType.DEFAULT, ""),
+                PistonHeadType.ofVanilla(PistonType.STICKY, "_sticky"),
+                PistonHeadType.of(PistonType.WHAT_WE_MISSED_TACKY, "_tacky")
+        ));
     }
 
     @Override
@@ -256,6 +264,76 @@ public class ModModelProvider extends FabricModelProvider {
     public static Material getItemTextureWithPrefix(final Item item, final String prefix) {
         Identifier id = BuiltInRegistries.ITEM.getKey(item);
         return new Material(id.withPath(path -> "item/" + prefix + path));
+    }
+
+    public static void createPistonVariant(BlockModelGenerators blockModelGenerators, final Block block, final String suffix) {
+        TextureMapping commonMapping = new TextureMapping()
+                .put(TextureSlot.BOTTOM, TextureMapping.getBlockTexture(Blocks.PISTON, "_bottom"))
+                .put(TextureSlot.SIDE, TextureMapping.getBlockTexture(Blocks.PISTON, "_side"));
+
+        Material top = new Material(WhatWeMissed.idOf("block/piston_top" + suffix));
+        TextureMapping textures = commonMapping.copyAndUpdate(TextureSlot.PLATFORM, top);
+        MultiVariant extendedPiston = BlockModelGenerators.plainVariant(ModelLocationUtils.getModelLocation(Blocks.PISTON, "_base"));
+        MultiVariant retracted = BlockModelGenerators.plainVariant(ModelTemplates.PISTON.create(block, textures, blockModelGenerators.modelOutput));
+        blockModelGenerators.blockStateOutput.accept(MultiVariantGenerator.dispatch(block).with(BlockModelGenerators.createBooleanModelDispatch(BlockStateProperties.EXTENDED, extendedPiston, retracted)).with(BlockModelGenerators.ROTATION_FACING));
+
+        Identifier inventory = ModelTemplates.CUBE_BOTTOM_TOP.createWithSuffix(block, "_inventory", commonMapping.copyAndUpdate(TextureSlot.TOP, top), blockModelGenerators.modelOutput);
+        blockModelGenerators.registerSimpleItemModel(block, inventory);
+    }
+
+    private void createPistonHeads(BlockModelGenerators blockModelGenerators, List<PistonHeadType> types) {
+        TextureMapping commonMapping = new TextureMapping()
+                .put(TextureSlot.UNSTICKY, TextureMapping.getBlockTexture(Blocks.PISTON, "_top"))
+                .put(TextureSlot.SIDE, TextureMapping.getBlockTexture(Blocks.PISTON, "_side"));
+
+        PropertyDispatch.C2<MultiVariant, Boolean, PistonType> dispatch = PropertyDispatch.initial(BlockStateProperties.SHORT, BlockStateProperties.PISTON_TYPE);
+
+        for (PistonHeadType pistonHeadType : types) {
+            TextureMapping textures = commonMapping.copyAndUpdate(TextureSlot.PLATFORM, pistonHeadType.createMaterial());
+            dispatch.select(
+                    false,
+                    pistonHeadType.pistonType(),
+                    BlockModelGenerators.plainVariant(ModelTemplates.PISTON_HEAD.createWithSuffix(
+                            Blocks.PISTON,
+                            "_head" + pistonHeadType.suffix(),
+                            textures,
+                            blockModelGenerators.modelOutput
+                    ))
+            );
+            dispatch.select(
+                    true,
+                    pistonHeadType.pistonType(),
+                    BlockModelGenerators.plainVariant(ModelTemplates.PISTON_HEAD.createWithSuffix(
+                            Blocks.PISTON,
+                            "_head_short" + pistonHeadType.suffix(),
+                            textures,
+                            blockModelGenerators.modelOutput
+                    ))
+            );
+        }
+
+        blockModelGenerators.blockStateOutput
+                .accept(
+                        MultiVariantGenerator.dispatch(Blocks.PISTON_HEAD)
+                                .with(dispatch)
+                                .with(BlockModelGenerators.ROTATION_FACING)
+                );
+    }
+
+    private record PistonHeadType(PistonType pistonType, String suffix, boolean vanilla) {
+        public Material createMaterial() {
+            Identifier id = BuiltInRegistries.BLOCK.getKey(Blocks.PISTON);
+            String path = "block/" + id.getPath() + "_top" + suffix;
+            return new Material(vanilla ? Identifier.withDefaultNamespace(path) : WhatWeMissed.idOf(path));
+        }
+
+        public static PistonHeadType of(PistonType pistonType, String suffix) {
+            return new PistonHeadType(pistonType, suffix, false);
+        }
+
+        public static PistonHeadType ofVanilla(PistonType pistonType, String suffix) {
+            return new PistonHeadType(pistonType, suffix, true);
+        }
     }
 
     private enum DirectionalRailStates {

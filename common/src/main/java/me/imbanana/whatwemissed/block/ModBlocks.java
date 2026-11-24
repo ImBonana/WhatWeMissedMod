@@ -41,6 +41,7 @@ public class ModBlocks {
     public static final Block CONVEYOR_RAIL = registerWithItem(
             ModBlockItemIds.CONVEYOR_RAIL, ConveyorRailBlock::new, BlockBehaviour.Properties.of().noCollision().strength(0.7F).sound(SoundType.METAL)
     );
+    public static final Block TACKY_PISTON = registerWithItem(ModBlockItemIds.TACKY_PISTON, TackyPistonBlock::new, Blocks.pistonProperties());
 
     private static Supplier<Block> register(ResourceKey<Block> id, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties properties) {
         return ModRegistry.register(BuiltInRegistries.BLOCK, id, () -> factory.apply(properties.setId(id)));

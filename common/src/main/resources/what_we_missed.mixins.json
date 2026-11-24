@@ -11,14 +11,19 @@
         "ChestSpecialRendererMixin",
         "HudMixin",
         "LocalPlayerMixin",
-        "MinecartRenderStateMixin"
+        "MinecartRenderStateMixin",
+        "PistonHeadRendererMixin"
     ],
     "mixins": [
         "AbstractMinecartMixin",
         "BaseRailBlockMixin",
         "CopperGolemAiMixin",
         "MinecartChestMixin",
-        "MinecartFurnaceMixin"
+        "MinecartFurnaceMixin",
+        "PistonBaseBlockMixin",
+        "PistonHeadBlockMixin",
+        "PistonMovingBlockEntityMixin",
+        "PistonTypeMixin"
     ],
     "injectors": {
         "defaultRequire": 1

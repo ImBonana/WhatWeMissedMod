@@ -38,6 +38,8 @@ public class ModCreativeTabs {
                     defaultStack.set(ModDataComponents.COPPER_STATE, new CopperStateDataComponent(state, true));
                     output.accept(defaultStack);
                 });
+
+                output.accept(ModBlocks.TACKY_PISTON);
             })
             .build()
     );
