@@ -62,6 +62,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .define('s', Items.STICK)
                         .unlockedBy("has_rail", this.has(Blocks.RAIL))
                         .save(output);
+
+                ModBlocks.woodWalls().forEach((wall, base) -> wall(RecipeCategory.DECORATIONS, wall, base));
             }
         };
     }

@@ -1,15 +1,18 @@
 package me.imbanana.whatwemissed.fabric.datagen;
 
 import me.imbanana.whatwemissed.block.ModBlockItemIds;
+import me.imbanana.whatwemissed.block.ModBlocks;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.references.BlockItemId;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.WeatheringCopperCollection;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
@@ -30,9 +33,21 @@ public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
                 .add(ModBlockItemIds.DIRECTOR_RAIL)
                 .add(ModBlockItemIds.CONVEYOR_RAIL)
                 .addAll(toIds(ModBlockItemIds.COPPER_RAIL));
+
+        this.builder(BlockTags.MINEABLE_WITH_AXE)
+                .addAll(woodWallIds());
+
+        this.builder(BlockTags.WALLS)
+                .addAll(woodWallIds());
     }
 
     private static WeatheringCopperCollection<ResourceKey<Block>> toIds(final WeatheringCopperCollection<BlockItemId> ids) {
         return ids.map(BlockItemId::block);
+    }
+
+    private static List<ResourceKey<Block>> woodWallIds() {
+        return ModBlocks.woodWalls().keySet().stream()
+                .map(block -> BuiltInRegistries.BLOCK.getResourceKey(block).orElseThrow())
+                .toList();
     }
 }

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_wall_post",
+  "textures": {
+    "wall": "what_we_missed:block/stripped_jungle_wall"
+  }
+}

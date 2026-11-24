@@ -1,0 +1,30 @@
+{
+  "values": [
+    "what_we_missed:oak_wall",
+    "what_we_missed:stripped_oak_wall",
+    "what_we_missed:spruce_wall",
+    "what_we_missed:stripped_spruce_wall",
+    "what_we_missed:birch_wall",
+    "what_we_missed:stripped_birch_wall",
+    "what_we_missed:jungle_wall",
+    "what_we_missed:stripped_jungle_wall",
+    "what_we_missed:acacia_wall",
+    "what_we_missed:stripped_acacia_wall",
+    "what_we_missed:dark_oak_wall",
+    "what_we_missed:stripped_dark_oak_wall",
+    "what_we_missed:mangrove_wall",
+    "what_we_missed:stripped_mangrove_wall",
+    "what_we_missed:cherry_wall",
+    "what_we_missed:stripped_cherry_wall",
+    "what_we_missed:pale_oak_wall",
+    "what_we_missed:stripped_pale_oak_wall",
+    "what_we_missed:poplar_wall",
+    "what_we_missed:stripped_poplar_wall",
+    "what_we_missed:bamboo_wall",
+    "what_we_missed:stripped_bamboo_wall",
+    "what_we_missed:crimson_stem_wall",
+    "what_we_missed:stripped_crimson_stem_wall",
+    "what_we_missed:warped_stem_wall",
+    "what_we_missed:stripped_warped_stem_wall"
+  ]
+}

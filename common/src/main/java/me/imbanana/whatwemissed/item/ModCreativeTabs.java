@@ -40,6 +40,7 @@ public class ModCreativeTabs {
                 });
 
                 output.accept(ModBlocks.TACKY_PISTON);
+                ModBlocks.woodWalls().keySet().forEach(output::accept);
             })
             .build()
     );

@@ -53,6 +53,22 @@ public class ModModelProvider extends FabricModelProvider {
                 PistonHeadType.ofVanilla(PistonType.STICKY, "_sticky"),
                 PistonHeadType.of(PistonType.WHAT_WE_MISSED_TACKY, "_tacky")
         ));
+
+        Set<Block> baseTexturedWalls = Set.of(
+                ModBlocks.OAK_WALL,
+                ModBlocks.SPRUCE_WALL,
+                ModBlocks.BIRCH_WALL,
+                ModBlocks.JUNGLE_WALL,
+                ModBlocks.ACACIA_WALL,
+                ModBlocks.DARK_OAK_WALL,
+                ModBlocks.MANGROVE_WALL,
+                ModBlocks.CHERRY_WALL,
+                ModBlocks.PALE_OAK_WALL,
+                ModBlocks.POPLAR_WALL,
+                ModBlocks.CRIMSON_STEM_WALL,
+                ModBlocks.WARPED_STEM_WALL
+        );
+        ModBlocks.woodWalls().forEach((wall, base) -> createWall(blockModelGenerators, wall, baseTexturedWalls.contains(wall) ? base : wall));
     }
 
     @Override
@@ -84,6 +100,16 @@ public class ModModelProvider extends FabricModelProvider {
 
         blockModelGenerators.registerSimpleFlatItemModel(unwaxed);
         blockModelGenerators.itemModelOutput.copy(unwaxed.asItem(), waxed.asItem());
+    }
+
+    private static void createWall(BlockModelGenerators blockModelGenerators, Block block, Block textureSource) {
+        TextureMapping texture = TextureMapping.singleSlot(TextureSlot.WALL, TextureMapping.getBlockTexture(textureSource));
+        MultiVariant post = BlockModelGenerators.plainVariant(ModelTemplates.WALL_POST.create(block, texture, blockModelGenerators.modelOutput));
+        MultiVariant lowSide = BlockModelGenerators.plainVariant(ModelTemplates.WALL_LOW_SIDE.create(block, texture, blockModelGenerators.modelOutput));
+        MultiVariant tallSide = BlockModelGenerators.plainVariant(ModelTemplates.WALL_TALL_SIDE.create(block, texture, blockModelGenerators.modelOutput));
+
+        blockModelGenerators.blockStateOutput.accept(BlockModelGenerators.createWall(block, post, lowSide, tallSide));
+        blockModelGenerators.registerSimpleItemModel(block, ModelTemplates.WALL_INVENTORY.create(block, texture, blockModelGenerators.modelOutput));
     }
 
     private static void createRailJunction(BlockModelGenerators blockModelGenerators, Block block) {

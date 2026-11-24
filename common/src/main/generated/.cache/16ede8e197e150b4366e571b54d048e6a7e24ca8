@@ -1,3 +1,5 @@
 // 26.3	-999999999-01-01T00:00:00	What We Missed/Tags for minecraft:block
+72316fc7a8e5811a501b813dc85d53fb1185195b data/minecraft/tags/block/mineable/axe.json
 19d50f1f6f7b7db1e06e006f1c85b08e1ce58c56 data/minecraft/tags/block/mineable/pickaxe.json
 19d50f1f6f7b7db1e06e006f1c85b08e1ce58c56 data/minecraft/tags/block/rails.json
+72316fc7a8e5811a501b813dc85d53fb1185195b data/minecraft/tags/block/walls.json

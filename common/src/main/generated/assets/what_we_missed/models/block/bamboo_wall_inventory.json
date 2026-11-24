@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "what_we_missed:block/bamboo_wall"
+  }
+}

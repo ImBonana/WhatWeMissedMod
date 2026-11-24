@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "what_we_missed:block/stripped_poplar_wall"
+  }
+}
