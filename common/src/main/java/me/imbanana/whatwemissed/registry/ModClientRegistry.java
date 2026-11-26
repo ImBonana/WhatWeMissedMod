@@ -1,5 +1,6 @@
 package me.imbanana.whatwemissed.registry;
 
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import me.imbanana.whatwemissed.services.ClientRegistryService;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
@@ -24,7 +25,12 @@ public class ModClientRegistry {
         service.registerEntityRenderer(entityType, rendererProvider);
     }
 
-    public static void whenRegisteringRenderers(Runnable action) {
-        service.whenRegisteringRenderers(action);
+    public static void whenRegisteringEntityRenderers(Runnable action) {
+        service.whenRegisteringEntityRenderers(action);
+    }
+
+    public static RenderPipeline registerRenderPipeline(RenderPipeline pipeline) {
+        service.registerRenderPipeline(pipeline);
+        return pipeline;
     }
 }

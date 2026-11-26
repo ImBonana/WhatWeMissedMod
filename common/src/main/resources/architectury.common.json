@@ -14,6 +14,12 @@
         ],
         "net/minecraft/world/level/block/BaseRailBlock": [
             "me/imbanana/whatwemissed/util/IRailBlock"
+        ],
+        "net/minecraft/client/renderer/texture/SpriteContents$AnimationState": [
+            "me/imbanana/whatwemissed/util/IScrollingAnimationState"
+        ],
+        "net/minecraft/client/renderer/texture/TextureAtlas": [
+            "me/imbanana/whatwemissed/util/IScrollingAtlas"
         ]
     },
     "accessWidener": "what_we_missed.accesswidener"

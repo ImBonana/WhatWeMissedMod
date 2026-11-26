@@ -42,7 +42,7 @@ public class ConveyorRailBlock extends BaseRailBlock implements IDirectionalRail
     @Override
     public double getFixedSpeed(BlockState state) {
         int speed = state.getValue(SPEED);
-        return speed <= 0 ? -1 : 1.0 / (16 * (16 - speed));
+        return calculateSpeed(speed);
     }
 
     @Override
@@ -152,5 +152,9 @@ public class ConveyorRailBlock extends BaseRailBlock implements IDirectionalRail
     @Override
     protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos, Direction direction) {
         return state.getValue(SPEED);
+    }
+
+    public static double calculateSpeed(double power) {
+        return power <= 0 ? 0 : (power / 3f) / 20f;
     }
 }

@@ -1,0 +1,22 @@
+{
+    "ambientocclusion": false,
+    "textures": {
+        "particle": "#wood"
+    },
+    "elements": [
+        {   "from": [ 0, 1, 0 ],
+            "to": [ 16, 1, 16 ],
+            "faces": {
+                "down":  { "uv": [ 0, 16, 16,  0 ], "texture": "#wood" },
+                "up":    { "uv": [ 0,  0, 16, 16 ], "texture": "#wood" }
+            }
+        },
+        {   "from": [ 0, 1, 0 ],
+            "to": [ 16, 1, 16 ],
+            "faces": {
+                "down":  { "uv": [ 0, 16, 16,  0 ], "texture": "#chain" },
+                "up":    { "uv": [ 0,  0, 16, 16 ], "texture": "#chain" }
+            }
+        }
+    ]
+}

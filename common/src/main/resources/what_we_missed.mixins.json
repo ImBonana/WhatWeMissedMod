@@ -9,10 +9,15 @@
     "client": [
         "AbstractMinecartRendererMixin",
         "ChestSpecialRendererMixin",
+        "GameRendererMixin",
         "HudMixin",
         "LocalPlayerMixin",
         "MinecartRenderStateMixin",
-        "PistonHeadRendererMixin"
+        "PistonHeadRendererMixin",
+        "SpriteContentsAnimationStateMixin",
+        "SpriteContentsMixin",
+        "SpriteLoaderMixin",
+        "TextureAtlasMixin"
     ],
     "mixins": [
         "AbstractMinecartMixin",

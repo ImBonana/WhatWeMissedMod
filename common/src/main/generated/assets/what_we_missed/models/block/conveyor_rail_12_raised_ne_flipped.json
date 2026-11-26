@@ -1,6 +1,7 @@
 {
-  "parent": "what_we_missed:block/template_rail_raised_ne_flipped",
+  "parent": "what_we_missed:block/template_conveyor_rail_raised_ne_flipped",
   "textures": {
-    "rail": "what_we_missed:block/conveyor_rail_12"
+    "chain": "what_we_missed:block/conveyor_rail_chain_12",
+    "wood": "what_we_missed:block/conveyor_rail_on_wood"
   }
 }

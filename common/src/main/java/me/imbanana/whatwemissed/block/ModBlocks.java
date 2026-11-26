@@ -20,6 +20,13 @@ import java.util.function.Supplier;
 public class ModBlocks {
     private static final Map<Block, Block> WOOD_WALLS = new LinkedHashMap<>();
 
+    public static final Block DEBUG_REDSTONE_SIGNAL = registerWithItem(ModBlockItemIds.DEBUG_REDSTONE_SIGNAL, RedstoneSignalBlock::new, BlockBehaviour.Properties.of()
+            .mapColor(MapColor.FIRE)
+            .strength(5.0F, 6.0F)
+            .sound(SoundType.METAL)
+            .isRedstoneConductor((state, level, pos) -> false)
+    );
+
     public static final WeatheringCopperCollection<Block> COPPER_RAIL = WeatheringCopperCollection.registerBlocks(
             ModBlockItemIds.COPPER_RAIL, ModBlocks::registerWithItem, CopperRailBlock::new, WeatheringCopperRail::new, state -> {
                 BlockBehaviour.Properties properties = BlockBehaviour.Properties.of();

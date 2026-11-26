@@ -1,5 +1,6 @@
 package me.imbanana.whatwemissed.services;
 
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -13,5 +14,7 @@ public interface ClientRegistryService {
 
     <E extends Entity> void registerEntityRenderer(EntityType<? extends E> entityType, EntityRendererProvider<E> rendererProvider);
 
-    void whenRegisteringRenderers(Runnable action);
+    void whenRegisteringEntityRenderers(Runnable action);
+
+    void registerRenderPipeline(RenderPipeline pipeline);
 }

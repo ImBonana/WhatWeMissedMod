@@ -4,6 +4,7 @@ import me.imbanana.whatwemissed.entity.ModEntityModelLayers;
 import me.imbanana.whatwemissed.entity.ModEntityRenderers;
 import me.imbanana.whatwemissed.network.ModClientNetwork;
 import me.imbanana.whatwemissed.registry.ModClientRegistry;
+import me.imbanana.whatwemissed.render.ModRenderPipelines;
 import me.imbanana.whatwemissed.services.ClientPlatformBootstrap;
 
 import java.util.ServiceLoader;
@@ -19,6 +20,7 @@ public class WhatWeMissedClient {
 
         ModClientNetwork.registerClientHandlers();
         ModEntityModelLayers.registerModelLayers();
-        ModClientRegistry.whenRegisteringRenderers(ModEntityRenderers::registerRenderers);
+        ModRenderPipelines.init();
+        ModClientRegistry.whenRegisteringEntityRenderers(ModEntityRenderers::registerRenderers);
     }
 }

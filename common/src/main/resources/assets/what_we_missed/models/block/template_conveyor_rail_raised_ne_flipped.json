@@ -1,0 +1,36 @@
+{
+    "ambientocclusion": false,
+    "textures": {
+        "particle": "#wood"
+    },
+    "elements": [
+        {
+            "from": [ 0, 9, 0 ],
+            "to": [ 16, 9, 16 ],
+            "rotation": {
+                "origin": [ 8, 9, 8 ],
+                "axis": "x",
+                "angle": 45,
+                "rescale": true
+            },
+            "faces": {
+                "down":  { "uv": [ 0, 16, 16,  0 ], "texture": "#wood", "rotation": 180  },
+                "up":    { "uv": [ 0,  0, 16, 16 ], "texture": "#wood", "rotation": 180  }
+            }
+        },
+        {
+            "from": [ 0, 9, 0 ],
+            "to": [ 16, 9, 16 ],
+            "rotation": {
+                "origin": [ 8, 9, 8 ],
+                "axis": "x",
+                "angle": 45,
+                "rescale": true
+            },
+            "faces": {
+                "down":  { "uv": [ 0, 16, 16,  0 ], "texture": "#chain", "rotation": 180  },
+                "up":    { "uv": [ 0,  0, 16, 16 ], "texture": "#chain", "rotation": 180  }
+            }
+        }
+    ]
+}

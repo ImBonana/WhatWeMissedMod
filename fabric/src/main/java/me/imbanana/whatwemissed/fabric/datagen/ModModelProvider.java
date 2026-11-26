@@ -4,6 +4,8 @@ import me.imbanana.whatwemissed.WhatWeMissed;
 import me.imbanana.whatwemissed.block.ModBlocks;
 import me.imbanana.whatwemissed.block.custom.ConveyorRailBlock;
 import me.imbanana.whatwemissed.block.custom.RailJunctionBlock;
+import me.imbanana.whatwemissed.fabric.datagen.util.ModModelTemplates;
+import me.imbanana.whatwemissed.fabric.datagen.util.ModTextureSlots;
 import me.imbanana.whatwemissed.item.ModDataComponents;
 import me.imbanana.whatwemissed.item.ModItems;
 import me.imbanana.whatwemissed.item.components.CopperStateDataComponent;
@@ -33,8 +35,6 @@ import net.minecraft.world.level.block.state.properties.RailShape;
 import java.util.*;
 
 public class ModModelProvider extends FabricModelProvider {
-    private static final ModelTemplate RAIL_RAISED_NE_FLIPPED = flippedRailTemplate("template_rail_raised_ne_flipped", "_raised_ne_flipped");
-    private static final ModelTemplate RAIL_RAISED_SW_FLIPPED = flippedRailTemplate("template_rail_raised_sw_flipped", "_raised_sw_flipped");
 
     public ModModelProvider(FabricPackOutput output) {
         super(output);
@@ -132,10 +132,10 @@ public class ModModelProvider extends FabricModelProvider {
         MultiVariant flatOn = BlockModelGenerators.plainVariant(blockModelGenerators.createSuffixedVariant(block, "_on", ModelTemplates.RAIL_FLAT, TextureMapping::rail));
         MultiVariant risingNEOn = BlockModelGenerators.plainVariant(blockModelGenerators.createSuffixedVariant(block, "_on", ModelTemplates.RAIL_RAISED_NE, TextureMapping::rail));
         MultiVariant risingSWOn = BlockModelGenerators.plainVariant(blockModelGenerators.createSuffixedVariant(block, "_on", ModelTemplates.RAIL_RAISED_SW, TextureMapping::rail));
-        MultiVariant risingNEFlip = BlockModelGenerators.plainVariant(blockModelGenerators.createSuffixedVariant(block, "", RAIL_RAISED_NE_FLIPPED, TextureMapping::rail));
-        MultiVariant risingSWFlip = BlockModelGenerators.plainVariant(blockModelGenerators.createSuffixedVariant(block, "", RAIL_RAISED_SW_FLIPPED, TextureMapping::rail));
-        MultiVariant risingNEOnFlip = BlockModelGenerators.plainVariant(blockModelGenerators.createSuffixedVariant(block, "_on", RAIL_RAISED_NE_FLIPPED, TextureMapping::rail));
-        MultiVariant risingSWOnFlip = BlockModelGenerators.plainVariant(blockModelGenerators.createSuffixedVariant(block, "_on", RAIL_RAISED_SW_FLIPPED, TextureMapping::rail));
+        MultiVariant risingNEFlip = BlockModelGenerators.plainVariant(blockModelGenerators.createSuffixedVariant(block, "", ModModelTemplates.RAIL_RAISED_NE_FLIPPED, TextureMapping::rail));
+        MultiVariant risingSWFlip = BlockModelGenerators.plainVariant(blockModelGenerators.createSuffixedVariant(block, "", ModModelTemplates.RAIL_RAISED_SW_FLIPPED, TextureMapping::rail));
+        MultiVariant risingNEOnFlip = BlockModelGenerators.plainVariant(blockModelGenerators.createSuffixedVariant(block, "_on", ModModelTemplates.RAIL_RAISED_NE_FLIPPED, TextureMapping::rail));
+        MultiVariant risingSWOnFlip = BlockModelGenerators.plainVariant(blockModelGenerators.createSuffixedVariant(block, "_on", ModModelTemplates.RAIL_RAISED_SW_FLIPPED, TextureMapping::rail));
 
         blockModelGenerators.registerSimpleFlatItemModel(block);
         blockModelGenerators.blockStateOutput
@@ -174,11 +174,11 @@ public class ModModelProvider extends FabricModelProvider {
         for (Integer speed : ConveyorRailBlock.SPEED.getPossibleValues()) {
             Map<DirectionalRailStates, MultiVariant> variantMap = new HashMap<>();
 
-            variantMap.put(DirectionalRailStates.FLAT, getConveyorRailVariant(blockModelGenerators, block, ModelTemplates.RAIL_FLAT, speed));
-            variantMap.put(DirectionalRailStates.RISING_NE, getConveyorRailVariant(blockModelGenerators, block, ModelTemplates.RAIL_RAISED_NE, speed));
-            variantMap.put(DirectionalRailStates.RISING_SW, getConveyorRailVariant(blockModelGenerators, block, ModelTemplates.RAIL_RAISED_SW, speed));
-            variantMap.put(DirectionalRailStates.RISING_NE_FLIPPED, getConveyorRailVariant(blockModelGenerators, block, RAIL_RAISED_NE_FLIPPED, speed));
-            variantMap.put(DirectionalRailStates.RISING_SW_FLIPPED, getConveyorRailVariant(blockModelGenerators, block, RAIL_RAISED_SW_FLIPPED, speed));
+            variantMap.put(DirectionalRailStates.FLAT, getConveyorRailVariant(blockModelGenerators, block, ModModelTemplates.CONVEYOR_RAIL_FLAT, speed));
+            variantMap.put(DirectionalRailStates.RISING_NE, getConveyorRailVariant(blockModelGenerators, block, ModModelTemplates.CONVEYOR_RAIL_RAISED_NE, speed));
+            variantMap.put(DirectionalRailStates.RISING_SW, getConveyorRailVariant(blockModelGenerators, block, ModModelTemplates.CONVEYOR_RAIL_RAISED_SW, speed));
+            variantMap.put(DirectionalRailStates.RISING_NE_FLIPPED, getConveyorRailVariant(blockModelGenerators, block, ModModelTemplates.CONVEYOR_RAIL_RAISED_NE_FLIPPED, speed));
+            variantMap.put(DirectionalRailStates.RISING_SW_FLIPPED, getConveyorRailVariant(blockModelGenerators, block, ModModelTemplates.CONVEYOR_RAIL_RAISED_SW_FLIPPED, speed));
 
             speedVariants.put(speed, variantMap);
         }
@@ -227,16 +227,16 @@ public class ModModelProvider extends FabricModelProvider {
         };
     }
 
-    private static ModelTemplate flippedRailTemplate(String name, String suffix) {
-        return new ModelTemplate(
-                Optional.of(WhatWeMissed.idOf("block/" + name)),
-                Optional.of(suffix),
-                TextureSlot.RAIL
-        );
-    }
-
     private static MultiVariant getConveyorRailVariant(BlockModelGenerators blockModelGenerators, Block block, ModelTemplate template, int speed) {
-        return BlockModelGenerators.plainVariant(blockModelGenerators.createSuffixedVariant(block, "_" + speed, template, material -> TextureMapping.rail(new Material(WhatWeMissed.idOf("block/conveyor_rail_" + speed)))));
+        return BlockModelGenerators.plainVariant(blockModelGenerators.createSuffixedVariant(
+                block,
+                "_" + speed,
+                template,
+                material ->
+                        new TextureMapping()
+                                .put(ModTextureSlots.RAIL_WOOD, new Material(WhatWeMissed.idOf("block/conveyor_rail_%s_wood".formatted(speed <= 0 ? "off" : "on"))))
+                                .put(ModTextureSlots.RAIL_CHAIN, new Material(WhatWeMissed.idOf("block/conveyor_rail_chain_" + speed)))
+        ));
     }
 
     private static void createMinecartCopperChestItem(ItemModelGenerators itemModelGenerators, Item item) {

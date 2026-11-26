@@ -16,6 +16,7 @@ accessible method net/minecraft/world/entity/vehicle/minecart/AbstractMinecart m
 accessible method net/minecraft/world/entity/vehicle/minecart/AbstractMinecart comeOffTrack (Lnet/minecraft/server/level/ServerLevel;)V
 accessible method net/minecraft/world/entity/vehicle/minecart/NewMinecartBehavior$TrackIteration <init> ()V
 accessible method net/minecraft/world/level/block/Blocks pistonProperties ()Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;
+accessible method net/minecraft/client/data/models/model/TextureSlot create (Ljava/lang/String;Lnet/minecraft/client/data/models/model/TextureSlot;)Lnet/minecraft/client/data/models/model/TextureSlot;
 
 extendable method net/minecraft/world/entity/vehicle/minecart/NewMinecartBehavior setRotation (FF)V
 extendable method net/minecraft/world/entity/vehicle/minecart/NewMinecartBehavior calculateBoostTrackSpeed (Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)Lnet/minecraft/world/phys/Vec3;
@@ -32,3 +33,5 @@ inject-interface net/minecraft/world/entity/vehicle/minecart/AbstractMinecart me
 inject-interface net/minecraft/world/entity/vehicle/minecart/MinecartChest me/imbanana/whatwemissed/util/IChestMinecart
 inject-interface net/minecraft/client/renderer/entity/state/MinecartRenderState me/imbanana/whatwemissed/util/IMinecartRenderState
 inject-interface net/minecraft/world/level/block/BaseRailBlock me/imbanana/whatwemissed/util/IRailBlock
+inject-interface net/minecraft/client/renderer/texture/SpriteContents$AnimationState me/imbanana/whatwemissed/util/IScrollingAnimationState
+inject-interface net/minecraft/client/renderer/texture/TextureAtlas me/imbanana/whatwemissed/util/IScrollingAtlas
