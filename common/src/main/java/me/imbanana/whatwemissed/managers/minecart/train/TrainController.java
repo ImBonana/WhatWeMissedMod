@@ -152,7 +152,7 @@ public class TrainController {
         if (advanced < STATIONARY_ADVANCE) orientStationaryFront(level, front, towardsFront[0], frontFacesFront);
 
         state.trim(state.getTotalGap() + PATH_MARGIN);
-        updateCartInAir(level, state, front, frontIsHead);
+        updateCartInAir(level, state, chain, front);
     }
 
     private static Vec3[] directionsTowardsHead(TrainChain chain, TrainState state) {
@@ -567,8 +567,8 @@ public class TrainController {
         cart.applyEffectsFromBlocks();
     }
 
-    private static void updateCartInAir(ServerLevel level, TrainState state, AbstractMinecart front, boolean frontIsHead) {
-        if (BaseRailBlock.isRail(level.getBlockState(front.getCurrentBlockPosOrRailBelow()))) {
+    private static void updateCartInAir(ServerLevel level, TrainState state, TrainChain chain, AbstractMinecart front) {
+        if (isOnRails(level, front)) {
             state.setAirborneTicks(0);
             return;
         }
@@ -582,11 +582,16 @@ public class TrainController {
         state.setAirborneTicks(0);
         if (!landed) return;
 
-        if (frontIsHead) {
-            front.what_we_missed$unlinkChild();
-        } else {
-            front.what_we_missed$unlinkParent();
+        for (int i = 1; i < chain.size(); i++) {
+            AbstractMinecart child = chain.cart(i);
+            if (isOnRails(level, chain.cart(i - 1)) && isOnRails(level, child)) continue;
+
+            child.what_we_missed$unlinkParent();
         }
+    }
+
+    private static boolean isOnRails(ServerLevel level, AbstractMinecart cart) {
+        return BaseRailBlock.isRail(level.getBlockState(cart.getCurrentBlockPosOrRailBelow()));
     }
 
     private static boolean isFacingFront(TrainChain chain, AbstractMinecart cart, boolean frontIsHead) {
